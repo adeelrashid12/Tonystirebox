@@ -23,48 +23,11 @@ jobs:
           cd tonys-tires
           npm install
 
-      - name: Build Next.js App
+      - name: Build Next.js Static App
         run: |
           cd tonys-tires
           npm run build
 
-      - name: Deploy to DirectAdmin / cPanel
+      - name: Run Deploy Script
         run: |
-          python -c "
-          import requests, os, urllib3
-          urllib3.disable_warnings()
-
-          host = 'https://da800.is.cc:2222'
-          username = 'tonystir'
-          password = r'A55q?QkR'
-          out_dir = os.path.abspath('tonys-tires/out')
-
-          session = requests.Session()
-          session.verify = False
-          session.auth = (username, password)
-
-          target_paths = [
-              '/domains/wh1554381.ispot.cc/public_html',
-              '/domains/tonystirebox.com/public_html'
-          ]
-
-          print('Deploying from GitHub Action to cPanel...')
-
-          for root_target in target_paths:
-              for root, dirs, files in os.walk(out_dir):
-                  rel_path = os.path.relpath(root, out_dir).replace('\\\\', '/').replace('\\', '/')
-                  curr_remote_dir = root_target if rel_path == '.' else f'{root_target}/{rel_path}'
-                  
-                  for d in dirs:
-                      session.post(f'{host}/CMD_API_FILE_MANAGER', data={'action': 'folder', 'path': curr_remote_dir, 'name': d})
-                      
-                  files_dict = {}
-                  for idx, f in enumerate(files):
-                      local_file_path = os.path.join(root, f)
-                      files_dict[f'file{idx+1}'] = (f, open(local_file_path, 'rb'))
-                      
-                  if files_dict:
-                      session.post(f'{host}/CMD_API_FILE_MANAGER', params={'action': 'upload', 'path': curr_remote_dir}, files=files_dict)
-
-          print('GitHub Action Deployment Completed Successfully!')
-          "
+          python deploy_script.py

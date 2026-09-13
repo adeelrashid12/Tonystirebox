@@ -18,7 +18,7 @@ TARGET_PATHS = [
     '/domains/tonystirebox.com/public_html'
 ]
 
-print('[DEPLOY] Deploying compiled Next.js build to cPanel/DirectAdmin hosting...')
+print('[DEPLOY] Deploying compiled Next.js build from GitHub Runner to cPanel/DirectAdmin hosting...')
 
 for root_target in TARGET_PATHS:
     for root, dirs, files in os.walk(OUT_DIR):
