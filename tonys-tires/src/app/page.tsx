@@ -133,35 +133,36 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-slate-950 via-red-950/20 to-slate-950 py-16 border-b border-red-900/30 overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-yellow-500/5 rounded-full blur-3xl pointer-events-none"></div>
+      <section className="relative bg-slate-950 py-16 border-b border-red-900/40 overflow-hidden">
+        {/* Background Image Overlay */}
+        <div className="absolute inset-0 z-0 opacity-25 bg-cover bg-center" style={{ backgroundImage: "url('/hero_banner.jpg')" }}></div>
+        <div className="absolute inset-0 z-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-transparent"></div>
 
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
           <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-950/80 border border-red-500/40 text-red-400 text-xs font-bold mb-6 shadow-lg shadow-red-950/60 backdrop-blur">
-              <ShieldCheck className="w-4 h-4 text-red-400 animate-pulse" /> 
-              <span>300+ Premium Used Tires Live In Stock</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-950/90 border border-red-500/60 text-red-400 text-xs font-black mb-6 shadow-xl shadow-red-950/80 backdrop-blur tracking-widest uppercase">
+              <Zap className="w-4 h-4 text-yellow-400 animate-bounce" /> 
+              <span>300+ HIGH-PERFORMANCE USED TIRES IN STOCK</span>
             </div>
 
             <h2 className="text-4xl sm:text-6xl font-black text-white leading-none uppercase tracking-tight">
               PICK YOUR TIRES.<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400 drop-shadow-lg">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400 drop-shadow-xl">
                 PAY FROM PHONE.
               </span><br />
               DRIVE AWAY TODAY.
             </h2>
 
-            <p className="mt-6 text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl">
+            <p className="mt-6 text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl font-medium">
               Self-serve container hubs located across South Carolina & North Carolina. Select your container location below to view real-time inventory on site right now!
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <a 
                 href="sms:8643955393?body=HI%20Tony%20I%20need%20tire%20pricing%20for%20size:" 
-                className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-black text-base px-8 py-4 rounded-xl flex items-center gap-3 shadow-xl shadow-red-900/50 border border-red-400/30 hover:scale-105 transition duration-300"
+                className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-black text-base px-8 py-4 rounded-2xl flex items-center gap-3 shadow-2xl shadow-red-900/60 border border-red-400/40 hover:scale-105 transition duration-300"
               >
-                <Smartphone className="w-5 h-5 text-yellow-300" /> Text "TIRES" to 864-395-5393
+                <Smartphone className="w-5 h-5 text-yellow-300" /> TEXT "TIRES" TO 864-395-5393
               </a>
             </div>
           </div>
