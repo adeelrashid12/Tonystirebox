@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "cpanel-deploy": "next build && python ../deploy_script.py"
+    "cpanel-deploy": "next build && python ../deploy_script.py",
+    "fast-push": "next build"
   },
   "dependencies": {
     "lucide-react": "^1.45.0",
