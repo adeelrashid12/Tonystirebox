@@ -26,11 +26,12 @@ TARGET_PATHS = [
 print('[2/3] Fast uploading ZIP package to cPanel server...')
 for target in TARGET_PATHS:
     with open(ZIP_PATH, 'rb') as f:
+        # Upload zip
         session.post(f'{HOST}/CMD_API_FILE_MANAGER', params={'action': 'upload', 'path': target}, files={'file1': ('deploy.zip', f)})
-        session.post(f'{HOST}/CMD_API_FILE_MANAGER', data={'action': 'extract', 'path': target, 'file': 'deploy.zip'})
+        # Force extract overwrite
+        session.post(f'{HOST}/CMD_API_FILE_MANAGER', data={'action': 'extract', 'path': target, 'file': 'deploy.zip', 'overwrite': 'yes'})
 
-# Clean up local zip
 if os.path.exists(ZIP_PATH):
     os.remove(ZIP_PATH)
 
-print('[3/3] [SUCCESS] Fast Deployment Complete!')
+print('[3/3] [SUCCESS] Fast Deployment & Extraction Complete!')
