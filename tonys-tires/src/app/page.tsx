@@ -115,19 +115,6 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-3">
-            {/* Admin Toggle Switch */}
-            <button
-              onClick={() => setIsAdminMode(!isAdminMode)}
-              className={`text-xs px-3 py-1.5 rounded-full border transition flex items-center gap-1.5 ${
-                isAdminMode 
-                  ? 'bg-amber-500 text-slate-950 border-amber-400 font-bold shadow-lg shadow-amber-500/20' 
-                  : 'bg-slate-800 text-slate-300 border-slate-700 hover:border-slate-500'
-              }`}
-            >
-              <Sliders className="w-3.5 h-3.5" />
-              {isAdminMode ? 'Client Admin Mode ON' : 'Client Mode'}
-            </button>
-
             {/* Cart Button */}
             <button 
               onClick={() => setIsCheckoutOpen(true)}
@@ -146,56 +133,70 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 py-10 border-b border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <section className="relative bg-gradient-to-b from-slate-950 via-red-950/20 to-slate-950 py-16 border-b border-red-900/30 overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-yellow-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-950/60 border border-red-800/60 text-red-400 text-xs font-semibold mb-4">
-              <ShieldCheck className="w-4 h-4" /> 300+ Quality Used Tires Available Live
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-950/80 border border-red-500/40 text-red-400 text-xs font-bold mb-6 shadow-lg shadow-red-950/60 backdrop-blur">
+              <ShieldCheck className="w-4 h-4 text-red-400 animate-pulse" /> 
+              <span>300+ Premium Used Tires Live In Stock</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-black text-white leading-tight uppercase">
-              Pick Your Tires.<br />
-              <span className="text-red-500">Pay From Phone.</span><br />
-              Drive Away Today.
+
+            <h2 className="text-4xl sm:text-6xl font-black text-white leading-none uppercase tracking-tight">
+              PICK YOUR TIRES.<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400 drop-shadow-lg">
+                PAY FROM PHONE.
+              </span><br />
+              DRIVE AWAY TODAY.
             </h2>
-            <p className="mt-4 text-slate-300 text-sm sm:text-base leading-relaxed">
+
+            <p className="mt-6 text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl">
               Self-serve container hubs located across South Carolina & North Carolina. Select your container location below to view real-time inventory on site right now!
             </p>
 
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap items-center gap-4">
               <a 
                 href="sms:8643955393?body=HI%20Tony%20I%20need%20tire%20pricing%20for%20size:" 
-                className="bg-red-600 hover:bg-red-500 text-white font-bold px-6 py-3 rounded-lg flex items-center gap-2 shadow-lg shadow-red-950/50 transition"
+                className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-black text-base px-8 py-4 rounded-xl flex items-center gap-3 shadow-xl shadow-red-900/50 border border-red-400/30 hover:scale-105 transition duration-300"
               >
-                <Smartphone className="w-5 h-5" /> Text "TIRES" to 864-395-5393
+                <Smartphone className="w-5 h-5 text-yellow-300" /> Text "TIRES" to 864-395-5393
               </a>
             </div>
           </div>
 
           {/* Location Selector Card */}
-          <div className="bg-slate-800/80 border border-slate-700 rounded-2xl p-6 shadow-2xl backdrop-blur">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2 mb-3">
-              <MapPin className="w-5 h-5 text-red-400" />
-              Select Container Location
-            </h3>
+          <div className="bg-slate-900/90 border-2 border-red-600/30 rounded-3xl p-6 shadow-2xl shadow-red-950/40 backdrop-blur relative">
+            <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
+              <h3 className="text-lg font-black text-white flex items-center gap-2 uppercase tracking-wide">
+                <MapPin className="w-5 h-5 text-red-500" />
+                Select Container Location
+              </h3>
+              <span className="text-xs bg-red-950 text-red-400 font-bold px-2.5 py-1 rounded-full border border-red-800/80">
+                8 Locations
+              </span>
+            </div>
+
             <p className="text-xs text-slate-400 mb-4">
-              Stock is location specific! Choose your nearest self-serve container:
+              Stock is location specific! Select your container location:
             </p>
 
-            <div className="grid grid-cols-2 gap-2 max-h-56 overflow-y-auto pr-1">
+            <div className="grid grid-cols-2 gap-2.5 max-h-64 overflow-y-auto pr-1 custom-scrollbar">
               {LOCATIONS.map(loc => {
                 const isSelected = selectedLocation === loc.id;
                 return (
                   <button
                     key={loc.id}
                     onClick={() => setSelectedLocation(loc.id)}
-                    className={`p-3 rounded-xl border text-left transition flex flex-col justify-between ${
+                    className={`p-3.5 rounded-2xl border text-left transition duration-200 flex flex-col justify-between ${
                       isSelected 
-                        ? 'bg-red-600/20 border-red-500 text-white shadow-md shadow-red-950/30' 
-                        : 'bg-slate-900/60 border-slate-700 text-slate-300 hover:border-slate-500'
+                        ? 'bg-gradient-to-br from-red-600/30 via-red-950/40 to-slate-900 border-red-500 text-white shadow-lg shadow-red-950/50 scale-[1.02]' 
+                        : 'bg-slate-950/70 border-slate-800 text-slate-300 hover:border-slate-600 hover:bg-slate-900'
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-sm">{loc.name}</span>
+                      <span className="font-extrabold text-sm">{loc.name}</span>
                       {isSelected && <CheckCircle2 className="w-4 h-4 text-red-400" />}
                     </div>
                     <span className="text-[10px] text-slate-400 truncate mt-1">{loc.address}</span>
@@ -204,14 +205,17 @@ export default function Home() {
               })}
             </div>
 
-            <div className="mt-4 p-3 bg-slate-900/90 rounded-lg border border-slate-700 text-xs flex justify-between items-center">
+            <div className="mt-5 p-3.5 bg-slate-950 rounded-2xl border border-red-900/40 text-xs flex justify-between items-center">
               <div>
-                <span className="text-slate-400 block">Current Location:</span>
-                <strong className="text-white text-sm">{currentLocation.name} Container</strong>
+                <span className="text-slate-400 block text-[10px]">Active Container:</span>
+                <strong className="text-white text-sm font-black flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                  {currentLocation.name} Container
+                </strong>
               </div>
               <div className="text-right">
-                <span className="text-slate-400 block">Hours:</span>
-                <span className="text-yellow-400 font-semibold">{currentLocation.hours}</span>
+                <span className="text-slate-400 block text-[10px]">Operating Hours:</span>
+                <span className="text-yellow-400 font-bold">{currentLocation.hours}</span>
               </div>
             </div>
           </div>
