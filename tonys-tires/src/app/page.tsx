@@ -82,7 +82,7 @@ export default function Home() {
       <div className="bg-gradient-to-r from-red-700 via-red-600 to-red-800 text-white text-sm font-semibold px-4 py-2 flex flex-wrap justify-between items-center border-b border-red-500/30">
         <div className="flex items-center gap-2">
           <Zap className="w-4 h-4 text-yellow-300 animate-pulse" />
-          <span>Self-Serve Open Daily: 8:00 AM - 8:00 PM • LIVE AUTO-DEPLOY VERIFIED ✅</span>
+          <span>Self-Serve Open Daily: 8:00 AM - 8:00 PM</span>
         </div>
         <div className="flex items-center gap-4 text-xs sm:text-sm">
           <span>Starting at <strong className="text-yellow-300">$40 per tire</strong></span>
