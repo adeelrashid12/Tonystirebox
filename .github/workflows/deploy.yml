@@ -13,21 +13,23 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js with Cache
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'tonys-tires/package-lock.json'
 
       - name: Install Dependencies
         run: |
           cd tonys-tires
-          npm install
+          npm ci --prefer-offline
 
       - name: Build Next.js Static App
         run: |
           cd tonys-tires
           npm run build
 
-      - name: Run Deploy Script
+      - name: Fast Zip & Upload to cPanel
         run: |
           python deploy_script.py

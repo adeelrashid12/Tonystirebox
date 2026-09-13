@@ -1,5 +1,6 @@
 import requests
 import os
+import shutil
 import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -8,6 +9,10 @@ HOST = 'https://da800.is.cc:2222'
 USERNAME = 'tonystir'
 PASSWORD = r'A55q?QkR'
 OUT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), 'tonys-tires', 'out'))
+ZIP_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), 'fast_deploy.zip'))
+
+print('[1/3] Zipping Next.js build...')
+shutil.make_archive(ZIP_PATH.replace('.zip', ''), 'zip', OUT_DIR)
 
 session = requests.Session()
 session.verify = False
@@ -18,22 +23,14 @@ TARGET_PATHS = [
     '/domains/tonystirebox.com/public_html'
 ]
 
-print('[DEPLOY] Deploying compiled Next.js build from GitHub Runner to cPanel/DirectAdmin hosting...')
+print('[2/3] Fast uploading ZIP package to cPanel server...')
+for target in TARGET_PATHS:
+    with open(ZIP_PATH, 'rb') as f:
+        session.post(f'{HOST}/CMD_API_FILE_MANAGER', params={'action': 'upload', 'path': target}, files={'file1': ('deploy.zip', f)})
+        session.post(f'{HOST}/CMD_API_FILE_MANAGER', data={'action': 'extract', 'path': target, 'file': 'deploy.zip'})
 
-for root_target in TARGET_PATHS:
-    for root, dirs, files in os.walk(OUT_DIR):
-        rel_path = os.path.relpath(root, OUT_DIR).replace('\\\\', '/').replace('\\', '/')
-        curr_remote_dir = root_target if rel_path == '.' else f'{root_target}/{rel_path}'
-        
-        for d in dirs:
-            session.post(f'{HOST}/CMD_API_FILE_MANAGER', data={'action': 'folder', 'path': curr_remote_dir, 'name': d})
-            
-        files_dict = {}
-        for idx, f in enumerate(files):
-            local_file_path = os.path.join(root, f)
-            files_dict[f'file{idx+1}'] = (f, open(local_file_path, 'rb'))
-            
-        if files_dict:
-            r = session.post(f'{HOST}/CMD_API_FILE_MANAGER', params={'action': 'upload', 'path': curr_remote_dir}, files=files_dict)
+# Clean up local zip
+if os.path.exists(ZIP_PATH):
+    os.remove(ZIP_PATH)
 
-print('[SUCCESS] Deployment Successful! Website and Admin Portal are LIVE on cPanel!')
+print('[3/3] [SUCCESS] Fast Deployment Complete!')
