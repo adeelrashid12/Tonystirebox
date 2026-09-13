@@ -29,10 +29,6 @@ jobs:
           npm run build
 
       - name: Deploy to DirectAdmin / cPanel
-        env:
-          HOST: 'https://da800.is.cc:2222'
-          USERNAME: 'tonystir'
-          PASSWORD: ${{ secrets.CPANEL_PASSWORD }}
         run: |
           python -c "
           import requests, os, urllib3
