@@ -83,13 +83,13 @@ export default function Home() {
         <header className="relative z-50 text-white border-b border-slate-800/40 bg-slate-950/40 backdrop-blur-sm">
           <div className="max-w-7xl mx-auto px-4 py-3.5 flex items-center justify-between">
             
-            {/* Logo */}
+            {/* Mascot Avatar Logo */}
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-              <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-red-600 bg-red-950 flex items-center justify-center shadow">
-                <Image src="/tony_mascot.png" alt="Tony's Tire Box Logo" width={40} height={40} className="object-cover scale-110" />
+              <div className="relative w-11 h-11 rounded-full overflow-hidden border-2 border-red-600 bg-slate-900 flex items-center justify-center shadow-lg shadow-red-950/60 shrink-0">
+                <Image src="/tony_mascot_clean.png" alt="Tony Mascot Logo" width={44} height={44} className="object-cover scale-110" />
               </div>
               <div>
-                <h1 className="text-xl sm:text-2xl font-black italic tracking-wider uppercase leading-none">
+                <h1 className="text-xl sm:text-2xl font-black italic tracking-wider uppercase leading-none text-white">
                   TONY'S <span className="text-red-500">TIRE BOX</span>
                 </h1>
                 <p className="text-[9px] text-slate-400 font-semibold tracking-widest uppercase">QUALITY USED TIRES • SELF-SERVE CONTAINERS</p>
@@ -449,8 +449,8 @@ export default function Home() {
       <footer className="bg-slate-950 text-white border-t border-slate-800 py-8">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full border border-red-600 bg-red-950 flex items-center justify-center">
-              <Image src="/tony_mascot.png" alt="Mascot" width={40} height={40} />
+            <div className="relative w-11 h-11 rounded-full overflow-hidden border-2 border-red-600 bg-slate-900 flex items-center justify-center shadow shrink-0">
+              <Image src="/tony_mascot_clean.png" alt="Tony Mascot Logo" width={44} height={44} className="object-cover scale-110" />
             </div>
             <div>
               <h4 className="font-black italic uppercase text-lg leading-none">TONY'S <span className="text-red-500">TIRE BOX</span></h4>
