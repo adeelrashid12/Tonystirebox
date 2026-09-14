@@ -81,18 +81,18 @@ export default function Home() {
 
         {/* 1. Header Navigation Bar (Transparent Overlay) */}
         <header className="relative z-50 text-white border-b border-slate-800/40 bg-slate-950/40 backdrop-blur-sm">
-          <div className="max-w-7xl mx-auto px-4 py-3.5 flex items-center justify-between">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3.5 flex items-center justify-between gap-2">
             
             {/* Mascot Avatar Logo */}
-            <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-              <div className="relative w-11 h-11 rounded-full overflow-hidden border-2 border-red-600 bg-slate-900 flex items-center justify-center shadow-lg shadow-red-950/60 shrink-0">
+            <div className="flex items-center gap-2 sm:gap-3 cursor-pointer shrink-0" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              <div className="relative w-9 h-9 sm:w-11 sm:h-11 rounded-full overflow-hidden border-2 border-red-600 bg-slate-900 flex items-center justify-center shadow-lg shadow-red-950/60 shrink-0">
                 <Image src="/tony_mascot_clean.png" alt="Tony Mascot Logo" width={44} height={44} className="object-cover scale-110" />
               </div>
               <div>
-                <h1 className="text-xl sm:text-2xl font-black italic tracking-wider uppercase leading-none text-white">
+                <h1 className="text-base sm:text-2xl font-black italic tracking-wider uppercase leading-none text-white whitespace-nowrap">
                   TONY'S <span className="text-red-500">TIRE BOX</span>
                 </h1>
-                <p className="text-[9px] text-slate-400 font-semibold tracking-widest uppercase">QUALITY USED TIRES • SELF-SERVE CONTAINERS</p>
+                <p className="hidden md:block text-[9px] text-slate-400 font-semibold tracking-widest uppercase">QUALITY USED TIRES • SELF-SERVE CONTAINERS</p>
               </div>
             </div>
 
@@ -105,27 +105,27 @@ export default function Home() {
               <button onClick={() => scrollToSection('inventory')} className="hover:text-red-400 transition">Inventory</button>
             </nav>
 
-            {/* Right Text / Call Button */}
-            <div className="flex items-center gap-4">
+            {/* Right Text / Call Button & Cart */}
+            <div className="flex items-center gap-2 sm:gap-4 shrink-0">
               <a 
                 href="sms:8643955393"
-                className="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl flex items-center gap-2 text-xs sm:text-sm shadow-lg shadow-red-950/50 transition"
+                className="bg-red-600 hover:bg-red-700 text-white font-bold px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm shadow-lg shadow-red-950/50 transition shrink-0"
               >
-                <PhoneCall className="w-4 h-4 text-yellow-300" />
+                <PhoneCall className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-yellow-300 shrink-0" />
                 <div className="text-left leading-tight">
-                  <span className="text-[9px] block text-red-200 uppercase font-semibold">Text "TIRES"</span>
-                  <span className="font-mono font-black">864-395-5393</span>
+                  <span className="text-[8px] sm:text-[9px] block text-red-200 uppercase font-semibold">Text "TIRES"</span>
+                  <span className="font-mono font-black text-xs sm:text-sm">864-395-5393</span>
                 </div>
               </a>
 
               {/* Cart Icon */}
               <button 
                 onClick={() => setIsCheckoutOpen(true)}
-                className="relative bg-slate-900/80 border border-slate-700 hover:border-red-500 p-2.5 rounded-xl text-white transition"
+                className="relative bg-slate-900/80 border border-slate-700 hover:border-red-500 p-2 sm:p-2.5 rounded-lg sm:rounded-xl text-white transition shrink-0"
               >
-                <ShoppingCart className="w-5 h-5 text-slate-200" />
+                <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 text-slate-200" />
                 {cart.length > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 bg-red-600 text-white text-[10px] w-5 h-5 rounded-full font-black flex items-center justify-center shadow">
+                  <span className="absolute -top-1.5 -right-1.5 bg-red-600 text-white text-[10px] w-4 h-4 sm:w-5 sm:h-5 rounded-full font-black flex items-center justify-center shadow">
                     {cart.reduce((s, i) => s + i.qty, 0)}
                   </span>
                 )}
