@@ -325,9 +325,13 @@ export default function Home() {
 
             {/* Right Graphic Banner */}
             <div className="lg:col-span-4">
-              <div className="relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl h-64 flex items-end p-6">
-                <img src="/tire_stack_bg.jpg" alt="Good Tires" className="absolute inset-0 w-full h-full object-cover opacity-60" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
+              <div className="relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl h-64 flex items-end p-6 group">
+                <img 
+                  src="/how_it_works_bg.png" 
+                  alt="Good Tires" 
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
                 <div className="relative z-10">
                   <h4 className="text-xl font-black italic uppercase text-white leading-tight">
                     GOOD TIRES.<br />
