@@ -260,85 +260,78 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. How It Works Section */}
-      <section id="how-it-works" className="py-14 bg-slate-950 text-white border-b border-slate-800">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="mb-8">
-            <h3 className="text-2xl sm:text-3xl font-black uppercase">How It Works</h3>
-            <p className="text-xs text-slate-400 mt-1 font-medium">Getting your tires is easy. No appointments. No hassle.</p>
-          </div>
+      {/* 4. How It Works Section - Full Bleed Background Image */}
+      <section id="how-it-works" className="relative py-16 bg-slate-950 text-white border-b border-slate-800 overflow-hidden">
+        {/* Section Full Background Image */}
+        <div 
+          className="absolute inset-0 z-0 bg-cover bg-right bg-no-repeat opacity-40 scale-105"
+          style={{ backgroundImage: "url('/how_it_works_bg.png')" }}
+        ></div>
+        <div className="absolute inset-0 z-0 bg-gradient-to-r from-slate-950 via-slate-950/85 to-transparent"></div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            
-            {/* 4 Steps Grid */}
-            <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              
-              <div className="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-red-600 font-black text-base flex items-center justify-center shrink-0">
-                  1
-                </div>
-                <div>
-                  <h4 className="font-extrabold text-base text-white flex items-center gap-2">
-                    <Search className="w-4 h-4 text-red-500" /> Find Your Tire
-                  </h4>
-                  <p className="text-xs text-slate-400 mt-1 leading-relaxed">Search your tire size on our website catalog live.</p>
-                </div>
-              </div>
-
-              <div className="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-red-600 font-black text-base flex items-center justify-center shrink-0">
-                  2
-                </div>
-                <div>
-                  <h4 className="font-extrabold text-base text-white flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-red-500" /> Choose a Location
-                  </h4>
-                  <p className="text-xs text-slate-400 mt-1 leading-relaxed">See which container hub currently has your tires in stock.</p>
-                </div>
-              </div>
-
-              <div className="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-red-600 font-black text-base flex items-center justify-center shrink-0">
-                  3
-                </div>
-                <div>
-                  <h4 className="font-extrabold text-base text-white flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-red-500" /> Visit the Container
-                  </h4>
-                  <p className="text-xs text-slate-400 mt-1 leading-relaxed">Go to the selected container location anytime 8 AM - 8 PM.</p>
-                </div>
-              </div>
-
-              <div className="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-red-600 font-black text-base flex items-center justify-center shrink-0">
-                  4
-                </div>
-                <div>
-                  <h4 className="font-extrabold text-base text-white flex items-center gap-2">
-                    <CreditCard className="w-4 h-4 text-red-500" /> Pay & Pick Up
-                  </h4>
-                  <p className="text-xs text-slate-400 mt-1 leading-relaxed">Inspect the tires, pay securely from phone, load up and go.</p>
-                </div>
-              </div>
-
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+            <div>
+              <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight">How It Works</h3>
+              <p className="text-xs text-slate-400 mt-1 font-medium">Getting your tires is easy. No appointments. No hassle.</p>
             </div>
 
-            {/* Right Graphic Banner */}
-            <div className="lg:col-span-4">
-              <div className="relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl h-64 flex items-end p-6 group">
-                <img 
-                  src="/how_it_works_bg.png" 
-                  alt="Good Tires" 
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
-                <div className="relative z-10">
-                  <h4 className="text-xl font-black italic uppercase text-white leading-tight">
-                    GOOD TIRES.<br />
-                    GREAT PRICES.<br />
-                    <span className="text-red-500">READY WHEN YOU ARE.</span>
-                  </h4>
+            <div className="text-left sm:text-right">
+              <h4 className="text-lg font-black italic uppercase text-white leading-tight">
+                GOOD TIRES. GREAT PRICES.<br />
+                <span className="text-red-500">READY WHEN YOU ARE.</span>
+              </h4>
+            </div>
+          </div>
+
+          {/* 4 Steps Grid - Full Width Spanning */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600/50 transition">
+              <div>
+                <div className="w-10 h-10 rounded-full bg-red-600 font-black text-base flex items-center justify-center mb-4 shadow">
+                  1
                 </div>
+                <h4 className="font-extrabold text-base text-white flex items-center gap-2">
+                  <Search className="w-4 h-4 text-red-500" /> Find Your Tire
+                </h4>
+                <p className="text-xs text-slate-400 mt-2 leading-relaxed">Search your tire size on our website catalog live.</p>
+              </div>
+            </div>
+
+            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600/50 transition">
+              <div>
+                <div className="w-10 h-10 rounded-full bg-red-600 font-black text-base flex items-center justify-center mb-4 shadow">
+                  2
+                </div>
+                <h4 className="font-extrabold text-base text-white flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-red-500" /> Choose a Location
+                </h4>
+                <p className="text-xs text-slate-400 mt-2 leading-relaxed">See which container hub currently has your tires in stock.</p>
+              </div>
+            </div>
+
+            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600/50 transition">
+              <div>
+                <div className="w-10 h-10 rounded-full bg-red-600 font-black text-base flex items-center justify-center mb-4 shadow">
+                  3
+                </div>
+                <h4 className="font-extrabold text-base text-white flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-red-500" /> Visit Container
+                </h4>
+                <p className="text-xs text-slate-400 mt-2 leading-relaxed">Go to the selected container location anytime 8 AM - 8 PM.</p>
+              </div>
+            </div>
+
+            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600/50 transition">
+              <div>
+                <div className="w-10 h-10 rounded-full bg-red-600 font-black text-base flex items-center justify-center mb-4 shadow">
+                  4
+                </div>
+                <h4 className="font-extrabold text-base text-white flex items-center gap-2">
+                  <CreditCard className="w-4 h-4 text-red-500" /> Pay & Pick Up
+                </h4>
+                <p className="text-xs text-slate-400 mt-2 leading-relaxed">Inspect tires, pay securely from phone, load up and go.</p>
               </div>
             </div>
 
