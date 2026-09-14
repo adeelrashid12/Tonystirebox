@@ -138,39 +138,39 @@ export default function Home() {
         <section className="relative z-10 min-h-[460px] flex items-center py-12">
           <div className="max-w-7xl mx-auto px-4 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
-            <div className="lg:col-span-8 space-y-5">
-              <span className="text-red-500 font-extrabold text-xs tracking-widest uppercase block">
+            <div className="lg:col-span-8 space-y-5 animate-fade-in-up">
+              <span className="text-red-500 font-extrabold text-xs tracking-widest uppercase block animate-fade-in-down">
                 QUALITY USED TIRES
               </span>
 
-              <h2 className="text-4xl sm:text-6xl font-black text-white leading-none uppercase tracking-tight">
+              <h2 className="text-4xl sm:text-6xl font-black text-white leading-none uppercase tracking-tight animate-fade-in-up delay-100">
                 SELF-SERVE.<br />
                 SIMPLE.<br />
                 <span className="text-red-600">AFFORDABLE.</span>
               </h2>
 
-              <p className="text-slate-300 text-base sm:text-lg font-medium max-w-xl leading-relaxed">
+              <p className="text-slate-300 text-base sm:text-lg font-medium max-w-xl leading-relaxed animate-fade-in-up delay-200">
                 Find your size. Choose your location. Pick up when you're ready.
               </p>
 
-              <div className="pt-2 flex flex-wrap items-center gap-4">
+              <div className="pt-2 flex flex-wrap items-center gap-4 animate-fade-in-up delay-300">
                 <button 
                   onClick={() => scrollToSection('find-tires')}
-                  className="bg-red-600 hover:bg-red-700 text-white font-black text-sm px-7 py-3.5 rounded-xl flex items-center gap-2 shadow-xl shadow-red-950/60 transition uppercase tracking-wide"
+                  className="bg-red-600 hover:bg-red-700 text-white font-black text-sm px-7 py-3.5 rounded-xl flex items-center gap-2 shadow-xl shadow-red-950/60 transition uppercase tracking-wide transform hover:scale-105"
                 >
                   <Search className="w-4 h-4" /> FIND TIRES
                 </button>
 
                 <button 
                   onClick={() => scrollToSection('how-it-works')}
-                  className="bg-slate-900/90 hover:bg-slate-800 border border-slate-600 text-white font-bold text-sm px-6 py-3.5 rounded-xl flex items-center gap-2 shadow-lg backdrop-blur transition uppercase tracking-wide"
+                  className="bg-slate-900/90 hover:bg-slate-800 border border-slate-600 text-white font-bold text-sm px-6 py-3.5 rounded-xl flex items-center gap-2 shadow-lg backdrop-blur transition uppercase tracking-wide transform hover:scale-105"
                 >
                   <Play className="w-4 h-4 fill-white" /> HOW IT WORKS
                 </button>
               </div>
 
               {/* Pill Badges Row */}
-              <div className="pt-6 flex flex-wrap items-center gap-4 text-xs font-bold text-slate-300">
+              <div className="pt-6 flex flex-wrap items-center gap-4 text-xs font-bold text-slate-300 animate-fade-in-up delay-400">
                 <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
                   <ShieldCheck className="w-4 h-4 text-red-500" /> Quality Used Tires
                 </div>
@@ -194,7 +194,7 @@ export default function Home() {
 
       {/* 3. Find Your Tires Search Bar */}
       <section id="find-tires" className="py-10 bg-slate-200 border-b border-slate-300">
-        <div className="max-w-7xl mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4 animate-scale-up">
           <div className="mb-4">
             <h3 className="text-2xl font-black text-slate-950 uppercase">Find Your Tires</h3>
             <p className="text-xs text-slate-600 font-medium">Search by tire size to see what's available at our locations.</p>
