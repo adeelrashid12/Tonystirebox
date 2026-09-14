@@ -364,9 +364,16 @@ export default function Home() {
             return (
               <div key={tire.id} className="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden flex flex-col justify-between hover:shadow-xl transition">
                 <div>
-                  <div className="bg-slate-50 p-6 flex items-center justify-center border-b border-slate-100 relative">
-                    <img src={tire.image} alt={tire.size} className="h-40 object-contain drop-shadow-md" />
-                    <span className="absolute top-3 right-3 bg-red-100 text-red-700 text-[10px] font-black px-2 py-0.5 rounded uppercase">
+                  <div className="bg-slate-50 p-4 flex items-center justify-center border-b border-slate-100 relative h-48 overflow-hidden">
+                    <img 
+                      src={tire.image} 
+                      alt={tire.size} 
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/real_tire_photo.jpg';
+                      }}
+                      className="h-full w-full object-cover rounded-xl shadow-inner" 
+                    />
+                    <span className="absolute top-3 right-3 bg-red-600 text-white font-black text-[10px] px-2.5 py-1 rounded-md uppercase tracking-wider shadow">
                       {tire.brand}
                     </span>
                   </div>

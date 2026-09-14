@@ -50,7 +50,7 @@ export const INITIAL_TIRES: TireItem[] = [
     rimSize: 16,
     condition: 'Good (70%+ tread)',
     price: 45,
-    image: 'https://images.unsplash.com/photo-1543785734-4b6e564642f8?auto=format&fit=crop&q=80&w=400',
+    image: 'https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&q=80&w=400',
     stock: { greer: 14, greenville: 18, aiken: 5, 'fountain-inn': 0, 'little-river': 8, longs: 4, columbia: 12, hickory: 9 }
   },
   {
@@ -72,7 +72,7 @@ export const INITIAL_TIRES: TireItem[] = [
     rimSize: 18,
     condition: 'Good (70%+ tread)',
     price: 55,
-    image: 'https://images.unsplash.com/photo-1543785734-4b6e564642f8?auto=format&fit=crop&q=80&w=400',
+    image: 'https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&q=80&w=400',
     stock: { greer: 2, greenville: 9, aiken: 4, 'fountain-inn': 8, 'little-river': 0, longs: 5, columbia: 3, hickory: 6 }
   },
   {
@@ -94,7 +94,29 @@ export const INITIAL_TIRES: TireItem[] = [
     rimSize: 22,
     condition: 'Like New (90%+ tread)',
     price: 75,
-    image: 'https://images.unsplash.com/photo-1543785734-4b6e564642f8?auto=format&fit=crop&q=80&w=400',
+    image: 'https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&q=80&w=400',
     stock: { greer: 4, greenville: 2, aiken: 7, 'fountain-inn': 3, 'little-river': 5, longs: 8, columbia: 0, hickory: 6 }
+  },
+  {
+    id: 't-17-2',
+    brand: 'BFGoodrich',
+    model: 'All-Terrain T/A KO2',
+    size: '265/70R17',
+    rimSize: 17,
+    condition: 'Like New (90%+ tread)',
+    price: 60,
+    image: 'https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&q=80&w=400',
+    stock: { greer: 9, greenville: 7, aiken: 12, 'fountain-inn': 5, 'little-river': 8, longs: 3, columbia: 11, hickory: 6 }
+  },
+  {
+    id: 't-18-2',
+    brand: 'Hankook',
+    model: 'Kinergy GT',
+    size: '235/60R18',
+    rimSize: 18,
+    condition: 'Good (70%+ tread)',
+    price: 50,
+    image: 'https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&q=80&w=400',
+    stock: { greer: 11, greenville: 6, aiken: 8, 'fountain-inn': 10, 'little-river': 4, longs: 7, columbia: 9, hickory: 5 }
   }
 ];
