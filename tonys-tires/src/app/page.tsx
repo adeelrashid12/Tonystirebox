@@ -68,136 +68,129 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900 font-sans selection:bg-red-500 selection:text-white">
       
-      {/* 1. Header Navigation Bar */}
-      <header className="bg-slate-950 text-white sticky top-0 z-50 border-b border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-          
-          {/* Logo */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-red-600 bg-red-950 flex items-center justify-center shadow">
-              <Image src="/tony_mascot.png" alt="Tony's Tire Box Logo" width={40} height={40} className="object-cover scale-110" />
-            </div>
-            <div>
-              <h1 className="text-xl sm:text-2xl font-black italic tracking-wider uppercase leading-none">
-                TONY'S <span className="text-red-500">TIRE BOX</span>
-              </h1>
-              <p className="text-[9px] text-slate-400 font-semibold tracking-widest uppercase">QUALITY USED TIRES • SELF-SERVE CONTAINERS</p>
-            </div>
-          </div>
-
-          {/* Center Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-7 text-xs font-bold text-slate-300">
-            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-red-500 hover:text-white transition">Home</button>
-            <button onClick={() => scrollToSection('find-tires')} className="hover:text-red-400 transition">Find Tires</button>
-            <button onClick={() => scrollToSection('locations')} className="hover:text-red-400 transition">Locations</button>
-            <button onClick={() => scrollToSection('how-it-works')} className="hover:text-red-400 transition">How It Works</button>
-            <button onClick={() => scrollToSection('inventory')} className="hover:text-red-400 transition">Inventory</button>
-          </nav>
-
-          {/* Right Text / Call Button */}
-          <div className="flex items-center gap-4">
-            <a 
-              href="sms:8643955393"
-              className="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl flex items-center gap-2 text-xs sm:text-sm shadow-lg shadow-red-950/50 transition"
-            >
-              <PhoneCall className="w-4 h-4 text-yellow-300" />
-              <div className="text-left leading-tight">
-                <span className="text-[9px] block text-red-200 uppercase font-semibold">Text "TIRES"</span>
-                <span className="font-mono font-black">864-395-5393</span>
-              </div>
-            </a>
-
-            {/* Cart Icon */}
-            <button 
-              onClick={() => setIsCheckoutOpen(true)}
-              className="relative bg-slate-900 border border-slate-700 hover:border-red-500 p-2.5 rounded-xl text-white transition"
-            >
-              <ShoppingCart className="w-5 h-5 text-slate-200" />
-              {cart.length > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 bg-red-600 text-white text-[10px] w-5 h-5 rounded-full font-black flex items-center justify-center shadow">
-                  {cart.reduce((s, i) => s + i.qty, 0)}
-                </span>
-              )}
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* 2. Hero Section (Container Photo Background) */}
-      <section className="relative min-h-[520px] flex items-center bg-slate-950 border-b border-slate-800 overflow-hidden py-16">
-        {/* Real Container Photo Background */}
+      {/* Wrapper with Full Bleed Container Photo Background spanning Header & Hero */}
+      <div className="relative bg-slate-950 border-b border-slate-800 overflow-hidden">
+        {/* Full Bleed Background Container Photo */}
         <div 
-          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-50 scale-105"
+          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-90 scale-105"
           style={{ backgroundImage: "url('/hero_banner.png')" }}
         ></div>
         
-        {/* Dark Vignette Overlay */}
-        <div className="absolute inset-0 z-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/40"></div>
+        {/* Left Side Soft Shadow Overlay for Text Readability Only */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-r from-slate-950/95 via-slate-950/70 to-transparent"></div>
 
-        <div className="max-w-7xl mx-auto px-4 relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          
-          <div className="lg:col-span-8 space-y-5">
-            <span className="text-red-500 font-extrabold text-xs tracking-widest uppercase block">
-              QUALITY USED TIRES
-            </span>
-
-            <h2 className="text-4xl sm:text-6xl font-black text-white leading-none uppercase tracking-tight">
-              SELF-SERVE.<br />
-              SIMPLE.<br />
-              <span className="text-red-600">AFFORDABLE.</span>
-            </h2>
-
-            <p className="text-slate-300 text-base sm:text-lg font-medium max-w-xl leading-relaxed">
-              Find your size. Choose your location. Pick up when you're ready.
-            </p>
-
-            <div className="pt-2 flex flex-wrap items-center gap-4">
-              <button 
-                onClick={() => scrollToSection('find-tires')}
-                className="bg-red-600 hover:bg-red-700 text-white font-black text-sm px-7 py-3.5 rounded-xl flex items-center gap-2 shadow-xl shadow-red-950/60 transition uppercase tracking-wide"
-              >
-                <Search className="w-4 h-4" /> FIND TIRES
-              </button>
-
-              <button 
-                onClick={() => scrollToSection('how-it-works')}
-                className="bg-slate-900/90 hover:bg-slate-800 border border-slate-600 text-white font-bold text-sm px-6 py-3.5 rounded-xl flex items-center gap-2 shadow-lg backdrop-blur transition uppercase tracking-wide"
-              >
-                <Play className="w-4 h-4 fill-white" /> HOW IT WORKS
-              </button>
+        {/* 1. Header Navigation Bar (Transparent Overlay) */}
+        <header className="relative z-50 text-white border-b border-slate-800/40 bg-slate-950/40 backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto px-4 py-3.5 flex items-center justify-between">
+            
+            {/* Logo */}
+            <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-red-600 bg-red-950 flex items-center justify-center shadow">
+                <Image src="/tony_mascot.png" alt="Tony's Tire Box Logo" width={40} height={40} className="object-cover scale-110" />
+              </div>
+              <div>
+                <h1 className="text-xl sm:text-2xl font-black italic tracking-wider uppercase leading-none">
+                  TONY'S <span className="text-red-500">TIRE BOX</span>
+                </h1>
+                <p className="text-[9px] text-slate-400 font-semibold tracking-widest uppercase">QUALITY USED TIRES • SELF-SERVE CONTAINERS</p>
+              </div>
             </div>
 
-            {/* Pill Badges Row */}
-            <div className="pt-6 flex flex-wrap items-center gap-4 text-xs font-bold text-slate-300">
-              <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
-                <ShieldCheck className="w-4 h-4 text-red-500" /> Quality Used Tires
-              </div>
-              <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
-                <MapPin className="w-4 h-4 text-red-500" /> 8 Locations
-              </div>
-              <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
-                <Clock className="w-4 h-4 text-red-500" /> Self-Serve Access
-              </div>
-              <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
-                <Users className="w-4 h-4 text-red-500" /> Local & Convenient
-              </div>
+            {/* Center Navigation Links */}
+            <nav className="hidden lg:flex items-center gap-7 text-xs font-bold text-slate-300">
+              <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-red-500 hover:text-white transition">Home</button>
+              <button onClick={() => scrollToSection('find-tires')} className="hover:text-red-400 transition">Find Tires</button>
+              <button onClick={() => scrollToSection('locations')} className="hover:text-red-400 transition">Locations</button>
+              <button onClick={() => scrollToSection('how-it-works')} className="hover:text-red-400 transition">How It Works</button>
+              <button onClick={() => scrollToSection('inventory')} className="hover:text-red-400 transition">Inventory</button>
+            </nav>
+
+            {/* Right Text / Call Button */}
+            <div className="flex items-center gap-4">
+              <a 
+                href="sms:8643955393"
+                className="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl flex items-center gap-2 text-xs sm:text-sm shadow-lg shadow-red-950/50 transition"
+              >
+                <PhoneCall className="w-4 h-4 text-yellow-300" />
+                <div className="text-left leading-tight">
+                  <span className="text-[9px] block text-red-200 uppercase font-semibold">Text "TIRES"</span>
+                  <span className="font-mono font-black">864-395-5393</span>
+                </div>
+              </a>
+
+              {/* Cart Icon */}
+              <button 
+                onClick={() => setIsCheckoutOpen(true)}
+                className="relative bg-slate-900/80 border border-slate-700 hover:border-red-500 p-2.5 rounded-xl text-white transition"
+              >
+                <ShoppingCart className="w-5 h-5 text-slate-200" />
+                {cart.length > 0 && (
+                  <span className="absolute -top-1.5 -right-1.5 bg-red-600 text-white text-[10px] w-5 h-5 rounded-full font-black flex items-center justify-center shadow">
+                    {cart.reduce((s, i) => s + i.qty, 0)}
+                  </span>
+                )}
+              </button>
             </div>
           </div>
+        </header>
 
-          {/* Right Red Starting Price Splash Banner */}
-          <div className="lg:col-span-4 flex justify-end">
-            <div className="bg-gradient-to-br from-red-600 to-red-800 text-white p-6 sm:p-8 rounded-3xl shadow-2xl border-4 border-red-500 transform lg:rotate-3 hover:rotate-0 transition duration-300 text-center w-full max-w-xs">
-              <span className="text-xs font-black tracking-widest uppercase text-red-200 block">STARTING AT</span>
-              <div className="text-5xl sm:text-6xl font-black italic tracking-tighter my-1">
-                $40
+        {/* 2. Hero Section */}
+        <section className="relative z-10 min-h-[460px] flex items-center py-12">
+          <div className="max-w-7xl mx-auto px-4 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            <div className="lg:col-span-8 space-y-5">
+              <span className="text-red-500 font-extrabold text-xs tracking-widest uppercase block">
+                QUALITY USED TIRES
+              </span>
+
+              <h2 className="text-4xl sm:text-6xl font-black text-white leading-none uppercase tracking-tight">
+                SELF-SERVE.<br />
+                SIMPLE.<br />
+                <span className="text-red-600">AFFORDABLE.</span>
+              </h2>
+
+              <p className="text-slate-300 text-base sm:text-lg font-medium max-w-xl leading-relaxed">
+                Find your size. Choose your location. Pick up when you're ready.
+              </p>
+
+              <div className="pt-2 flex flex-wrap items-center gap-4">
+                <button 
+                  onClick={() => scrollToSection('find-tires')}
+                  className="bg-red-600 hover:bg-red-700 text-white font-black text-sm px-7 py-3.5 rounded-xl flex items-center gap-2 shadow-xl shadow-red-950/60 transition uppercase tracking-wide"
+                >
+                  <Search className="w-4 h-4" /> FIND TIRES
+                </button>
+
+                <button 
+                  onClick={() => scrollToSection('how-it-works')}
+                  className="bg-slate-900/90 hover:bg-slate-800 border border-slate-600 text-white font-bold text-sm px-6 py-3.5 rounded-xl flex items-center gap-2 shadow-lg backdrop-blur transition uppercase tracking-wide"
+                >
+                  <Play className="w-4 h-4 fill-white" /> HOW IT WORKS
+                </button>
               </div>
-              <span className="text-sm font-extrabold uppercase tracking-wider block">PER TIRE</span>
-              <p className="text-[10px] text-red-200 mt-2 font-medium">15" to 22" Sizes Available Live</p>
-            </div>
-          </div>
 
-        </div>
-      </section>
+              {/* Pill Badges Row */}
+              <div className="pt-6 flex flex-wrap items-center gap-4 text-xs font-bold text-slate-300">
+                <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
+                  <ShieldCheck className="w-4 h-4 text-red-500" /> Quality Used Tires
+                </div>
+                <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
+                  <MapPin className="w-4 h-4 text-red-500" /> 8 Locations
+                </div>
+                <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
+                  <Clock className="w-4 h-4 text-red-500" /> Self-Serve Access
+                </div>
+                <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
+                  <Users className="w-4 h-4 text-red-500" /> Local & Convenient
+                </div>
+              </div>
+            </div>
+
+            <div className="hidden lg:block lg:col-span-4"></div>
+
+          </div>
+        </section>
+      </div>
 
       {/* 3. Find Your Tires Search Bar */}
       <section id="find-tires" className="py-10 bg-slate-200 border-b border-slate-300">
