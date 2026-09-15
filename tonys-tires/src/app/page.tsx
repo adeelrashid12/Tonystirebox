@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { LOCATIONS, INITIAL_TIRES, TireItem } from '@/data/inventory';
 import { 
   MapPin, 
@@ -359,47 +360,56 @@ export default function Home() {
             const sampleLocName = selectedLocation === 'all' ? 'Greer / Greenville' : LOCATIONS.find(l=>l.id===selectedLocation)?.name;
 
             return (
-              <div key={tire.id} className="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden flex flex-col justify-between hover:shadow-xl transition">
+              <div key={tire.id} className="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden flex flex-col justify-between hover:shadow-xl transition group">
                 <div>
-                  <div className="bg-slate-50 p-4 flex items-center justify-center border-b border-slate-100 relative h-48 overflow-hidden">
-                    <img 
-                      src={tire.image} 
-                      alt={tire.size} 
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/real_tire_photo.jpg';
-                      }}
-                      className="h-full w-full object-cover rounded-xl shadow-inner" 
-                    />
-                    <span className="absolute top-3 right-3 bg-red-600 text-white font-black text-[10px] px-2.5 py-1 rounded-md uppercase tracking-wider shadow">
-                      {tire.brand}
-                    </span>
-                  </div>
-
-                  <div className="p-5">
-                    <h4 className="text-xl font-black text-slate-950">{tire.size}</h4>
-                    <p className="text-xs text-slate-500 font-semibold mt-0.5">{tire.condition}</p>
-
-                    <div className="mt-3 text-lg font-black text-red-600">
-                      ${tire.price} <span className="text-xs text-slate-500 font-normal">each</span>
+                  <Link href={`/tires/${tire.id}`} className="block">
+                    <div className="bg-slate-50 p-4 flex items-center justify-center border-b border-slate-100 relative h-48 overflow-hidden">
+                      <img 
+                        src={tire.image} 
+                        alt={tire.size} 
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = '/real_tire_photo.jpg';
+                        }}
+                        className="h-full w-full object-cover rounded-xl shadow-inner group-hover:scale-105 transition duration-300" 
+                      />
+                      <span className="absolute top-3 right-3 bg-red-600 text-white font-black text-[10px] px-2.5 py-1 rounded-md uppercase tracking-wider shadow">
+                        {tire.brand}
+                      </span>
                     </div>
 
-                    <div className="mt-3 pt-3 border-t border-slate-100 text-xs font-semibold text-slate-600 space-y-1">
-                      <div className="flex items-center gap-1">
-                        <MapPin className="w-3.5 h-3.5 text-red-500" /> {sampleLocName}
+                    <div className="p-5">
+                      <h4 className="text-xl font-black text-slate-950 group-hover:text-red-600 transition">{tire.size}</h4>
+                      <p className="text-xs text-slate-500 font-semibold mt-0.5">{tire.brand} {tire.model}</p>
+                      <p className="text-[11px] text-emerald-600 font-bold mt-1">{tire.condition}</p>
+
+                      <div className="mt-3 text-lg font-black text-red-600">
+                        ${tire.price} <span className="text-xs text-slate-500 font-normal">each</span>
                       </div>
-                      <div className="text-[11px] text-emerald-600 font-bold">
-                        {activeStockCount} available
+
+                      <div className="mt-3 pt-3 border-t border-slate-100 text-xs font-semibold text-slate-600 space-y-1">
+                        <div className="flex items-center gap-1">
+                          <MapPin className="w-3.5 h-3.5 text-red-500" /> {sampleLocName}
+                        </div>
+                        <div className="text-[11px] text-emerald-600 font-bold">
+                          {activeStockCount} available
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 </div>
 
-                <div className="p-5 pt-0">
+                <div className="p-5 pt-0 grid grid-cols-2 gap-2">
+                  <Link 
+                    href={`/tires/${tire.id}`}
+                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black text-[11px] py-2.5 rounded-xl uppercase shadow transition text-center flex items-center justify-center"
+                  >
+                    View Specs
+                  </Link>
                   <button 
                     onClick={() => addToCart(tire)}
-                    className="w-full bg-red-600 hover:bg-red-700 text-white font-black text-xs py-2.5 rounded-xl uppercase shadow transition"
+                    className="w-full bg-red-600 hover:bg-red-700 text-white font-black text-[11px] py-2.5 rounded-xl uppercase shadow transition"
                   >
-                    Buy / Reserve Now
+                    Reserve Now
                   </button>
                 </div>
               </div>
