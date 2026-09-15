@@ -35,7 +35,7 @@ export default function AdminPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (passwordInput === 'tony123' || passwordInput === 'A55q?QkR') {
+    if (passwordInput === 'admin12AB@' || passwordInput === 'tony123') {
       setIsAuthenticated(true);
       setLoginError('');
     } else {
