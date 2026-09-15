@@ -417,11 +417,11 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {LOCATIONS.slice(0, 4).map((loc, i) => (
-              <div key={loc.id} className="bg-white rounded-2xl border border-slate-300 overflow-hidden shadow-lg hover:shadow-xl transition">
-                <div className="h-40 bg-slate-900 relative">
-                  <img src="/hero_banner.jpg" alt={loc.name} className="w-full h-full object-cover opacity-80" />
-                  <div className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded uppercase">
+            {LOCATIONS.map((loc, i) => (
+              <div key={loc.id} className="bg-white rounded-2xl border border-slate-300 overflow-hidden shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+                <div className="h-44 bg-slate-900 relative">
+                  <img src={loc.image} alt={`${loc.name} Container`} className="w-full h-full object-cover" />
+                  <div className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded uppercase shadow">
                     Container #{i+1}
                   </div>
                 </div>

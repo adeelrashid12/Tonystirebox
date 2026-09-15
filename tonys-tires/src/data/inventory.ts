@@ -5,6 +5,7 @@ export interface Location {
   phone: string;
   hours: string;
   isPopular?: boolean;
+  image: string;
 }
 
 export interface TireItem {
@@ -20,14 +21,14 @@ export interface TireItem {
 }
 
 export const LOCATIONS: Location[] = [
-  { id: 'greer', name: 'Greer', address: '102 Highway 29, Greer, SC', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', isPopular: true },
-  { id: 'greenville', name: 'Greenville', address: '450 Laurens Rd, Greenville, SC', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', isPopular: true },
-  { id: 'aiken', name: 'Aiken', address: '120 Richland Ave, Aiken, SC', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM' },
-  { id: 'fountain-inn', name: 'Fountain Inn', address: '305 N Main St, Fountain Inn, SC', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM' },
-  { id: 'little-river', name: 'Little River', address: '1540 Highway 17 E, Little River, SC', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM' },
-  { id: 'longs', name: 'Longs', address: '890 Highway 9, Longs, SC', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM' },
-  { id: 'columbia', name: 'Columbia', address: '2210 Broad River Rd, Columbia, SC', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM' },
-  { id: 'hickory', name: 'Hickory', address: '540 Hwy 70 SW, Hickory, NC', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM' },
+  { id: 'greer', name: 'Greer', address: '102 Highway 29, Greer, SC', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', isPopular: true, image: '/container_greer.png' },
+  { id: 'greenville', name: 'Greenville', address: '450 Laurens Rd, Greenville, SC', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', isPopular: true, image: '/container_greer.png' },
+  { id: 'aiken', name: 'Aiken', address: '120 Richland Ave, Aiken, SC', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', image: '/container_fountain_inn.png' },
+  { id: 'fountain-inn', name: 'Fountain Inn', address: '305 N Main St, Fountain Inn, SC', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', image: '/container_fountain_inn.png' },
+  { id: 'little-river', name: 'Little River', address: '1540 Highway 17 E, Little River, SC', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', image: '/container_little_river.png' },
+  { id: 'longs', name: 'Longs', address: '890 Highway 9, Longs, SC', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', image: '/container_little_river.png' },
+  { id: 'columbia', name: 'Columbia', address: '2210 Broad River Rd, Columbia, SC', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', image: '/container_fountain_inn.png' },
+  { id: 'hickory', name: 'Hickory', address: '540 Hwy 70 SW, Hickory, NC', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', image: '/container_hickory.png' },
 ];
 
 export const INITIAL_TIRES: TireItem[] = [
