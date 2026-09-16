@@ -20,7 +20,8 @@ import {
   Check,
   X,
   Boxes,
-  Trash2
+  Trash2,
+  Upload
 } from 'lucide-react';
 
 interface Order {
@@ -149,6 +150,38 @@ export default function AdminPage() {
     setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
     setSuccessMsg(`Order ${orderId} marked as ${newStatus}!`);
     setTimeout(() => setSuccessMsg(''), 3000);
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    Array.from(files).forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const base64Url = event.target?.result as string;
+        if (base64Url) {
+          setNewImagesInput(prev => prev ? `${prev}\n${base64Url}` : base64Url);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleEditModalFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    Array.from(files).forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const base64Url = event.target?.result as string;
+        if (base64Url) {
+          setEditImagesInput(prev => prev ? `${prev}\n${base64Url}` : base64Url);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
   };
 
   const handleAddNewTire = (e: React.FormEvent) => {
@@ -456,20 +489,33 @@ export default function AdminPage() {
                 </div>
 
                 <div>
-                  <label className="text-[10px] text-slate-400 font-bold block mb-1">Product Images (Enter 1 Image URL per line for multiple photos):</label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="text-[10px] text-slate-400 font-bold block">Product Images (Upload from PC or enter URLs 1 per line):</label>
+                    <label className="cursor-pointer bg-red-600 hover:bg-red-500 text-white text-[11px] font-bold px-3 py-1 rounded-lg flex items-center gap-1.5 transition shadow">
+                      <Upload className="w-3.5 h-3.5" /> Select Photos from PC
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        multiple 
+                        onChange={handleFileUpload} 
+                        className="hidden" 
+                      />
+                    </label>
+                  </div>
+
                   <textarea
-                    rows={3}
-                    placeholder="https://example.com/tire1.jpg&#10;https://example.com/tire2.jpg&#10;https://example.com/tire3.jpg"
+                    rows={4}
+                    placeholder="Upload files above OR paste URLs here (1 link per line)..."
                     value={newImagesInput}
                     onChange={(e) => setNewImagesInput(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white font-mono"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-white font-mono"
                   />
                 </div>
 
                 <div className="flex justify-end">
                   <button 
                     type="submit"
-                    className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-2 text-xs rounded-lg shadow uppercase tracking-wider"
+                    className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-2.5 text-xs rounded-lg shadow uppercase tracking-wider"
                   >
                     Save Stock & Images
                   </button>
@@ -571,14 +617,27 @@ export default function AdminPage() {
                   </button>
 
                   <h3 className="text-lg font-black uppercase text-amber-400 mb-2">Edit Product Image Gallery</h3>
-                  <p className="text-xs text-slate-400 mb-4">Paste multiple image URLs (1 per line). First image will be used as primary thumbnail.</p>
+                  <p className="text-xs text-slate-400 mb-3">Upload photos from PC or paste URLs (1 per line).</p>
+
+                  <div className="mb-3 flex justify-end">
+                    <label className="cursor-pointer bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow">
+                      <Upload className="w-3.5 h-3.5" /> Upload Photos from PC
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        multiple 
+                        onChange={handleEditModalFileUpload} 
+                        className="hidden" 
+                      />
+                    </label>
+                  </div>
 
                   <textarea
                     rows={6}
                     value={editImagesInput}
                     onChange={(e) => setEditImagesInput(e.target.value)}
                     className="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs font-mono text-white mb-4 focus:outline-none focus:border-red-500"
-                    placeholder="https://example.com/photo1.jpg&#10;https://example.com/photo2.jpg"
+                    placeholder="Upload from PC or paste image URLs..."
                   />
 
                   <div className="flex justify-end gap-3">
