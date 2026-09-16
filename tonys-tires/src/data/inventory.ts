@@ -17,6 +17,7 @@ export interface TireItem {
   condition: 'Good (70%+ tread)' | 'Like New (90%+ tread)';
   price: number;
   image: string;
+  images?: string[];
   stock: Record<string, number>;
 }
 

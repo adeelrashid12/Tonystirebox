@@ -92,6 +92,10 @@ export default function AdminPage() {
   const [newRimSize, setNewRimSize] = useState<number>(16);
   const [newPrice, setNewPrice] = useState<number>(45);
   const [newInitialStock, setNewInitialStock] = useState<number>(10);
+  const [newImagesInput, setNewImagesInput] = useState<string>('');
+  const [editingImagesTireId, setEditingImagesTireId] = useState<string | null>(null);
+  const [editImagesInput, setEditImagesInput] = useState<string>('');
+  
   const [showAddForm, setShowAddForm] = useState<boolean>(false);
   const [successMsg, setSuccessMsg] = useState<string>('');
 
@@ -150,6 +154,13 @@ export default function AdminPage() {
     e.preventDefault();
     if (!newBrand || !newSize) return;
 
+    const parsedImages = newImagesInput
+      .split('\n')
+      .map(url => url.trim())
+      .filter(url => url.length > 0);
+
+    const mainImage = parsedImages.length > 0 ? parsedImages[0] : 'https://images.unsplash.com/photo-1543785734-4b6e564642f8?auto=format&fit=crop&q=80&w=400';
+
     const newTire: TireItem = {
       id: `t-${Date.now()}`,
       brand: newBrand,
@@ -158,16 +169,43 @@ export default function AdminPage() {
       rimSize: Number(newRimSize),
       condition: 'Like New (90%+ tread)',
       price: Number(newPrice),
-      image: 'https://images.unsplash.com/photo-1543785734-4b6e564642f8?auto=format&fit=crop&q=80&w=400',
+      image: mainImage,
+      images: parsedImages.length > 0 ? parsedImages : [mainImage],
       stock: { [selectedLocation]: Number(newInitialStock) }
     };
 
     setInventory(prev => [newTire, ...prev]);
     setNewBrand('');
     setNewSize('');
+    setNewImagesInput('');
     setShowAddForm(false);
-    setSuccessMsg(`Added ${newBrand} ${newSize} to ${currentLocation.name} container stock!`);
+    setSuccessMsg(`Added ${newBrand} ${newSize} with ${parsedImages.length || 1} product photos!`);
     setTimeout(() => setSuccessMsg(''), 4000);
+  };
+
+  const handleSaveTireImages = (tireId: string) => {
+    const parsedImages = editImagesInput
+      .split('\n')
+      .map(url => url.trim())
+      .filter(url => url.length > 0);
+
+    if (parsedImages.length === 0) return;
+
+    setInventory(prev => prev.map(item => {
+      if (item.id === tireId) {
+        return {
+          ...item,
+          image: parsedImages[0],
+          images: parsedImages
+        };
+      }
+      return item;
+    }));
+
+    setEditingImagesTireId(null);
+    setEditImagesInput('');
+    setSuccessMsg('Product image gallery updated successfully!');
+    setTimeout(() => setSuccessMsg(''), 3000);
   };
 
   if (!isLoaded) return null;
@@ -338,53 +376,67 @@ export default function AdminPage() {
 
             {/* Add Tire Form */}
             {showAddForm && (
-              <form onSubmit={handleAddNewTire} className="bg-slate-950 border border-amber-500/40 p-5 rounded-2xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 shadow-xl">
+              <form onSubmit={handleAddNewTire} className="bg-slate-950 border border-amber-500/40 p-5 rounded-2xl space-y-4 shadow-xl">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                  <div>
+                    <label className="text-[10px] text-slate-400 font-bold block mb-1">Brand:</label>
+                    <input 
+                      type="text" 
+                      placeholder="e.g. Michelin" 
+                      value={newBrand}
+                      onChange={(e) => setNewBrand(e.target.value)}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] text-slate-400 font-bold block mb-1">Tire Size:</label>
+                    <input 
+                      type="text" 
+                      placeholder="e.g. 205/55R16" 
+                      value={newSize}
+                      onChange={(e) => setNewSize(e.target.value)}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] text-slate-400 font-bold block mb-1">Rim Size (Inch):</label>
+                    <input 
+                      type="number" 
+                      value={newRimSize}
+                      onChange={(e) => setNewRimSize(Number(e.target.value))}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] text-slate-400 font-bold block mb-1">Price ($):</label>
+                    <input 
+                      type="number" 
+                      value={newPrice}
+                      onChange={(e) => setNewPrice(Number(e.target.value))}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
+                    />
+                  </div>
+                </div>
+
                 <div>
-                  <label className="text-[10px] text-slate-400 font-bold block mb-1">Brand:</label>
-                  <input 
-                    type="text" 
-                    placeholder="e.g. Michelin" 
-                    value={newBrand}
-                    onChange={(e) => setNewBrand(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
-                    required
+                  <label className="text-[10px] text-slate-400 font-bold block mb-1">Product Images (Enter 1 Image URL per line for multiple photos):</label>
+                  <textarea
+                    rows={3}
+                    placeholder="https://example.com/tire1.jpg&#10;https://example.com/tire2.jpg&#10;https://example.com/tire3.jpg"
+                    value={newImagesInput}
+                    onChange={(e) => setNewImagesInput(e.target.value)}
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white font-mono"
                   />
                 </div>
-                <div>
-                  <label className="text-[10px] text-slate-400 font-bold block mb-1">Tire Size:</label>
-                  <input 
-                    type="text" 
-                    placeholder="e.g. 205/55R16" 
-                    value={newSize}
-                    onChange={(e) => setNewSize(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="text-[10px] text-slate-400 font-bold block mb-1">Rim Size (Inch):</label>
-                  <input 
-                    type="number" 
-                    value={newRimSize}
-                    onChange={(e) => setNewRimSize(Number(e.target.value))}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
-                  />
-                </div>
-                <div>
-                  <label className="text-[10px] text-slate-400 font-bold block mb-1">Price ($):</label>
-                  <input 
-                    type="number" 
-                    value={newPrice}
-                    onChange={(e) => setNewPrice(Number(e.target.value))}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
-                  />
-                </div>
-                <div className="flex items-end">
+
+                <div className="flex justify-end">
                   <button 
                     type="submit"
-                    className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold p-2 text-xs rounded-lg shadow"
+                    className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-2 text-xs rounded-lg shadow uppercase tracking-wider"
                   >
-                    Save Stock
+                    Save Stock & Images
                   </button>
                 </div>
               </form>
@@ -394,6 +446,8 @@ export default function AdminPage() {
             <div className="space-y-3">
               {filteredInventory.map(tire => {
                 const stockQty = tire.stock[selectedLocation] || 0;
+                const photoCount = tire.images && tire.images.length > 0 ? tire.images.length : 1;
+
                 return (
                   <div 
                     key={tire.id}
@@ -406,7 +460,18 @@ export default function AdminPage() {
                       <div>
                         <span className="text-[10px] text-red-400 font-bold uppercase tracking-wider">{tire.brand}</span>
                         <h4 className="text-base font-black text-white">{tire.size}</h4>
-                        <span className="text-xs text-slate-400">{tire.rimSize}" Rim • {tire.condition}</span>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <span className="text-xs text-slate-400">{tire.rimSize}" Rim • {tire.condition}</span>
+                          <button
+                            onClick={() => {
+                              setEditingImagesTireId(tire.id);
+                              setEditImagesInput((tire.images || [tire.image]).join('\n'));
+                            }}
+                            className="bg-slate-950 hover:bg-slate-900 text-amber-400 border border-slate-700 text-[10px] font-bold px-2 py-0.5 rounded"
+                          >
+                            📷 {photoCount} Photo{photoCount > 1 ? 's' : ''} (Edit)
+                          </button>
+                        </div>
                       </div>
                     </div>
 
@@ -449,6 +514,46 @@ export default function AdminPage() {
                 );
               })}
             </div>
+
+            {/* Edit Product Images Modal */}
+            {editingImagesTireId && (
+              <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 text-white shadow-2xl relative">
+                  <button 
+                    onClick={() => setEditingImagesTireId(null)}
+                    className="absolute top-4 right-4 text-slate-400 hover:text-white font-bold"
+                  >
+                    ✕
+                  </button>
+
+                  <h3 className="text-lg font-black uppercase text-amber-400 mb-2">Edit Product Image Gallery</h3>
+                  <p className="text-xs text-slate-400 mb-4">Paste multiple image URLs (1 per line). First image will be used as primary thumbnail.</p>
+
+                  <textarea
+                    rows={6}
+                    value={editImagesInput}
+                    onChange={(e) => setEditImagesInput(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs font-mono text-white mb-4 focus:outline-none focus:border-red-500"
+                    placeholder="https://example.com/photo1.jpg&#10;https://example.com/photo2.jpg"
+                  />
+
+                  <div className="flex justify-end gap-3">
+                    <button
+                      onClick={() => setEditingImagesTireId(null)}
+                      className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={() => handleSaveTireImages(editingImagesTireId)}
+                      className="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black rounded-xl uppercase shadow"
+                    >
+                      Save Gallery
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
 

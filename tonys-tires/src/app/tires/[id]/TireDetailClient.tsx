@@ -18,10 +18,13 @@ import {
 
 export default function TireDetailClient({ tireId }: { tireId: string }) {
   const tire = INITIAL_TIRES.find(t => t.id === tireId) || INITIAL_TIRES[0];
+  const allImages = tire.images && tire.images.length > 0 ? tire.images : [tire.image, '/real_tire_photo.jpg'];
+
   const [selectedLoc, setSelectedLoc] = useState<string>('greer');
   const [quantity, setQuantity] = useState<number>(1);
   const [isAddedToCart, setIsAddedToCart] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<'specs' | 'locations' | 'pickup'>('specs');
+  const [selectedImage, setSelectedImage] = useState<string>(allImages[0]);
 
   const selectedLocData = LOCATIONS.find(l => l.id === selectedLoc) || LOCATIONS[0];
   const availableStock = tire.stock[selectedLoc] || 0;
@@ -101,11 +104,28 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
 
               <div className="relative h-80 sm:h-96 w-full flex items-center justify-center bg-slate-50 rounded-2xl overflow-hidden border border-slate-100">
                 <img 
-                  src={tire.image} 
+                  src={selectedImage} 
                   alt={`${tire.brand} ${tire.model} ${tire.size}`}
                   className="max-h-full max-w-full object-contain p-4 transition-transform hover:scale-105 duration-300"
                 />
               </div>
+
+              {/* Thumbnails Gallery Strip */}
+              {allImages.length > 1 && (
+                <div className="mt-4 flex gap-3 overflow-x-auto pb-1">
+                  {allImages.map((imgUrl, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setSelectedImage(imgUrl)}
+                      className={`w-16 h-16 rounded-xl border-2 overflow-hidden bg-slate-50 shrink-0 p-1 transition ${
+                        selectedImage === imgUrl ? 'border-red-600 ring-2 ring-red-500/30' : 'border-slate-200 hover:border-slate-400'
+                      }`}
+                    >
+                      <img src={imgUrl} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-contain" />
+                    </button>
+                  ))}
+                </div>
+              )}
 
               {/* Security & Quality Badges */}
               <div className="mt-6 grid grid-cols-3 gap-3 pt-6 border-t border-slate-100 text-center">
