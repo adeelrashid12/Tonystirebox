@@ -19,7 +19,8 @@ import {
   Search,
   Check,
   X,
-  Boxes
+  Boxes,
+  Trash2
 } from 'lucide-react';
 
 interface Order {
@@ -206,6 +207,14 @@ export default function AdminPage() {
     setEditImagesInput('');
     setSuccessMsg('Product image gallery updated successfully!');
     setTimeout(() => setSuccessMsg(''), 3000);
+  };
+
+  const handleDeleteTire = (tireId: string, tireName: string) => {
+    if (window.confirm(`Are you sure you want to delete ${tireName} from inventory?`)) {
+      setInventory(prev => prev.filter(t => t.id !== tireId));
+      setSuccessMsg(`Deleted ${tireName} from inventory!`);
+      setTimeout(() => setSuccessMsg(''), 3000);
+    }
   };
 
   if (!isLoaded) return null;
@@ -508,6 +517,15 @@ export default function AdminPage() {
                           </button>
                         </div>
                       </div>
+
+                      {/* Delete Product Button */}
+                      <button
+                        onClick={() => handleDeleteTire(tire.id, `${tire.brand} ${tire.size}`)}
+                        title="Delete Product"
+                        className="bg-slate-950 hover:bg-red-950/80 text-slate-400 hover:text-red-400 p-2.5 rounded-xl border border-slate-700 hover:border-red-800 transition"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
 
                     </div>
                   </div>
