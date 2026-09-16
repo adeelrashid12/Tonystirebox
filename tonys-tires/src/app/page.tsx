@@ -22,11 +22,13 @@ import {
 export default function Home() {
   const [selectedLocation, setSelectedLocation] = useState<string>('all');
   const [selectedRimSize, setSelectedRimSize] = useState<number | 'all'>('all');
-  const [searchQuery, setSearchQuery] = useState<string>('');
   const [inventory, setInventory] = useState<TireItem[]>(INITIAL_TIRES);
   const [cart, setCart] = useState<{ tire: TireItem; locationId: string; qty: number }[]>([]);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState<boolean>(false);
   const [checkoutComplete, setCheckoutComplete] = useState<boolean>(false);
+  const [customerPhone, setCustomerPhone] = useState<string>('');
+  const [customerName, setCustomerName] = useState<string>('');
+  const [lastOrderDetails, setLastOrderDetails] = useState<{ id: string; lockbox: string; phone: string; total: number } | null>(null);
 
   // Filter tires based on search & location
   const filteredTires = inventory.filter(tire => {
@@ -57,6 +59,37 @@ export default function Home() {
       return [...prev, { tire, locationId: targetLoc, qty: 1 }];
     });
     setIsCheckoutOpen(true);
+  };
+
+  const handleCompleteOrder = () => {
+    if (!customerPhone || cart.length === 0) return;
+
+    // Deduct stock for each cart item
+    setInventory(prev => prev.map(tire => {
+      const cartItemsForTire = cart.filter(item => item.tire.id === tire.id);
+      if (cartItemsForTire.length === 0) return tire;
+
+      const newStock = { ...tire.stock };
+      cartItemsForTire.forEach(item => {
+        const currentLocStock = newStock[item.locationId] || 0;
+        newStock[item.locationId] = Math.max(0, currentLocStock - item.qty);
+      });
+
+      return { ...tire, stock: newStock };
+    }));
+
+    const orderId = `ORD-${Math.floor(1000 + Math.random() * 9000)}`;
+    const lockboxCode = `${Math.floor(1000 + Math.random() * 9000)}`;
+
+    setLastOrderDetails({
+      id: orderId,
+      lockbox: lockboxCode,
+      phone: customerPhone,
+      total: totalCartPrice
+    });
+
+    setCheckoutComplete(true);
+    setCart([]);
   };
 
   const totalCartPrice = cart.reduce((sum, item) => sum + (item.tire.price * item.qty), 0);
@@ -495,45 +528,93 @@ export default function Home() {
 
             {!checkoutComplete ? (
               <>
-                <h3 className="text-xl font-black uppercase text-slate-950 mb-4">Self-Serve Checkout</h3>
+                <h3 className="text-xl font-black uppercase text-slate-950 mb-4">Self-Serve Container Checkout</h3>
                 
                 {cart.length === 0 ? (
                   <p className="text-slate-500 text-sm py-6 text-center">Your cart is empty.</p>
                 ) : (
-                  <div>
-                    <div className="space-y-3 mb-4">
-                      {cart.map((item, i) => (
-                        <div key={i} className="flex justify-between items-center bg-slate-50 p-3 rounded-xl border border-slate-200 text-sm">
-                          <div>
-                            <div className="font-bold text-slate-950">{item.tire.brand} {item.tire.size}</div>
-                            <div className="text-xs text-slate-500">Qty: {item.qty} x ${item.tire.price}</div>
+                  <div className="space-y-4">
+                    <div className="space-y-3">
+                      {cart.map((item, i) => {
+                        const locName = LOCATIONS.find(l => l.id === item.locationId)?.name;
+                        return (
+                          <div key={i} className="flex justify-between items-center bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-sm">
+                            <div>
+                              <div className="font-bold text-slate-950">{item.tire.brand} {item.tire.size}</div>
+                              <div className="text-xs text-slate-500">{locName} Container • Qty: {item.qty}</div>
+                            </div>
+                            <span className="font-mono font-black text-red-600">${item.tire.price * item.qty}</span>
                           </div>
-                          <span className="font-mono font-black text-red-600">${item.tire.price * item.qty}</span>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
 
-                    <div className="border-t border-slate-200 pt-3 mb-6 flex justify-between items-center font-black text-lg text-slate-950">
-                      <span>Total:</span>
-                      <span className="text-red-600 font-mono">${totalCartPrice}</span>
-                    </div>
+                    <div className="pt-2 border-t border-slate-200 space-y-3">
+                      <div>
+                        <label className="block text-xs font-black uppercase text-slate-700 mb-1">Enter Your Mobile Phone Number (for Lockbox Code SMS):</label>
+                        <input 
+                          type="tel" 
+                          placeholder="e.g. 864-395-5393"
+                          value={customerPhone}
+                          onChange={(e) => setCustomerPhone(e.target.value)}
+                          className="w-full bg-slate-50 border-2 border-slate-300 rounded-xl px-4 py-2.5 text-sm font-bold text-slate-900 focus:outline-none focus:border-red-600"
+                          required
+                        />
+                      </div>
 
-                    <button 
-                      onClick={() => setCheckoutComplete(true)}
-                      className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-3 rounded-xl text-center text-sm shadow transition uppercase"
-                    >
-                      Confirm Order & Get Pickup Receipt
-                    </button>
+                      <div className="pt-2 flex justify-between items-center font-black text-lg text-slate-950">
+                        <span>Total Amount:</span>
+                        <span className="text-red-600 font-mono text-xl">${totalCartPrice}</span>
+                      </div>
+
+                      <button 
+                        onClick={handleCompleteOrder}
+                        disabled={!customerPhone}
+                        className={`w-full py-3.5 rounded-xl font-black text-sm uppercase tracking-wider shadow transition ${
+                          customerPhone 
+                            ? 'bg-red-600 hover:bg-red-700 text-white' 
+                            : 'bg-slate-300 text-slate-500 cursor-not-allowed'
+                        }`}
+                      >
+                        Confirm Order & Reserve Stock
+                      </button>
+                    </div>
                   </div>
                 )}
               </>
             ) : (
-              <div className="text-center py-6">
-                <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3 font-black text-2xl">
+              <div className="text-center py-4 space-y-3">
+                <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-2 font-black text-2xl shadow">
                   ✓
                 </div>
-                <h3 className="text-2xl font-black text-slate-950 uppercase">Order Confirmed!</h3>
-                <p className="text-xs text-slate-600 mt-2">Text your order confirmation to 864-395-5393 to collect your tires.</p>
+                <h3 className="text-2xl font-black text-slate-950 uppercase">Reservation Confirmed!</h3>
+                <p className="text-xs text-slate-600 font-medium">Stock has been reserved and automatically updated in our inventory.</p>
+
+                {lastOrderDetails && (
+                  <div className="bg-slate-900 text-white p-4 rounded-2xl text-left text-xs space-y-2 font-mono border border-slate-800">
+                    <div className="flex justify-between border-b border-slate-800 pb-2">
+                      <span className="text-slate-400">Order ID:</span>
+                      <span className="text-amber-400 font-bold">{lastOrderDetails.id}</span>
+                    </div>
+                    <div className="flex justify-between border-b border-slate-800 pb-2">
+                      <span className="text-slate-400">Lockbox Combination:</span>
+                      <span className="text-emerald-400 font-black text-base tracking-widest">{lastOrderDetails.lockbox}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-400">Customer Phone:</span>
+                      <span className="text-white font-bold">{lastOrderDetails.phone}</span>
+                    </div>
+                  </div>
+                )}
+
+                <div className="pt-2">
+                  <a 
+                    href={`sms:8643955393?body=${encodeURIComponent(`Hi Tony, I placed order ${lastOrderDetails?.id || ''} for ${lastOrderDetails?.phone || ''}`)}`}
+                    className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-3 rounded-xl block text-xs uppercase shadow transition"
+                  >
+                    Text Order Receipt to 864-395-5393
+                  </a>
+                </div>
               </div>
             )}
           </div>
