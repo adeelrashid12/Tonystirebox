@@ -22,6 +22,7 @@ import {
 export default function Home() {
   const [selectedLocation, setSelectedLocation] = useState<string>('all');
   const [selectedRimSize, setSelectedRimSize] = useState<number | 'all'>('all');
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const [inventory, setInventory] = useState<TireItem[]>(INITIAL_TIRES);
   const [cart, setCart] = useState<{ tire: TireItem; locationId: string; qty: number }[]>([]);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState<boolean>(false);
