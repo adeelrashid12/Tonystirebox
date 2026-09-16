@@ -386,7 +386,24 @@ export default function AdminPage() {
             {/* Add Tire Form */}
             {showAddForm && (
               <form onSubmit={handleAddNewTire} className="bg-slate-950 border border-amber-500/40 p-5 rounded-2xl space-y-4 shadow-xl">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                  <h4 className="text-sm font-black text-amber-400 uppercase">Add New Tire Shipment to Container</h4>
+                  <span className="text-xs text-slate-400">Target Container: <strong className="text-white">{currentLocation.name}</strong></span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-3">
+                  <div>
+                    <label className="text-[10px] text-slate-400 font-bold block mb-1">Target Location:</label>
+                    <select
+                      value={selectedLocation}
+                      onChange={(e) => setSelectedLocation(e.target.value)}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-amber-400 font-bold"
+                    >
+                      {LOCATIONS.map(loc => (
+                        <option key={loc.id} value={loc.id}>{loc.name} Hub</option>
+                      ))}
+                    </select>
+                  </div>
                   <div>
                     <label className="text-[10px] text-slate-400 font-bold block mb-1">Brand:</label>
                     <input 
@@ -425,6 +442,15 @@ export default function AdminPage() {
                       value={newPrice}
                       onChange={(e) => setNewPrice(Number(e.target.value))}
                       className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] text-slate-400 font-bold block mb-1">Initial Stock Qty:</label>
+                    <input 
+                      type="number" 
+                      value={newInitialStock}
+                      onChange={(e) => setNewInitialStock(Number(e.target.value))}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-emerald-400 font-bold"
                     />
                   </div>
                 </div>
