@@ -136,7 +136,6 @@ export default function Home() {
             {/* Center Navigation Links */}
             <nav className="hidden lg:flex items-center gap-7 text-xs font-bold text-slate-300">
               <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-red-500 hover:text-white transition">Home</button>
-              <button onClick={() => scrollToSection('find-tires')} className="hover:text-red-400 transition">Find Tires</button>
               <button onClick={() => scrollToSection('locations')} className="hover:text-red-400 transition">Locations</button>
               <button onClick={() => scrollToSection('how-it-works')} className="hover:text-red-400 transition">How It Works</button>
               <button onClick={() => scrollToSection('inventory')} className="hover:text-red-400 transition">Inventory</button>
@@ -171,247 +170,285 @@ export default function Home() {
           </div>
         </header>
 
-        {/* 2. Hero Section */}
-        <section className="relative z-10 min-h-[460px] flex items-center py-12">
-          <div className="max-w-7xl mx-auto px-4 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        {/* 2. Hero Section - Refactored to Match Banner Final Screenshot */}
+        <section 
+          className="relative z-10 min-h-[580px] lg:min-h-[640px] flex items-center bg-cover bg-center bg-no-repeat overflow-hidden"
+          style={{ backgroundImage: "url('/hero_banner_final.png')" }}
+        >
+          {/* Dark Vignette Overlay for Crisp Contrast on Left Text Side */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/85 to-transparent z-0 pointer-events-none"></div>
+
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
+            {/* Left Content Column */}
             <div className="lg:col-span-7 space-y-5 animate-fade-in-up">
-              <div className="inline-flex items-center gap-2 bg-red-950/80 border border-red-600/60 px-3.5 py-1.5 rounded-full text-red-400 font-extrabold text-xs tracking-widest uppercase animate-fade-in-down shadow">
+              <div className="inline-flex items-center gap-2 bg-red-950/80 border border-red-600/60 px-3.5 py-1.5 rounded-full text-red-400 font-extrabold text-xs tracking-widest uppercase shadow">
                 <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                QUALITY USED TIRES • STARTING AT $40
+                QUALITY USED TIRES • SELF-SERVE • LOW PRICES
               </div>
 
-              <h2 className="text-4xl sm:text-6xl font-black text-white leading-none uppercase tracking-tight animate-fade-in-up delay-100">
-                SELF-SERVE.<br />
-                SIMPLE.<br />
-                <span className="text-red-600">AFFORDABLE.</span>
+              <h2 className="text-4xl sm:text-6xl font-black text-white leading-none uppercase tracking-tight">
+                USED TIRES.<br />
+                <span className="text-red-500">READY WHEN YOU ARE.</span>
               </h2>
 
-              <p className="text-slate-300 text-base sm:text-lg font-medium max-w-xl leading-relaxed animate-fade-in-up delay-200">
-                Find your size. Pick your nearest container location. Grab your tires anytime 8 AM - 8 PM.
+              <p className="text-slate-300 text-base sm:text-lg font-medium max-w-xl leading-relaxed">
+                Self-serve lockbox access available 7 days a week. Search by size or browse location inventory.
               </p>
 
-              <div className="pt-2 flex flex-wrap items-center gap-4 animate-fade-in-up delay-300">
-                <button 
-                  onClick={() => scrollToSection('find-tires')}
-                  className="bg-red-600 hover:bg-red-700 text-white font-black text-sm px-7 py-3.5 rounded-xl flex items-center gap-2 shadow-xl shadow-red-950/80 transition uppercase tracking-wide transform hover:scale-105"
-                >
-                  <Search className="w-4 h-4" /> FIND TIRES NOW
-                </button>
+              {/* Find Tires Quick Search Bar (1:1 Match with Screenshot 1) */}
+              <div className="pt-2">
+                <div className="bg-white p-4 sm:p-5 rounded-2xl shadow-2xl border border-slate-200 max-w-2xl">
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+                    
+                    {/* Size Search Input */}
+                    <div className="md:col-span-5 relative">
+                      <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+                      <input 
+                        type="text" 
+                        placeholder="Enter Tire Size (e.g. 225/65R17)"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-3 py-3 text-xs sm:text-sm text-slate-900 font-semibold focus:outline-none focus:border-red-600 focus:bg-white transition placeholder:text-slate-400"
+                      />
+                    </div>
 
-                <button 
-                  onClick={() => scrollToSection('how-it-works')}
-                  className="bg-slate-900/90 hover:bg-slate-800 border border-slate-600 text-white font-bold text-sm px-6 py-3.5 rounded-xl flex items-center gap-2 shadow-lg backdrop-blur transition uppercase tracking-wide transform hover:scale-105"
-                >
-                  <Play className="w-4 h-4 fill-white" /> HOW IT WORKS
-                </button>
-              </div>
+                    {/* Location Select Dropdown */}
+                    <div className="md:col-span-4 relative">
+                      <MapPin className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+                      <select
+                        value={selectedLocation}
+                        onChange={(e) => setSelectedLocation(e.target.value)}
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-7 py-3 text-xs sm:text-sm text-slate-900 font-bold focus:outline-none focus:border-red-600 focus:bg-white cursor-pointer appearance-none"
+                      >
+                        <option value="all">All Locations (8 SC & NC Hubs)</option>
+                        {LOCATIONS.map(loc => (
+                          <option key={loc.id} value={loc.id}>
+                            {loc.name} Container
+                          </option>
+                        ))}
+                      </select>
+                    </div>
 
-              {/* Pill Badges Row */}
-              <div className="pt-6 flex flex-wrap items-center gap-3 text-xs font-bold text-slate-300 animate-fade-in-up delay-400">
-                <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
-                  <ShieldCheck className="w-4 h-4 text-red-500" /> Inspected Quality
-                </div>
-                <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
-                  <MapPin className="w-4 h-4 text-red-500" /> 8 SC & NC Hubs
-                </div>
-                <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
-                  <Clock className="w-4 h-4 text-red-500" /> Open Daily 8AM - 8PM
-                </div>
-              </div>
-            </div>
+                    {/* Search Button */}
+                    <div className="md:col-span-3">
+                      <button 
+                        onClick={() => scrollToSection('inventory')}
+                        className="w-full bg-red-600 hover:bg-red-700 text-white font-black text-xs sm:text-sm py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition uppercase tracking-wider whitespace-nowrap"
+                      >
+                        SEARCH TIRES <ArrowRight className="w-4 h-4 shrink-0" />
+                      </button>
+                    </div>
+                  </div>
 
-            {/* Right Column: Badass Container Billboard Card */}
-            <div className="lg:col-span-5 animate-scale-up delay-200">
-              <div className="bg-slate-900/90 border-2 border-red-600/40 rounded-3xl p-3 shadow-2xl backdrop-blur-md relative overflow-hidden group hover:border-red-600 transition duration-500">
-                <div className="absolute top-5 right-5 z-20 bg-red-600 text-white font-black text-[10px] px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
-                  LIVE CONTAINER HUB
-                </div>
-                <div className="h-72 sm:h-80 w-full rounded-2xl overflow-hidden relative border border-slate-800">
-                  <img 
-                    src="/container_fountain_inn.png" 
-                    alt="Tony's Tire Box Container" 
-                    className="w-full h-full object-cover group-hover:scale-105 transition duration-700" 
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <span className="text-[10px] text-red-400 font-extrabold uppercase tracking-widest block">SELF-SERVE TIRES</span>
-                    <h3 className="text-xl font-black italic uppercase leading-tight">TONY'S TIRE BOX CONTAINERS</h3>
-                    <p className="text-[11px] text-slate-300 font-medium mt-0.5">Greer • Greenville • Aiken • Fountain Inn • Little River • Longs • Columbia • Hickory</p>
+                  {/* Popular Size Pills */}
+                  <div className="mt-3 pt-3 border-t border-slate-100 flex flex-wrap items-center gap-1.5 text-xs">
+                    <span className="text-slate-500 font-bold text-[10px] mr-1">Popular sizes:</span>
+                    {['225/65R17', '235/60R18', '265/70R17', '275/65R18', '245/45R19', '195/65R15'].map(size => (
+                      <button
+                        key={size}
+                        onClick={() => setSearchQuery(size)}
+                        className="bg-slate-100 hover:bg-red-100 hover:text-red-700 text-slate-700 px-2.5 py-0.5 rounded-lg text-[11px] font-bold border border-slate-200 transition"
+                      >
+                        {size}
+                      </button>
+                    ))}
                   </div>
                 </div>
               </div>
+
+              {/* Feature Pill Badges */}
+              <div className="pt-2 flex flex-wrap items-center gap-3 text-xs font-bold text-slate-300">
+                <div className="flex items-center gap-1.5 bg-slate-950/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
+                  <span className="text-red-500 font-extrabold">$40+</span> Per Tire
+                </div>
+                <div className="flex items-center gap-1.5 bg-slate-950/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
+                  <Clock className="w-4 h-4 text-red-500" /> Open 7 Days
+                </div>
+                <div className="flex items-center gap-1.5 bg-slate-950/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
+                  <ShieldCheck className="w-4 h-4 text-red-500" /> Monitored 24/7
+                </div>
+                <div className="flex items-center gap-1.5 bg-slate-950/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
+                  <MapPin className="w-4 h-4 text-red-500" /> Multiple Locations
+                </div>
+              </div>
             </div>
+
+            {/* Right Column: Left transparent so the background container from hero_banner_final.png shows through cleanly */}
+            <div className="hidden lg:block lg:col-span-5"></div>
 
           </div>
         </section>
       </div>
 
-      {/* 3. Find Your Tires Search Bar */}
-      <section id="find-tires" className="py-10 bg-slate-200 border-b border-slate-300">
-        <div className="max-w-7xl mx-auto px-4 animate-scale-up">
-          <div className="mb-4">
-            <h3 className="text-2xl font-black text-slate-950 uppercase">Find Your Tires</h3>
-            <p className="text-xs text-slate-600 font-medium">Search by tire size to see what's available at our locations.</p>
-          </div>
 
-          <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-xl border border-slate-300">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-              
-              {/* Size Search Input */}
-              <div className="md:col-span-6 relative">
-                <Search className="w-5 h-5 text-slate-400 absolute left-4 top-3.5" />
-                <input 
-                  type="text" 
-                  placeholder="Enter Tire Size (e.g. 225/65R17 or 205/55R16)"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-12 pr-4 py-3 text-sm text-slate-900 font-semibold focus:outline-none focus:border-red-600 focus:bg-white transition"
-                />
-              </div>
 
-              {/* Location Select Dropdown */}
-              <div className="md:col-span-4 relative">
-                <MapPin className="w-5 h-5 text-slate-400 absolute left-4 top-3.5" />
-                <select
-                  value={selectedLocation}
-                  onChange={(e) => setSelectedLocation(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-12 pr-8 py-3 text-sm text-slate-900 font-bold focus:outline-none focus:border-red-600 focus:bg-white cursor-pointer appearance-none"
-                >
-                  <option value="all">All Locations (8 SC & NC Hubs)</option>
-                  {LOCATIONS.map(loc => (
-                    <option key={loc.id} value={loc.id}>
-                      {loc.name} Container
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Search Button */}
-              <div className="md:col-span-2">
-                <button 
-                  onClick={() => scrollToSection('inventory')}
-                  className="w-full bg-red-600 hover:bg-red-700 text-white font-black text-sm py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-md transition uppercase"
-                >
-                  Search Tires <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Popular Size Pills */}
-            <div className="mt-4 pt-4 border-t border-slate-100 flex flex-wrap items-center gap-2 text-xs">
-              <span className="text-slate-500 font-bold text-[11px] mr-1">Popular sizes:</span>
-              {['225/65R17', '235/60R18', '265/70R17', '275/65R18', '245/45R19', '195/65R15'].map(size => (
-                <button
-                  key={size}
-                  onClick={() => setSearchQuery(size)}
-                  className="bg-slate-100 hover:bg-red-100 hover:text-red-700 text-slate-700 px-3 py-1 rounded-lg font-bold border border-slate-200 transition"
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. How It Works Section - Full Bleed Background Image */}
-      <section id="how-it-works" className="relative py-16 bg-slate-950 text-white border-b border-slate-800 overflow-hidden">
-        {/* Section Full Background Image */}
-        <div 
-          className="absolute inset-0 z-0 bg-cover bg-right bg-no-repeat opacity-40 scale-105"
-          style={{ backgroundImage: "url('/how_it_works_bg.png')" }}
-        ></div>
-        <div className="absolute inset-0 z-0 bg-gradient-to-r from-slate-950 via-slate-950/85 to-transparent"></div>
-
-        <div className="max-w-7xl mx-auto px-4 relative z-10">
+      {/* 4. How It Works Section - Clean White Background matching Screenshot 2 */}
+      <section id="how-it-works" className="py-14 bg-slate-100 border-b border-slate-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          
+          {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
             <div>
-              <span className="text-red-500 font-extrabold text-xs tracking-widest uppercase block mb-1">SELF-SERVE 8AM-8PM • STARTING AT $40 PER TIRE</span>
-              <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight">How It Works — 6 Simple Steps</h3>
-              <p className="text-xs text-slate-400 mt-1 font-medium">Getting your tires is fast, contactless & easy. No appointments needed.</p>
+              <span className="text-red-600 font-extrabold text-xs tracking-widest uppercase block mb-1">SELF-SERVE 8AM-8PM • STARTING AT $40 PER TIRE</span>
+              <h3 className="text-3xl sm:text-4xl font-black uppercase text-slate-950 tracking-tight">How It Works — 6 Simple Steps</h3>
+              <p className="text-sm text-slate-600 font-semibold mt-1">Getting your tires is fast, contactless & easy. No appointments needed.</p>
             </div>
 
             <div className="text-left sm:text-right">
-              <h4 className="text-lg font-black italic uppercase text-white leading-tight">
+              <h4 className="text-lg font-black italic uppercase text-slate-950 leading-tight">
                 QUALITY USED TIRES<br />
-                <span className="text-red-500">15" TO 22" AVAILABLE</span>
+                <span className="text-red-600">15" TO 22" AVAILABLE</span>
               </h4>
             </div>
           </div>
 
-          {/* 6 Steps Grid Matching Client Flyer */}
+          {/* 6 Steps Clean Sleek Card Grid (Previous Loved Size) */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             
-            {/* Step 1 */}
-            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600 transition group">
+            {/* Step 01 */}
+            <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-lg flex flex-col justify-between hover:shadow-2xl transition duration-300 group">
               <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-black text-red-500 uppercase tracking-widest bg-red-950/60 px-3 py-1 rounded-md border border-red-900">STEP 01</span>
-                  <PhoneCall className="w-5 h-5 text-slate-400 group-hover:text-red-500 transition" />
+                <span className="text-red-600 font-black text-2xl uppercase tracking-tight block mb-2">STEP 01</span>
+                
+                {/* Sleek Uncropped Illustration */}
+                <div className="h-44 w-full rounded-2xl overflow-hidden mb-4 bg-white flex items-center justify-center p-1">
+                  <img 
+                    src="/step_01.jpg" 
+                    alt="Step 01 - Text Your Size" 
+                    className="w-full h-full object-contain group-hover:scale-105 transition duration-500" 
+                  />
                 </div>
-                <h4 className="font-extrabold text-lg text-white uppercase">Text Your Size</h4>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed font-medium">Text your tire size and how many tires you need to <strong className="text-yellow-400 font-mono">864-395-5393</strong>.</p>
+
+                <h4 className="font-black text-xl text-slate-950 uppercase tracking-tight leading-snug">
+                  TEXT YOUR SIZE AND HOW MANY TO 864-395-5393
+                </h4>
+                <p className="text-xs text-slate-500 font-medium mt-2">
+                  Text your tire size and quantity to our team anytime.
+                </p>
               </div>
             </div>
 
-            {/* Step 2 */}
-            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600 transition group">
+            {/* Step 02 */}
+            <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-lg flex flex-col justify-between hover:shadow-2xl transition duration-300 group">
               <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-black text-red-500 uppercase tracking-widest bg-red-950/60 px-3 py-1 rounded-md border border-red-900">STEP 02</span>
-                  <MapPin className="w-5 h-5 text-slate-400 group-hover:text-red-500 transition" />
+                <span className="text-red-600 font-black text-2xl uppercase tracking-tight block mb-2">STEP 02</span>
+                
+                <div className="h-44 w-full rounded-2xl overflow-hidden mb-4 bg-white flex items-center justify-center p-1">
+                  <img 
+                    src="/step_02.jpg" 
+                    alt="Step 02 - Come To Container" 
+                    className="w-full h-full object-contain group-hover:scale-105 transition duration-500" 
+                  />
                 </div>
-                <h4 className="font-extrabold text-lg text-white uppercase">Come To Container</h4>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed font-medium">Drive to your nearest container location (Greer, Greenville, Aiken, Fountain Inn, Little River, Longs, Columbia, Hickory).</p>
+
+                <h4 className="font-black text-xl text-slate-950 uppercase tracking-tight leading-snug">
+                  COME TO CONTAINER
+                </h4>
+                <p className="text-xs text-slate-600 font-bold mt-1">
+                  GREER • GREENVILLE • AIKEN • FOUNTAIN INN • LITTLE RIVER • LONGS • COLUMBIA • HICKORY
+                </p>
               </div>
             </div>
 
-            {/* Step 3 */}
-            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600 transition group">
+            {/* Step 03 */}
+            <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-lg flex flex-col justify-between hover:shadow-2xl transition duration-300 group">
               <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-black text-red-500 uppercase tracking-widest bg-red-950/60 px-3 py-1 rounded-md border border-red-900">STEP 03</span>
-                  <ShieldCheck className="w-5 h-5 text-slate-400 group-hover:text-red-500 transition" />
+                <span className="text-red-600 font-black text-2xl uppercase tracking-tight block mb-2">STEP 03</span>
+                
+                <div className="h-44 w-full rounded-2xl overflow-hidden mb-4 bg-white flex items-center justify-center p-1">
+                  <img 
+                    src="/step_03.jpg" 
+                    alt="Step 03 - Pick Your Tires" 
+                    className="w-full h-full object-contain group-hover:scale-105 transition duration-500" 
+                  />
                 </div>
-                <h4 className="font-extrabold text-lg text-white uppercase">Pick Your Tires</h4>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed font-medium">Choose from 300+ available inspected quality used tires in sizes 15" to 22".</p>
+
+                <h4 className="font-black text-xl text-slate-950 uppercase tracking-tight leading-snug">
+                  PICK YOUR TIRES
+                </h4>
+                <p className="text-xs text-slate-600 font-bold mt-1">
+                  15–22 inch • 300+ tires available
+                </p>
+                <p className="text-xs text-slate-500 font-medium mt-0.5">
+                  Quality used tires in sizes 15" to 22"
+                </p>
               </div>
             </div>
 
-            {/* Step 4 */}
-            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600 transition group">
+            {/* Step 04 */}
+            <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-lg flex flex-col justify-between hover:shadow-2xl transition duration-300 group">
               <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-black text-red-500 uppercase tracking-widest bg-red-950/60 px-3 py-1 rounded-md border border-red-900">STEP 04</span>
-                  <CreditCard className="w-5 h-5 text-slate-400 group-hover:text-red-500 transition" />
+                <span className="text-red-600 font-black text-2xl uppercase tracking-tight block mb-2">STEP 04</span>
+                
+                <div className="h-44 w-full rounded-2xl overflow-hidden mb-4 bg-white flex items-center justify-center p-1">
+                  <img 
+                    src="/step_04.jpg" 
+                    alt="Step 04 - Pay From Phone" 
+                    className="w-full h-full object-contain group-hover:scale-105 transition duration-500" 
+                  />
                 </div>
-                <h4 className="font-extrabold text-lg text-white uppercase">Pay From Phone</h4>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed font-medium">Pay securely and contactless right from your phone using Cash App, Venmo, Zelle, or Apple Pay.</p>
+
+                <h4 className="font-black text-xl text-slate-950 uppercase tracking-tight leading-snug">
+                  PAY FROM PHONE
+                </h4>
+                <p className="text-xs text-slate-500 font-medium mt-1">
+                  Cash App • Venmo • Zelle • Apple Pay
+                </p>
+                <p className="text-xs text-slate-400 font-normal mt-0.5">
+                  Pay securely and contactless right from your phone
+                </p>
+
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  <span className="bg-emerald-100 text-emerald-800 text-[10px] font-black px-2 py-0.5 rounded">Cash App</span>
+                  <span className="bg-sky-100 text-sky-800 text-[10px] font-black px-2 py-0.5 rounded">Venmo</span>
+                  <span className="bg-purple-100 text-purple-800 text-[10px] font-black px-2 py-0.5 rounded">Zelle</span>
+                  <span className="bg-slate-900 text-white text-[10px] font-black px-2 py-0.5 rounded">Apple Pay</span>
+                </div>
               </div>
             </div>
 
-            {/* Step 5 */}
-            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600 transition group">
+            {/* Step 05 */}
+            <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-lg flex flex-col justify-between hover:shadow-2xl transition duration-300 group">
               <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-black text-red-500 uppercase tracking-widest bg-red-950/60 px-3 py-1 rounded-md border border-red-900">STEP 05</span>
-                  <Zap className="w-5 h-5 text-slate-400 group-hover:text-red-500 transition" />
+                <span className="text-red-600 font-black text-2xl uppercase tracking-tight block mb-2">STEP 05</span>
+                
+                <div className="h-44 w-full rounded-2xl overflow-hidden mb-4 bg-white flex items-center justify-center p-1">
+                  <img 
+                    src="/step_05.jpg" 
+                    alt="Step 05 - Load Up" 
+                    className="w-full h-full object-contain group-hover:scale-105 transition duration-500" 
+                  />
                 </div>
-                <h4 className="font-extrabold text-lg text-white uppercase">Load Up & Go</h4>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed font-medium">Load your purchased tires into your vehicle yourself — quick, easy & hassle-free.</p>
+
+                <h4 className="font-black text-xl text-slate-950 uppercase tracking-tight leading-snug">
+                  LOAD UP
+                </h4>
+                <p className="text-xs text-slate-600 font-semibold mt-1">
+                  Load your purchased tires into your vehicle yourself — quick & easy
+                </p>
               </div>
             </div>
 
-            {/* Step 6 */}
-            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600 transition group">
+            {/* Step 06 */}
+            <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-lg flex flex-col justify-between hover:shadow-2xl transition duration-300 group">
               <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-black text-red-500 uppercase tracking-widest bg-red-950/60 px-3 py-1 rounded-md border border-red-900">STEP 06</span>
-                  <Users className="w-5 h-5 text-slate-400 group-hover:text-red-500 transition" />
+                <span className="text-red-600 font-black text-2xl uppercase tracking-tight block mb-2">STEP 06</span>
+                
+                <div className="h-44 w-full rounded-2xl overflow-hidden mb-4 bg-white flex items-center justify-center p-1">
+                  <img 
+                    src="/step_06.jpg" 
+                    alt="Step 06 - Get Them Installed" 
+                    className="w-full h-full object-contain group-hover:scale-105 transition duration-500" 
+                  />
                 </div>
-                <h4 className="font-extrabold text-lg text-white uppercase">Get Them Installed</h4>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed font-medium">Take your tires to your preferred installer or one of our recommended local vendors.</p>
+
+                <h4 className="font-black text-xl text-slate-950 uppercase tracking-tight leading-snug">
+                  GET THEM INSTALLED
+                </h4>
+                <p className="text-xs text-slate-600 font-semibold mt-1">
+                  Take tires to your preferred installer or one of our vendors
+                </p>
               </div>
             </div>
 
@@ -666,6 +703,21 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      {/* WhatsApp Floating Chat Button */}
+      <a 
+        href="#"
+        onClick={(e) => {
+          e.preventDefault();
+          alert("WhatsApp number will be connected soon!");
+        }}
+        className="fixed bottom-6 right-6 z-50 bg-emerald-500 hover:bg-emerald-600 text-white p-3.5 sm:p-4 rounded-full shadow-2xl hover:scale-110 transition duration-300 flex items-center justify-center group border-2 border-white/20"
+        title="Chat on WhatsApp"
+      >
+        <svg className="w-6 h-6 sm:w-7 sm:h-7 fill-current" viewBox="0 0 24 24">
+          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+        </svg>
+      </a>
 
     </div>
   );
