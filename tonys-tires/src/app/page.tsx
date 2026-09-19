@@ -173,10 +173,11 @@ export default function Home() {
         <section className="relative z-10 min-h-[460px] flex items-center py-12">
           <div className="max-w-7xl mx-auto px-4 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
-            <div className="lg:col-span-8 space-y-5 animate-fade-in-up">
-              <span className="text-red-500 font-extrabold text-xs tracking-widest uppercase block animate-fade-in-down">
-                QUALITY USED TIRES
-              </span>
+            <div className="lg:col-span-7 space-y-5 animate-fade-in-up">
+              <div className="inline-flex items-center gap-2 bg-red-950/80 border border-red-600/60 px-3.5 py-1.5 rounded-full text-red-400 font-extrabold text-xs tracking-widest uppercase animate-fade-in-down shadow">
+                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                QUALITY USED TIRES • STARTING AT $40
+              </div>
 
               <h2 className="text-4xl sm:text-6xl font-black text-white leading-none uppercase tracking-tight animate-fade-in-up delay-100">
                 SELF-SERVE.<br />
@@ -185,15 +186,15 @@ export default function Home() {
               </h2>
 
               <p className="text-slate-300 text-base sm:text-lg font-medium max-w-xl leading-relaxed animate-fade-in-up delay-200">
-                Find your size. Choose your location. Pick up when you're ready.
+                Find your size. Pick your nearest container location. Grab your tires anytime 8 AM - 8 PM.
               </p>
 
               <div className="pt-2 flex flex-wrap items-center gap-4 animate-fade-in-up delay-300">
                 <button 
                   onClick={() => scrollToSection('find-tires')}
-                  className="bg-red-600 hover:bg-red-700 text-white font-black text-sm px-7 py-3.5 rounded-xl flex items-center gap-2 shadow-xl shadow-red-950/60 transition uppercase tracking-wide transform hover:scale-105"
+                  className="bg-red-600 hover:bg-red-700 text-white font-black text-sm px-7 py-3.5 rounded-xl flex items-center gap-2 shadow-xl shadow-red-950/80 transition uppercase tracking-wide transform hover:scale-105"
                 >
-                  <Search className="w-4 h-4" /> FIND TIRES
+                  <Search className="w-4 h-4" /> FIND TIRES NOW
                 </button>
 
                 <button 
@@ -205,23 +206,40 @@ export default function Home() {
               </div>
 
               {/* Pill Badges Row */}
-              <div className="pt-6 flex flex-wrap items-center gap-4 text-xs font-bold text-slate-300 animate-fade-in-up delay-400">
+              <div className="pt-6 flex flex-wrap items-center gap-3 text-xs font-bold text-slate-300 animate-fade-in-up delay-400">
                 <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
-                  <ShieldCheck className="w-4 h-4 text-red-500" /> Quality Used Tires
+                  <ShieldCheck className="w-4 h-4 text-red-500" /> Inspected Quality
                 </div>
                 <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
-                  <MapPin className="w-4 h-4 text-red-500" /> 8 Locations
+                  <MapPin className="w-4 h-4 text-red-500" /> 8 SC & NC Hubs
                 </div>
                 <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
-                  <Clock className="w-4 h-4 text-red-500" /> Self-Serve Access
-                </div>
-                <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800 backdrop-blur">
-                  <Users className="w-4 h-4 text-red-500" /> Local & Convenient
+                  <Clock className="w-4 h-4 text-red-500" /> Open Daily 8AM - 8PM
                 </div>
               </div>
             </div>
 
-            <div className="hidden lg:block lg:col-span-4"></div>
+            {/* Right Column: Badass Container Billboard Card */}
+            <div className="lg:col-span-5 animate-scale-up delay-200">
+              <div className="bg-slate-900/90 border-2 border-red-600/40 rounded-3xl p-3 shadow-2xl backdrop-blur-md relative overflow-hidden group hover:border-red-600 transition duration-500">
+                <div className="absolute top-5 right-5 z-20 bg-red-600 text-white font-black text-[10px] px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
+                  LIVE CONTAINER HUB
+                </div>
+                <div className="h-72 sm:h-80 w-full rounded-2xl overflow-hidden relative border border-slate-800">
+                  <img 
+                    src="/container_fountain_inn.png" 
+                    alt="Tony's Tire Box Container" 
+                    className="w-full h-full object-cover group-hover:scale-105 transition duration-700" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 right-4 text-white">
+                    <span className="text-[10px] text-red-400 font-extrabold uppercase tracking-widest block">SELF-SERVE TIRES</span>
+                    <h3 className="text-xl font-black italic uppercase leading-tight">TONY'S TIRE BOX CONTAINERS</h3>
+                    <p className="text-[11px] text-slate-300 font-medium mt-0.5">Greer • Greenville • Aiken • Fountain Inn • Little River • Longs • Columbia • Hickory</p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
           </div>
         </section>
