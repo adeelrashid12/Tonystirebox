@@ -307,66 +307,91 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
             <div>
-              <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight">How It Works</h3>
-              <p className="text-xs text-slate-400 mt-1 font-medium">Getting your tires is easy. No appointments. No hassle.</p>
+              <span className="text-red-500 font-extrabold text-xs tracking-widest uppercase block mb-1">SELF-SERVE 8AM-8PM • STARTING AT $40 PER TIRE</span>
+              <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight">How It Works — 6 Simple Steps</h3>
+              <p className="text-xs text-slate-400 mt-1 font-medium">Getting your tires is fast, contactless & easy. No appointments needed.</p>
             </div>
 
             <div className="text-left sm:text-right">
               <h4 className="text-lg font-black italic uppercase text-white leading-tight">
-                GOOD TIRES. GREAT PRICES.<br />
-                <span className="text-red-500">READY WHEN YOU ARE.</span>
+                QUALITY USED TIRES<br />
+                <span className="text-red-500">15" TO 22" AVAILABLE</span>
               </h4>
             </div>
           </div>
 
-          {/* 4 Steps Grid - Full Width Spanning */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* 6 Steps Grid Matching Client Flyer */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             
-            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600/50 transition">
+            {/* Step 1 */}
+            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600 transition group">
               <div>
-                <div className="w-10 h-10 rounded-full bg-red-600 font-black text-base flex items-center justify-center mb-4 shadow">
-                  1
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-black text-red-500 uppercase tracking-widest bg-red-950/60 px-3 py-1 rounded-md border border-red-900">STEP 01</span>
+                  <PhoneCall className="w-5 h-5 text-slate-400 group-hover:text-red-500 transition" />
                 </div>
-                <h4 className="font-extrabold text-base text-white flex items-center gap-2">
-                  <Search className="w-4 h-4 text-red-500" /> Find Your Tire
-                </h4>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">Search your tire size on our website catalog live.</p>
+                <h4 className="font-extrabold text-lg text-white uppercase">Text Your Size</h4>
+                <p className="text-xs text-slate-300 mt-2 leading-relaxed font-medium">Text your tire size and how many tires you need to <strong className="text-yellow-400 font-mono">864-395-5393</strong>.</p>
               </div>
             </div>
 
-            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600/50 transition">
+            {/* Step 2 */}
+            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600 transition group">
               <div>
-                <div className="w-10 h-10 rounded-full bg-red-600 font-black text-base flex items-center justify-center mb-4 shadow">
-                  2
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-black text-red-500 uppercase tracking-widest bg-red-950/60 px-3 py-1 rounded-md border border-red-900">STEP 02</span>
+                  <MapPin className="w-5 h-5 text-slate-400 group-hover:text-red-500 transition" />
                 </div>
-                <h4 className="font-extrabold text-base text-white flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-red-500" /> Choose a Location
-                </h4>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">See which container hub currently has your tires in stock.</p>
+                <h4 className="font-extrabold text-lg text-white uppercase">Come To Container</h4>
+                <p className="text-xs text-slate-300 mt-2 leading-relaxed font-medium">Drive to your nearest container location (Greer, Greenville, Aiken, Fountain Inn, Little River, Longs, Columbia, Hickory).</p>
               </div>
             </div>
 
-            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600/50 transition">
+            {/* Step 3 */}
+            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600 transition group">
               <div>
-                <div className="w-10 h-10 rounded-full bg-red-600 font-black text-base flex items-center justify-center mb-4 shadow">
-                  3
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-black text-red-500 uppercase tracking-widest bg-red-950/60 px-3 py-1 rounded-md border border-red-900">STEP 03</span>
+                  <ShieldCheck className="w-5 h-5 text-slate-400 group-hover:text-red-500 transition" />
                 </div>
-                <h4 className="font-extrabold text-base text-white flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-red-500" /> Visit Container
-                </h4>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">Go to the selected container location anytime 8 AM - 8 PM.</p>
+                <h4 className="font-extrabold text-lg text-white uppercase">Pick Your Tires</h4>
+                <p className="text-xs text-slate-300 mt-2 leading-relaxed font-medium">Choose from 300+ available inspected quality used tires in sizes 15" to 22".</p>
               </div>
             </div>
 
-            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600/50 transition">
+            {/* Step 4 */}
+            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600 transition group">
               <div>
-                <div className="w-10 h-10 rounded-full bg-red-600 font-black text-base flex items-center justify-center mb-4 shadow">
-                  4
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-black text-red-500 uppercase tracking-widest bg-red-950/60 px-3 py-1 rounded-md border border-red-900">STEP 04</span>
+                  <CreditCard className="w-5 h-5 text-slate-400 group-hover:text-red-500 transition" />
                 </div>
-                <h4 className="font-extrabold text-base text-white flex items-center gap-2">
-                  <CreditCard className="w-4 h-4 text-red-500" /> Pay & Pick Up
-                </h4>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">Inspect tires, pay securely from phone, load up and go.</p>
+                <h4 className="font-extrabold text-lg text-white uppercase">Pay From Phone</h4>
+                <p className="text-xs text-slate-300 mt-2 leading-relaxed font-medium">Pay securely and contactless right from your phone using Cash App, Venmo, Zelle, or Apple Pay.</p>
+              </div>
+            </div>
+
+            {/* Step 5 */}
+            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600 transition group">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-black text-red-500 uppercase tracking-widest bg-red-950/60 px-3 py-1 rounded-md border border-red-900">STEP 05</span>
+                  <Zap className="w-5 h-5 text-slate-400 group-hover:text-red-500 transition" />
+                </div>
+                <h4 className="font-extrabold text-lg text-white uppercase">Load Up & Go</h4>
+                <p className="text-xs text-slate-300 mt-2 leading-relaxed font-medium">Load your purchased tires into your vehicle yourself — quick, easy & hassle-free.</p>
+              </div>
+            </div>
+
+            {/* Step 6 */}
+            <div className="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between backdrop-blur-md hover:border-red-600 transition group">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-black text-red-500 uppercase tracking-widest bg-red-950/60 px-3 py-1 rounded-md border border-red-900">STEP 06</span>
+                  <Users className="w-5 h-5 text-slate-400 group-hover:text-red-500 transition" />
+                </div>
+                <h4 className="font-extrabold text-lg text-white uppercase">Get Them Installed</h4>
+                <p className="text-xs text-slate-300 mt-2 leading-relaxed font-medium">Take your tires to your preferred installer or one of our recommended local vendors.</p>
               </div>
             </div>
 
