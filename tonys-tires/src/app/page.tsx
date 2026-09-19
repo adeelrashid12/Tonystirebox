@@ -103,16 +103,18 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900 font-sans selection:bg-red-500 selection:text-white">
       
-      {/* Wrapper with Full Bleed Container Photo Background spanning Header & Hero */}
+      {/* Wrapper with Clean Ultra-Modern Dark Theme & Subtle Grid Mesh */}
       <div className="relative bg-slate-950 border-b border-slate-800 overflow-hidden">
-        {/* Full Bleed Background Container Photo */}
-        <div 
-          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-90 scale-105"
-          style={{ backgroundImage: "url('/hero_banner.png')" }}
-        ></div>
         
-        {/* Left Side Soft Shadow Overlay for Text Readability Only */}
-        <div className="absolute inset-0 z-0 bg-gradient-to-r from-slate-950/95 via-slate-950/70 to-transparent"></div>
+        {/* Subtle Modern Glow Gradients (No Messy Background Image) */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/15 rounded-full filter blur-3xl pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-slate-800/20 rounded-full filter blur-3xl pointer-events-none"></div>
+        
+        {/* Subtle Tech Grid Pattern */}
+        <div 
+          className="absolute inset-0 z-0 opacity-15 pointer-events-none"
+          style={{ backgroundImage: "radial-gradient(#ef4444 0.75px, transparent 0.75px)", backgroundSize: "24px 24px" }}
+        ></div>
 
         {/* 1. Header Navigation Bar (Transparent Overlay) */}
         <header className="relative z-50 text-white border-b border-slate-800/40 bg-slate-950/40 backdrop-blur-sm">
