@@ -2125,5 +2125,772 @@ export const INITIAL_TIRES: TireItem[] = [
     "stock": {
       "greer": 4
     }
+  },
+  {
+    "id": "lng-1",
+    "brand": "Quality Used Tire",
+    "model": "185/65R15",
+    "size": "185/65R15",
+    "rimSize": 15,
+    "condition": "Good (70%+ tread)",
+    "price": 40,
+    "image": "/tires/image1.jpeg",
+    "stock": {
+      "longs": 6
+    }
+  },
+  {
+    "id": "lng-2",
+    "brand": "Quality Used Tire",
+    "model": "195/60R15",
+    "size": "195/60R15",
+    "rimSize": 15,
+    "condition": "Good (70%+ tread)",
+    "price": 40,
+    "image": "/tires/image2.jpeg",
+    "stock": {
+      "longs": 7
+    }
+  },
+  {
+    "id": "lng-3",
+    "brand": "Quality Used Tire",
+    "model": "195/65R15",
+    "size": "195/65R15",
+    "rimSize": 15,
+    "condition": "Good (70%+ tread)",
+    "price": 40,
+    "image": "/tires/image3.jpeg",
+    "stock": {
+      "longs": 10
+    }
+  },
+  {
+    "id": "lng-4",
+    "brand": "Quality Used Tire",
+    "model": "205/65R15",
+    "size": "205/65R15",
+    "rimSize": 15,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image4.jpeg",
+    "stock": {
+      "longs": 8
+    }
+  },
+  {
+    "id": "lng-5",
+    "brand": "Quality Used Tire",
+    "model": "205/55R16",
+    "size": "205/55R16",
+    "rimSize": 16,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image5.jpeg",
+    "stock": {
+      "longs": 1
+    }
+  },
+  {
+    "id": "lng-6",
+    "brand": "Quality Used Tire",
+    "model": "205/60R16",
+    "size": "205/60R16",
+    "rimSize": 16,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image6.jpeg",
+    "stock": {
+      "longs": 8
+    }
+  },
+  {
+    "id": "lng-7",
+    "brand": "Quality Used Tire",
+    "model": "205/65R16",
+    "size": "205/65R16",
+    "rimSize": 16,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image7.jpeg",
+    "stock": {
+      "longs": 4
+    }
+  },
+  {
+    "id": "lng-8",
+    "brand": "Quality Used Tire",
+    "model": "215/55R16",
+    "size": "215/55R16",
+    "rimSize": 16,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image8.jpeg",
+    "stock": {
+      "longs": 1
+    }
+  },
+  {
+    "id": "lng-9",
+    "brand": "Quality Used Tire",
+    "model": "215/60R16",
+    "size": "215/60R16",
+    "rimSize": 16,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image9.jpeg",
+    "stock": {
+      "longs": 3
+    }
+  },
+  {
+    "id": "lng-10",
+    "brand": "Quality Used Tire",
+    "model": "215/65R16",
+    "size": "215/65R16",
+    "rimSize": 16,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image10.jpeg",
+    "stock": {
+      "longs": 2
+    }
+  },
+  {
+    "id": "lng-11",
+    "brand": "Quality Used Tire",
+    "model": "225/75R16",
+    "size": "225/75R16",
+    "rimSize": 16,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image11.jpeg",
+    "stock": {
+      "longs": 1
+    }
+  },
+  {
+    "id": "lng-12",
+    "brand": "Quality Used Tire",
+    "model": "235/70R16",
+    "size": "235/70R16",
+    "rimSize": 16,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image12.jpeg",
+    "stock": {
+      "longs": 1
+    }
+  },
+  {
+    "id": "lng-13",
+    "brand": "Quality Used Tire",
+    "model": "205/45R17",
+    "size": "205/45R17",
+    "rimSize": 17,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image13.jpeg",
+    "stock": {
+      "longs": 1
+    }
+  },
+  {
+    "id": "lng-14",
+    "brand": "Quality Used Tire",
+    "model": "205/55R17 Set",
+    "size": "205/55R17",
+    "rimSize": 17,
+    "condition": "Like New (90%+ tread)",
+    "price": 200,
+    "image": "/tires/image14.jpeg",
+    "stock": {
+      "longs": 4
+    }
+  },
+  {
+    "id": "lng-15",
+    "brand": "Quality Used Tire",
+    "model": "215/45R17",
+    "size": "215/45R17",
+    "rimSize": 17,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image15.jpeg",
+    "stock": {
+      "longs": 1
+    }
+  },
+  {
+    "id": "lng-16",
+    "brand": "Quality Used Tire",
+    "model": "215/50R17",
+    "size": "215/50R17",
+    "rimSize": 17,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image16.jpeg",
+    "stock": {
+      "longs": 1
+    }
+  },
+  {
+    "id": "lng-17",
+    "brand": "Quality Used Tire",
+    "model": "215/55R17",
+    "size": "215/55R17",
+    "rimSize": 17,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image17.jpeg",
+    "stock": {
+      "longs": 5
+    }
+  },
+  {
+    "id": "lng-18",
+    "brand": "Quality Used Tire",
+    "model": "215/65R17 Pair",
+    "size": "215/65R17",
+    "rimSize": 17,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image18.jpeg",
+    "stock": {
+      "longs": 2
+    }
+  },
+  {
+    "id": "lng-19",
+    "brand": "Quality Used Tire",
+    "model": "225/45R17",
+    "size": "225/45R17",
+    "rimSize": 17,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image19.jpeg",
+    "stock": {
+      "longs": 1
+    }
+  },
+  {
+    "id": "lng-20",
+    "brand": "Quality Used Tire",
+    "model": "225/65R17",
+    "size": "225/65R17",
+    "rimSize": 17,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image20.jpeg",
+    "stock": {
+      "longs": 7
+    }
+  },
+  {
+    "id": "lng-21",
+    "brand": "Quality Used Tire",
+    "model": "235/65R17",
+    "size": "235/65R17",
+    "rimSize": 17,
+    "condition": "Good (70%+ tread)",
+    "price": 40,
+    "image": "/tires/image21.jpeg",
+    "stock": {
+      "longs": 1
+    }
+  },
+  {
+    "id": "lng-22",
+    "brand": "Quality Used Tire",
+    "model": "255/75R17 (2 Sets)",
+    "size": "255/75R17",
+    "rimSize": 17,
+    "condition": "Good (70%+ tread)",
+    "price": 50,
+    "image": "/tires/image22.jpeg",
+    "stock": {
+      "longs": 8
+    }
+  },
+  {
+    "id": "lng-23",
+    "brand": "Quality Used Tire",
+    "model": "225/40R18",
+    "size": "225/40R18",
+    "rimSize": 18,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image23.jpeg",
+    "stock": {
+      "longs": 1
+    }
+  },
+  {
+    "id": "lng-24",
+    "brand": "Quality Used Tire",
+    "model": "225/45R18 Pair",
+    "size": "225/45R18",
+    "rimSize": 18,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image24.jpeg",
+    "stock": {
+      "longs": 2
+    }
+  },
+  {
+    "id": "lng-25",
+    "brand": "Quality Used Tire",
+    "model": "225/50R18 Set",
+    "size": "225/50R18",
+    "rimSize": 18,
+    "condition": "Like New (90%+ tread)",
+    "price": 200,
+    "image": "/tires/image25.jpeg",
+    "stock": {
+      "longs": 4
+    }
+  },
+  {
+    "id": "lng-26",
+    "brand": "Quality Used Tire",
+    "model": "225/55R18 Set",
+    "size": "225/55R18",
+    "rimSize": 18,
+    "condition": "Like New (90%+ tread)",
+    "price": 200,
+    "image": "/tires/image26.jpeg",
+    "stock": {
+      "longs": 4
+    }
+  },
+  {
+    "id": "lng-27",
+    "brand": "Quality Used Tire",
+    "model": "235/40R18",
+    "size": "235/40R18",
+    "rimSize": 18,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image27.jpeg",
+    "stock": {
+      "longs": 1
+    }
+  },
+  {
+    "id": "lng-28",
+    "brand": "Quality Used Tire",
+    "model": "235/45R18 Pair",
+    "size": "235/45R18",
+    "rimSize": 18,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image28.jpeg",
+    "stock": {
+      "longs": 2
+    }
+  },
+  {
+    "id": "lng-29",
+    "brand": "Quality Used Tire",
+    "model": "235/50R18",
+    "size": "235/50R18",
+    "rimSize": 18,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image29.jpeg",
+    "stock": {
+      "longs": 1
+    }
+  },
+  {
+    "id": "lng-30",
+    "brand": "Quality Used Tire",
+    "model": "235/60R18 Set + Single",
+    "size": "235/60R18",
+    "rimSize": 18,
+    "condition": "Good (70%+ tread)",
+    "price": 40,
+    "image": "/tires/image30.jpeg",
+    "stock": {
+      "longs": 5
+    }
+  },
+  {
+    "id": "lng-31",
+    "brand": "Quality Used Tire",
+    "model": "235/65R18 Set",
+    "size": "235/65R18",
+    "rimSize": 18,
+    "condition": "Good (70%+ tread)",
+    "price": 50,
+    "image": "/tires/image31.jpeg",
+    "stock": {
+      "longs": 4
+    }
+  },
+  {
+    "id": "lng-32",
+    "brand": "Quality Used Tire",
+    "model": "245/35R18 Set",
+    "size": "245/35R18",
+    "rimSize": 18,
+    "condition": "Like New (90%+ tread)",
+    "price": 60,
+    "image": "/tires/image32.jpeg",
+    "stock": {
+      "longs": 5
+    }
+  },
+  {
+    "id": "lng-33",
+    "brand": "Quality Used Tire",
+    "model": "245/45R18",
+    "size": "245/45R18",
+    "rimSize": 18,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image33.jpeg",
+    "stock": {
+      "longs": 1
+    }
+  },
+  {
+    "id": "lng-34",
+    "brand": "Quality Used Tire",
+    "model": "255/60R18 Pair",
+    "size": "255/60R18",
+    "rimSize": 18,
+    "condition": "Good (70%+ tread)",
+    "price": 40,
+    "image": "/tires/image34.jpeg",
+    "stock": {
+      "longs": 2
+    }
+  },
+  {
+    "id": "lng-35",
+    "brand": "Quality Used Tire",
+    "model": "265/60R18 Pair",
+    "size": "265/60R18",
+    "rimSize": 18,
+    "condition": "Good (70%+ tread)",
+    "price": 50,
+    "image": "/tires/image35.jpeg",
+    "stock": {
+      "longs": 2
+    }
+  },
+  {
+    "id": "lng-36",
+    "brand": "Quality Used Tire",
+    "model": "275/65R18",
+    "size": "275/65R18",
+    "rimSize": 18,
+    "condition": "Good (70%+ tread)",
+    "price": 50,
+    "image": "/tires/image1.jpeg",
+    "stock": {
+      "longs": 6
+    }
+  },
+  {
+    "id": "lng-37",
+    "brand": "Quality Used Tire",
+    "model": "275/70R18",
+    "size": "275/70R18",
+    "rimSize": 18,
+    "condition": "Good (70%+ tread)",
+    "price": 125,
+    "image": "/tires/image2.jpeg",
+    "stock": {
+      "longs": 6
+    }
+  },
+  {
+    "id": "lng-38",
+    "brand": "Quality Used Tire",
+    "model": "225/55R19 Set",
+    "size": "225/55R19",
+    "rimSize": 19,
+    "condition": "Good (70%+ tread)",
+    "price": 50,
+    "image": "/tires/image3.jpeg",
+    "stock": {
+      "longs": 4
+    }
+  },
+  {
+    "id": "lng-39",
+    "brand": "Quality Used Tire",
+    "model": "235/55R19",
+    "size": "235/55R19",
+    "rimSize": 19,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image4.jpeg",
+    "stock": {
+      "longs": 5
+    }
+  },
+  {
+    "id": "lng-40",
+    "brand": "Quality Used Tire",
+    "model": "235/60R19 Set",
+    "size": "235/60R19",
+    "rimSize": 19,
+    "condition": "Like New (90%+ tread)",
+    "price": 450,
+    "image": "/tires/image5.jpeg",
+    "stock": {
+      "longs": 4
+    }
+  },
+  {
+    "id": "lng-41",
+    "brand": "Quality Used Tire",
+    "model": "245/45R19",
+    "size": "245/45R19",
+    "rimSize": 19,
+    "condition": "Good (70%+ tread)",
+    "price": 55,
+    "image": "/tires/image6.jpeg",
+    "stock": {
+      "longs": 3
+    }
+  },
+  {
+    "id": "lng-42",
+    "brand": "Quality Used Tire",
+    "model": "245/50R19 Set",
+    "size": "245/50R19",
+    "rimSize": 19,
+    "condition": "Like New (90%+ tread)",
+    "price": 450,
+    "image": "/tires/image7.jpeg",
+    "stock": {
+      "longs": 5
+    }
+  },
+  {
+    "id": "lng-43",
+    "brand": "Quality Used Tire",
+    "model": "255/45R19",
+    "size": "255/45R19",
+    "rimSize": 19,
+    "condition": "Good (70%+ tread)",
+    "price": 50,
+    "image": "/tires/image8.jpeg",
+    "stock": {
+      "longs": 7
+    }
+  },
+  {
+    "id": "lng-44",
+    "brand": "Quality Used Tire",
+    "model": "235/55R20 Set",
+    "size": "235/55R20",
+    "rimSize": 20,
+    "condition": "Good (70%+ tread)",
+    "price": 50,
+    "image": "/tires/image9.jpeg",
+    "stock": {
+      "longs": 4
+    }
+  },
+  {
+    "id": "lng-45",
+    "brand": "Quality Used Tire",
+    "model": "245/45R20",
+    "size": "245/45R20",
+    "rimSize": 20,
+    "condition": "Good (70%+ tread)",
+    "price": 50,
+    "image": "/tires/image10.jpeg",
+    "stock": {
+      "longs": 0
+    }
+  },
+  {
+    "id": "lng-46",
+    "brand": "Quality Used Tire",
+    "model": "245/50R20",
+    "size": "245/50R20",
+    "rimSize": 20,
+    "condition": "Good (70%+ tread)",
+    "price": 50,
+    "image": "/tires/image11.jpeg",
+    "stock": {
+      "longs": 3
+    }
+  },
+  {
+    "id": "lng-47",
+    "brand": "Quality Used Tire",
+    "model": "255/45R20",
+    "size": "255/45R20",
+    "rimSize": 20,
+    "condition": "Good (70%+ tread)",
+    "price": 50,
+    "image": "/tires/image12.jpeg",
+    "stock": {
+      "longs": 3
+    }
+  },
+  {
+    "id": "lng-48",
+    "brand": "Quality Used Tire",
+    "model": "255/60R20 Set",
+    "size": "255/60R20",
+    "rimSize": 20,
+    "condition": "Like New (90%+ tread)",
+    "price": 200,
+    "image": "/tires/image13.jpeg",
+    "stock": {
+      "longs": 4
+    }
+  },
+  {
+    "id": "lng-49",
+    "brand": "Quality Used Tire",
+    "model": "265/50R20",
+    "size": "265/50R20",
+    "rimSize": 20,
+    "condition": "Good (70%+ tread)",
+    "price": 40,
+    "image": "/tires/image14.jpeg",
+    "stock": {
+      "longs": 7
+    }
+  },
+  {
+    "id": "lng-50",
+    "brand": "Quality Used Tire",
+    "model": "265/60R20",
+    "size": "265/60R20",
+    "rimSize": 20,
+    "condition": "Good (70%+ tread)",
+    "price": 50,
+    "image": "/tires/image15.jpeg",
+    "stock": {
+      "longs": 8
+    }
+  },
+  {
+    "id": "lng-51",
+    "brand": "Quality Used Tire",
+    "model": "275/55R20",
+    "size": "275/55R20",
+    "rimSize": 20,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image16.jpeg",
+    "stock": {
+      "longs": 11
+    }
+  },
+  {
+    "id": "lng-52",
+    "brand": "Quality Used Tire",
+    "model": "275/60R20",
+    "size": "275/60R20",
+    "rimSize": 20,
+    "condition": "Good (70%+ tread)",
+    "price": 50,
+    "image": "/tires/image17.jpeg",
+    "stock": {
+      "longs": 6
+    }
+  },
+  {
+    "id": "lng-53",
+    "brand": "Quality Used Tire",
+    "model": "275/65R20 Set",
+    "size": "275/65R20",
+    "rimSize": 20,
+    "condition": "Like New (90%+ tread)",
+    "price": 250,
+    "image": "/tires/image18.jpeg",
+    "stock": {
+      "longs": 10
+    }
+  },
+  {
+    "id": "lng-54",
+    "brand": "Quality Used Tire",
+    "model": "285/60R20 Pair",
+    "size": "285/60R20",
+    "rimSize": 20,
+    "condition": "Good (70%+ tread)",
+    "price": 65,
+    "image": "/tires/image19.jpeg",
+    "stock": {
+      "longs": 2
+    }
+  },
+  {
+    "id": "lng-55",
+    "brand": "Quality Used Tire",
+    "model": "285/65R20 Set",
+    "size": "285/65R20",
+    "rimSize": 20,
+    "condition": "Like New (90%+ tread)",
+    "price": 250,
+    "image": "/tires/image20.jpeg",
+    "stock": {
+      "longs": 4
+    }
+  },
+  {
+    "id": "lng-56",
+    "brand": "Quality Used Tire",
+    "model": "295/55R20 Set",
+    "size": "295/55R20",
+    "rimSize": 20,
+    "condition": "Like New (90%+ tread)",
+    "price": 450,
+    "image": "/tires/image21.jpeg",
+    "stock": {
+      "longs": 4
+    }
+  },
+  {
+    "id": "lng-57",
+    "brand": "Quality Used Tire",
+    "model": "35x12.50R20 Single",
+    "size": "35x12.50R20",
+    "rimSize": 20,
+    "condition": "Good (70%+ tread)",
+    "price": 50,
+    "image": "/tires/image22.jpeg",
+    "stock": {
+      "longs": 1
+    }
+  },
+  {
+    "id": "lng-58",
+    "brand": "Quality Used Tire",
+    "model": "275/45R21 Set",
+    "size": "275/45R21",
+    "rimSize": 21,
+    "condition": "Like New (90%+ tread)",
+    "price": 450,
+    "image": "/tires/image23.jpeg",
+    "stock": {
+      "longs": 4
+    }
+  },
+  {
+    "id": "lng-59",
+    "brand": "Quality Used Tire",
+    "model": "285/45R22",
+    "size": "285/45R22",
+    "rimSize": 22,
+    "condition": "Good (70%+ tread)",
+    "price": 50,
+    "image": "/tires/image24.jpeg",
+    "stock": {
+      "longs": 3
+    }
   }
 ];
