@@ -84,7 +84,7 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
           <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
           <Link href="/#inventory" className="hover:text-red-600 transition">Tire Inventory</Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-          <span className="text-slate-900 font-extrabold">{tire.brand} {tire.model} ({tire.size})</span>
+          <span className="text-slate-900 font-extrabold">{tire.size} Used Tire</span>
         </div>
       </div>
 
@@ -105,7 +105,7 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
               <div className="relative h-80 sm:h-96 w-full flex items-center justify-center bg-slate-50 rounded-2xl overflow-hidden border border-slate-100">
                 <img 
                   src={selectedImage || tire.image} 
-                  alt={`${tire.brand} ${tire.model} ${tire.size}`}
+                  alt={`Tire Size ${tire.size}`}
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = '/container_fountain_inn.png';
                   }}
@@ -184,14 +184,6 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
                 {activeTab === 'specs' && (
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs">
                     <div className="bg-slate-50 p-3 rounded-xl">
-                      <span className="text-slate-400 block font-semibold">Brand</span>
-                      <span className="font-extrabold text-slate-900 text-sm">{tire.brand}</span>
-                    </div>
-                    <div className="bg-slate-50 p-3 rounded-xl">
-                      <span className="text-slate-400 block font-semibold">Tire Model</span>
-                      <span className="font-extrabold text-slate-900 text-sm">{tire.model}</span>
-                    </div>
-                    <div className="bg-slate-50 p-3 rounded-xl">
                       <span className="text-slate-400 block font-semibold">Tire Size</span>
                       <span className="font-extrabold text-slate-900 text-sm">{tire.size}</span>
                     </div>
@@ -200,12 +192,20 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
                       <span className="font-extrabold text-slate-900 text-sm">{tire.rimSize} Inches</span>
                     </div>
                     <div className="bg-slate-50 p-3 rounded-xl">
+                      <span className="text-slate-400 block font-semibold">Item Type</span>
+                      <span className="font-extrabold text-slate-900 text-sm">Quality Used Tire</span>
+                    </div>
+                    <div className="bg-slate-50 p-3 rounded-xl">
                       <span className="text-slate-400 block font-semibold">Condition Rating</span>
                       <span className="font-extrabold text-emerald-600 text-sm">{tire.condition}</span>
                     </div>
                     <div className="bg-slate-50 p-3 rounded-xl">
                       <span className="text-slate-400 block font-semibold">Price Per Tire</span>
                       <span className="font-extrabold text-red-600 text-sm">${tire.price}</span>
+                    </div>
+                    <div className="bg-slate-50 p-3 rounded-xl">
+                      <span className="text-slate-400 block font-semibold">Pickup Mode</span>
+                      <span className="font-extrabold text-slate-900 text-sm">Self-Serve Container</span>
                     </div>
                   </div>
                 )}
@@ -261,8 +261,8 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
             <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-xl relative sticky top-24">
               
               <div className="border-b border-slate-100 pb-5">
-                <span className="text-xs font-black text-red-600 tracking-wider uppercase block">{tire.brand}</span>
-                <h2 className="text-2xl sm:text-3xl font-black text-slate-950 uppercase leading-tight mt-0.5">{tire.model}</h2>
+                <span className="text-xs font-black text-red-600 tracking-wider uppercase block">TIRE SIZE</span>
+                <h2 className="text-2xl sm:text-3xl font-black text-slate-950 uppercase leading-tight mt-0.5">{tire.size}</h2>
                 <div className="mt-2 flex items-center gap-3">
                   <span className="text-3xl font-black text-slate-900">${tire.price}</span>
                   <span className="text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md">Starting Price / Tire</span>

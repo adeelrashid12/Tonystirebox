@@ -588,13 +588,13 @@ export default function Home() {
                         className="h-full w-full object-cover rounded-xl shadow-inner group-hover:scale-105 transition duration-300" 
                       />
                       <span className="absolute top-3 right-3 bg-red-600 text-white font-black text-[10px] px-2.5 py-1 rounded-md uppercase tracking-wider shadow">
-                        {tire.brand}
+                        {tire.rimSize}" Rim
                       </span>
                     </div>
 
                     <div className="p-5">
                       <h4 className="text-xl font-black text-slate-950 group-hover:text-red-600 transition">{tire.size}</h4>
-                      <p className="text-xs text-slate-500 font-semibold mt-0.5">{tire.brand} {tire.model}</p>
+                      <p className="text-xs text-slate-500 font-semibold mt-0.5">Quality Used Tire ({tire.rimSize}" Rim)</p>
                       <p className="text-[11px] text-emerald-600 font-bold mt-1">{tire.condition}</p>
 
                       <div className="mt-3 text-lg font-black text-red-600">
