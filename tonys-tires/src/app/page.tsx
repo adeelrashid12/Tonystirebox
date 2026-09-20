@@ -456,22 +456,105 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. Featured Inventory Section (Top 8 Items Preview) */}
+      {/* 5. Featured Inventory Section */}
       <section id="inventory" className="py-14 max-w-7xl mx-auto px-4">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-4">
           <div>
             <span className="text-red-600 font-extrabold text-xs tracking-widest uppercase block mb-1">POPULAR SIZES • IN STOCK</span>
             <h3 className="text-2xl sm:text-3xl font-black uppercase text-slate-950">Featured Inventory</h3>
-            <p className="text-xs text-slate-600 font-semibold mt-1">Here are some of our top requested tire sizes. Real-time availability across container locations.</p>
+            <p className="text-xs text-slate-600 font-semibold mt-1">Select a container location below to view real-time available tire inventory.</p>
           </div>
 
           <Link 
             href="/inventory"
-            className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-black text-xs px-5 py-3 rounded-xl uppercase tracking-wider shadow transition"
+            className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-black text-xs px-5 py-3 rounded-xl uppercase tracking-wider shadow transition shrink-0"
           >
             Browse All Inventory ({filteredTires.length} sizes) <ArrowRight className="w-4 h-4 text-red-500" />
           </Link>
         </div>
+
+        {/* --- Location Filter Tabs --- */}
+        <div className="mb-4">
+          <div className="flex flex-wrap items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+            <button
+              onClick={() => setSelectedLocation('all')}
+              className={`px-4 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-sm ${
+                selectedLocation === 'all'
+                  ? 'bg-red-600 text-white shadow-md shadow-red-900/30 ring-2 ring-red-500'
+                  : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
+              }`}
+            >
+              <MapPin className="w-3.5 h-3.5" />
+              All Hubs ({inventory.length})
+            </button>
+
+            {LOCATIONS.map(loc => {
+              const count = inventory.filter(t => (t.stock[loc.id] || 0) > 0).length;
+              const isSelected = selectedLocation === loc.id;
+              return (
+                <button
+                  key={loc.id}
+                  onClick={() => setSelectedLocation(loc.id)}
+                  className={`px-4 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-sm ${
+                    isSelected
+                      ? 'bg-red-600 text-white shadow-md shadow-red-900/30 ring-2 ring-red-500'
+                      : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200 hover:border-slate-300'
+                  }`}
+                >
+                  <span>{loc.name}</span>
+                  <span className={`px-2 py-0.5 rounded-md text-[10px] font-black ${
+                    isSelected ? 'bg-red-800 text-white' : 'bg-slate-100 text-slate-600'
+                  }`}>
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* --- Rim Size Filter Pills --- */}
+        <div className="mb-6 flex flex-wrap items-center gap-1.5 bg-slate-200/70 p-2 rounded-2xl border border-slate-300">
+          <span className="text-[11px] font-extrabold text-slate-700 uppercase px-2">Filter Rim:</span>
+          {(['all', 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 24] as const).map(rim => {
+            const isSelected = selectedRimSize === rim;
+            return (
+              <button
+                key={String(rim)}
+                onClick={() => setSelectedRimSize(rim)}
+                className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all ${
+                  isSelected
+                    ? 'bg-slate-900 text-white shadow-md ring-1 ring-slate-700'
+                    : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200'
+                }`}
+              >
+                {rim === 'all' ? 'All Rims' : `${rim}"`}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Selected Location Banner Notification */}
+        {selectedLocation !== 'all' && (
+          <div className="mb-6 bg-red-50 border border-red-200 p-4 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-sm">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-red-600 text-white flex items-center justify-center font-black shadow shrink-0">
+                <MapPin className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="font-black text-slate-950 text-sm uppercase">
+                  Viewing {LOCATIONS.find(l => l.id === selectedLocation)?.name} Container Inventory
+                </h4>
+                <p className="text-xs text-slate-600 font-semibold">
+                  {LOCATIONS.find(l => l.id === selectedLocation)?.address} • Open 8:00 AM - 8:00 PM
+                </p>
+              </div>
+            </div>
+            <span className="bg-red-600 text-white font-black text-xs px-3 py-1.5 rounded-xl uppercase self-start sm:self-auto">
+              {filteredTires.length} Tire Sizes Available
+            </span>
+          </div>
+        )}
 
         {/* Inventory Cards Grid (Limit 8 on Homepage) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
