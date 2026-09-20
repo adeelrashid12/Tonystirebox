@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { LOCATIONS, INITIAL_TIRES } from '@/data/inventory';
+import { LOCATIONS, INITIAL_TIRES, TireItem } from '@/data/inventory';
 import { 
   MapPin, 
   ShoppingCart, 
@@ -17,7 +17,21 @@ import {
 } from 'lucide-react';
 
 export default function TireDetailClient({ tireId }: { tireId: string }) {
-  const tire = INITIAL_TIRES.find(t => t.id === tireId) || INITIAL_TIRES[0];
+  const [tire, setTire] = useState<TireItem>(() => {
+    return INITIAL_TIRES.find(t => t.id === tireId) || INITIAL_TIRES[0];
+  });
+
+  useEffect(() => {
+    try {
+      const savedInv = localStorage.getItem('tony_admin_inventory');
+      if (savedInv) {
+        const parsed: TireItem[] = JSON.parse(savedInv);
+        const found = parsed.find(t => t.id === tireId);
+        if (found) setTire(found);
+      }
+    } catch (e) {}
+  }, [tireId]);
+
   const validImages = (tire.images && tire.images.length > 0 ? tire.images : [tire.image]).filter(Boolean);
 
   // Auto-select the first location that actually has stock available for this tire

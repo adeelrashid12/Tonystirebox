@@ -33,9 +33,17 @@ export default function Home() {
   const [customerName, setCustomerName] = useState<string>('');
   const [lastOrderDetails, setLastOrderDetails] = useState<{ id: string; lockbox: string; phone: string; total: number } | null>(null);
 
-  // Auto-detect visitor location by IP on client side
+  // Auto-detect visitor location by IP on client side & Sync Admin Inventory
   useEffect(() => {
     try {
+      const savedInv = localStorage.getItem('tony_admin_inventory');
+      if (savedInv) {
+        const parsed = JSON.parse(savedInv);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setInventory(parsed);
+        }
+      }
+
       const savedLoc = localStorage.getItem('tony_selected_location');
       if (savedLoc) {
         setSelectedLocation(savedLoc);
@@ -113,7 +121,7 @@ export default function Home() {
     if (!customerPhone || cart.length === 0) return;
 
     // Deduct stock for each cart item
-    setInventory(prev => prev.map(tire => {
+    const updatedInventory = inventory.map(tire => {
       const cartItemsForTire = cart.filter(item => item.tire.id === tire.id);
       if (cartItemsForTire.length === 0) return tire;
 
@@ -124,10 +132,40 @@ export default function Home() {
       });
 
       return { ...tire, stock: newStock };
-    }));
+    });
+
+    setInventory(updatedInventory);
+
+    // Save updated inventory to localStorage
+    try {
+      localStorage.setItem('tony_admin_inventory', JSON.stringify(updatedInventory));
+    } catch (e) {}
 
     const orderId = `ORD-${Math.floor(1000 + Math.random() * 9000)}`;
     const lockboxCode = `${Math.floor(1000 + Math.random() * 9000)}`;
+
+    // Create new order record for Admin
+    const firstCartItem = cart[0];
+    const targetLocName = LOCATIONS.find(l => l.id === firstCartItem.locationId)?.name || 'Greer';
+
+    const newOrder = {
+      id: orderId,
+      customerPhone,
+      tireSize: firstCartItem.tire.size,
+      brand: firstCartItem.tire.brand,
+      quantity: firstCartItem.qty,
+      totalPrice: totalCartPrice,
+      locationName: `${targetLocName} Container`,
+      lockboxCode,
+      status: 'Pending Pickup' as const,
+      createdAt: 'Just now'
+    };
+
+    try {
+      const existingOrdersRaw = localStorage.getItem('tony_admin_orders');
+      const existingOrders = existingOrdersRaw ? JSON.parse(existingOrdersRaw) : [];
+      localStorage.setItem('tony_admin_orders', JSON.stringify([newOrder, ...existingOrders]));
+    } catch (e) {}
 
     setLastOrderDetails({
       id: orderId,
