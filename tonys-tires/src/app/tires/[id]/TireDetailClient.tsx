@@ -44,6 +44,15 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
     } catch (e) {}
   }, [targetId]);
 
+  useEffect(() => {
+    const imgs = (tire.images && tire.images.length > 0 ? tire.images : [tire.image]).filter(Boolean);
+    if (imgs[0]) {
+      setSelectedImage(imgs[0]);
+    }
+    const firstStockLoc = Object.keys(tire.stock).find(locId => (tire.stock[locId] || 0) > 0) || 'columbia';
+    setSelectedLoc(firstStockLoc);
+  }, [tire]);
+
   const validImages = (tire.images && tire.images.length > 0 ? tire.images : [tire.image]).filter(Boolean);
 
   // Auto-select the first location that actually has stock available for this tire
