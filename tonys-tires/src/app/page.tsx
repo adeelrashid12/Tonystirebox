@@ -468,12 +468,20 @@ export default function Home() {
         {/* Inventory Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {filteredTires.map(tire => {
-            // Get available count for active location or sum
+            // Get available count for active location or sum across all
             const activeStockCount = selectedLocation === 'all' 
               ? Object.values(tire.stock).reduce((a, b) => a + b, 0)
               : (tire.stock[selectedLocation] || 0);
 
-            const sampleLocName = selectedLocation === 'all' ? 'Greer / Greenville' : LOCATIONS.find(l=>l.id===selectedLocation)?.name;
+            // Get names of locations that have stock for this tire
+            const activeLocationNames = Object.entries(tire.stock)
+              .filter(([_, count]) => count > 0)
+              .map(([locId]) => LOCATIONS.find(l => l.id === locId)?.name)
+              .filter(Boolean);
+
+            const displayLocationText = selectedLocation === 'all' 
+              ? (activeLocationNames.slice(0, 2).join(' / ') + (activeLocationNames.length > 2 ? ` +${activeLocationNames.length - 2} more` : ''))
+              : LOCATIONS.find(l => l.id === selectedLocation)?.name;
 
             return (
               <div key={tire.id} className="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden flex flex-col justify-between hover:shadow-xl transition group">
@@ -504,10 +512,10 @@ export default function Home() {
 
                       <div className="mt-3 pt-3 border-t border-slate-100 text-xs font-semibold text-slate-600 space-y-1">
                         <div className="flex items-center gap-1">
-                          <MapPin className="w-3.5 h-3.5 text-red-500" /> {sampleLocName}
+                          <MapPin className="w-3.5 h-3.5 text-red-500 shrink-0" /> <span className="truncate">{displayLocationText}</span>
                         </div>
                         <div className="text-[11px] text-emerald-600 font-bold">
-                          {activeStockCount} available
+                          {activeStockCount} available total
                         </div>
                       </div>
                     </div>
