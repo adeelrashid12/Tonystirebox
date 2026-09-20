@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { LOCATIONS, INITIAL_TIRES, TireItem } from '@/data/inventory';
@@ -21,6 +21,8 @@ import {
 
 export default function Home() {
   const [selectedLocation, setSelectedLocation] = useState<string>('all');
+  const [userDetectedCity, setUserDetectedCity] = useState<string | null>(null);
+  const [isGeoDetected, setIsGeoDetected] = useState<boolean>(false);
   const [selectedRimSize, setSelectedRimSize] = useState<number | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [inventory, setInventory] = useState<TireItem[]>(INITIAL_TIRES);
@@ -30,6 +32,51 @@ export default function Home() {
   const [customerPhone, setCustomerPhone] = useState<string>('');
   const [customerName, setCustomerName] = useState<string>('');
   const [lastOrderDetails, setLastOrderDetails] = useState<{ id: string; lockbox: string; phone: string; total: number } | null>(null);
+
+  // Auto-detect visitor location by IP on client side
+  useEffect(() => {
+    try {
+      const savedLoc = localStorage.getItem('tony_selected_location');
+      if (savedLoc) {
+        setSelectedLocation(savedLoc);
+        return;
+      }
+    } catch (e) {}
+
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(data => {
+        if (!data || !data.city) return;
+        const city = String(data.city).toLowerCase();
+        setUserDetectedCity(data.city);
+
+        let matchedHub: string | null = null;
+        if (city.includes('greer')) matchedHub = 'greer';
+        else if (city.includes('greenville')) matchedHub = 'greenville';
+        else if (city.includes('aiken')) matchedHub = 'aiken';
+        else if (city.includes('fountain') || city.includes('simpsonville') || city.includes('mauldin')) matchedHub = 'fountain-inn';
+        else if (city.includes('little river') || city.includes('myrtle')) matchedHub = 'little-river';
+        else if (city.includes('longs')) matchedHub = 'longs';
+        else if (city.includes('columbia') || city.includes('lexington')) matchedHub = 'columbia';
+        else if (city.includes('hickory')) matchedHub = 'hickory';
+
+        if (matchedHub) {
+          setSelectedLocation(matchedHub);
+          setIsGeoDetected(true);
+        }
+      })
+      .catch(() => {
+        // Fallback silently
+      });
+  }, []);
+
+  const changeLocation = (locId: string) => {
+    setSelectedLocation(locId);
+    setIsGeoDetected(false);
+    try {
+      localStorage.setItem('tony_selected_location', locId);
+    } catch (e) {}
+  };
 
   // Filter tires based on search & location
   const filteredTires = inventory.filter(tire => {
@@ -218,7 +265,7 @@ export default function Home() {
                       <MapPin className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
                       <select
                         value={selectedLocation}
-                        onChange={(e) => setSelectedLocation(e.target.value)}
+                        onChange={(e) => changeLocation(e.target.value)}
                         className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-7 py-3 text-xs sm:text-sm text-slate-900 font-bold focus:outline-none focus:border-red-600 focus:bg-white cursor-pointer appearance-none"
                       >
                         <option value="all">All Locations (8 SC & NC Hubs)</option>
@@ -477,7 +524,7 @@ export default function Home() {
         <div className="mb-4">
           <div className="flex flex-wrap items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
             <button
-              onClick={() => setSelectedLocation('all')}
+              onClick={() => changeLocation('all')}
               className={`px-4 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-sm ${
                 selectedLocation === 'all'
                   ? 'bg-red-600 text-white shadow-md shadow-red-900/30 ring-2 ring-red-500'
@@ -494,7 +541,7 @@ export default function Home() {
               return (
                 <button
                   key={loc.id}
-                  onClick={() => setSelectedLocation(loc.id)}
+                  onClick={() => changeLocation(loc.id)}
                   className={`px-4 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-sm ${
                     isSelected
                       ? 'bg-red-600 text-white shadow-md shadow-red-900/30 ring-2 ring-red-500'
@@ -542,10 +589,17 @@ export default function Home() {
                 <MapPin className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="font-black text-slate-950 text-sm uppercase">
-                  Viewing {LOCATIONS.find(l => l.id === selectedLocation)?.name} Container Inventory
-                </h4>
-                <p className="text-xs text-slate-600 font-semibold">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h4 className="font-black text-slate-950 text-sm uppercase">
+                    Viewing {LOCATIONS.find(l => l.id === selectedLocation)?.name} Container Inventory
+                  </h4>
+                  {isGeoDetected && userDetectedCity && (
+                    <span className="bg-emerald-600 text-white font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow animate-pulse">
+                      📍 Auto-Detected Near You ({userDetectedCity})
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs text-slate-600 font-semibold mt-0.5">
                   {LOCATIONS.find(l => l.id === selectedLocation)?.address} • Open 8:00 AM - 8:00 PM
                 </p>
               </div>
