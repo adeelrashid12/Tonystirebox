@@ -33,6 +33,11 @@ export default function Home() {
   const [customerName, setCustomerName] = useState<string>('');
   const [lastOrderDetails, setLastOrderDetails] = useState<{ id: string; lockbox: string; phone: string; total: number } | null>(null);
 
+  // Tire Specs Modal State
+  const [selectedTireModal, setSelectedTireModal] = useState<TireItem | null>(null);
+  const [selectedModalLoc, setSelectedModalLoc] = useState<string>('greer');
+  const [modalQuantity, setModalQuantity] = useState<number>(1);
+
   // Auto-detect visitor location by IP on client side & Sync Admin Inventory
   useEffect(() => {
     try {
@@ -41,6 +46,22 @@ export default function Home() {
         const parsed = JSON.parse(savedInv);
         if (Array.isArray(parsed) && parsed.length > 0) {
           setInventory(parsed);
+        }
+      }
+
+      // Check if URL specifies a tire ID (e.g. /tires/t-1789886897789)
+      if (typeof window !== 'undefined') {
+        const path = window.location.pathname;
+        const match = path.match(/\/tires\/([^\/]+)/);
+        if (match && match[1]) {
+          const tireId = match[1];
+          const allInv: TireItem[] = savedInv ? JSON.parse(savedInv) : INITIAL_TIRES;
+          const found = allInv.find(t => t.id === tireId);
+          if (found) {
+            setSelectedTireModal(found);
+            const firstLoc = Object.keys(found.stock).find(locId => (found.stock[locId] || 0) > 0) || 'greer';
+            setSelectedModalLoc(firstLoc);
+          }
         }
       }
 
@@ -669,7 +690,15 @@ export default function Home() {
             return (
               <div key={tire.id} className="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden flex flex-col justify-between hover:shadow-xl transition group">
                 <div>
-                  <Link href={`/tires/${tire.id}`} className="block">
+                  <div 
+                    onClick={() => {
+                      setSelectedTireModal(tire);
+                      const firstStockLoc = Object.keys(tire.stock).find(locId => (tire.stock[locId] || 0) > 0) || 'greer';
+                      setSelectedModalLoc(selectedLocation === 'all' ? firstStockLoc : selectedLocation);
+                      setModalQuantity(1);
+                    }} 
+                    className="block cursor-pointer"
+                  >
                     <div className="bg-slate-50 p-4 flex items-center justify-center border-b border-slate-100 relative h-48 overflow-hidden">
                       <img 
                         src={tire.image} 
@@ -702,19 +731,24 @@ export default function Home() {
                         </div>
                       </div>
                     </div>
-                  </Link>
+                  </div>
                 </div>
 
                 <div className="p-5 pt-0 grid grid-cols-2 gap-2">
-                  <Link 
-                    href={`/tires/${tire.id}`}
-                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black text-[11px] py-2.5 rounded-xl uppercase shadow transition text-center flex items-center justify-center"
+                  <button 
+                    onClick={() => {
+                      setSelectedTireModal(tire);
+                      const firstStockLoc = Object.keys(tire.stock).find(locId => (tire.stock[locId] || 0) > 0) || 'greer';
+                      setSelectedModalLoc(selectedLocation === 'all' ? firstStockLoc : selectedLocation);
+                      setModalQuantity(1);
+                    }}
+                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black text-[11px] py-2.5 rounded-xl uppercase shadow transition text-center flex items-center justify-center cursor-pointer"
                   >
                     View Specs
-                  </Link>
+                  </button>
                   <button 
                     onClick={() => addToCart(tire)}
-                    className="w-full bg-red-600 hover:bg-red-700 text-white font-black text-[11px] py-2.5 rounded-xl uppercase shadow transition"
+                    className="w-full bg-red-600 hover:bg-red-700 text-white font-black text-[11px] py-2.5 rounded-xl uppercase shadow transition cursor-pointer"
                   >
                     Reserve Now
                   </button>
@@ -798,6 +832,128 @@ export default function Home() {
           </button>
         </div>
       </footer>
+
+      {/* Tire Details & Specs Modal */}
+      {selectedTireModal && (
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative text-slate-900 border border-slate-200 my-8">
+            <button 
+              onClick={() => setSelectedTireModal(null)}
+              className="absolute top-4 right-4 bg-slate-100 hover:bg-slate-200 text-slate-700 w-9 h-9 rounded-full flex items-center justify-center text-lg font-bold transition z-10 cursor-pointer"
+            >
+              ✕
+            </button>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+              {/* Product Image */}
+              <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 relative flex items-center justify-center h-64 overflow-hidden">
+                <img 
+                  src={selectedTireModal.image} 
+                  alt={selectedTireModal.size}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/real_tire_photo.jpg';
+                  }}
+                  className="max-h-full max-w-full object-contain p-2" 
+                />
+                <span className="absolute top-3 left-3 bg-red-600 text-white font-black text-xs px-3 py-1 rounded-md uppercase tracking-wider shadow">
+                  {selectedTireModal.condition}
+                </span>
+                <span className="absolute bottom-3 right-3 bg-slate-900 text-white font-black text-xs px-3 py-1 rounded-md uppercase tracking-wider shadow">
+                  {selectedTireModal.rimSize}" Rim
+                </span>
+              </div>
+
+              {/* Product Info & Reservation */}
+              <div className="space-y-4">
+                <div>
+                  <span className="text-xs font-black text-red-600 uppercase tracking-widest block">TIRE SPECIFICATIONS</span>
+                  <h3 className="text-3xl font-black text-slate-950 uppercase leading-tight mt-0.5">{selectedTireModal.size}</h3>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-2xl font-black text-red-600">${selectedTireModal.price}</span>
+                    <span className="text-xs text-slate-500 font-semibold">per tire</span>
+                  </div>
+                </div>
+
+                {/* Location Selection */}
+                <div className="space-y-1.5 pt-2 border-t border-slate-100">
+                  <label className="block text-xs font-black uppercase text-slate-900">Select Container Hub:</label>
+                  <select
+                    value={selectedModalLoc}
+                    onChange={(e) => setSelectedModalLoc(e.target.value)}
+                    className="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-red-600 cursor-pointer"
+                  >
+                    {LOCATIONS.map(loc => {
+                      const count = selectedTireModal.stock[loc.id] || 0;
+                      return (
+                        <option key={loc.id} value={loc.id}>
+                          {loc.name} Container ({count > 0 ? `${count} in stock` : 'Out of stock'})
+                        </option>
+                      );
+                    })}
+                  </select>
+                  <div className="text-[11px] text-slate-500 font-semibold flex items-center gap-1 pt-1">
+                    <MapPin className="w-3.5 h-3.5 text-red-500 shrink-0" />
+                    <span>{LOCATIONS.find(l => l.id === selectedModalLoc)?.address}</span>
+                  </div>
+                </div>
+
+                {/* Quantity Controls */}
+                <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+                  <span className="text-xs font-black uppercase text-slate-900">Quantity:</span>
+                  <div className="flex items-center border border-slate-300 rounded-xl overflow-hidden bg-slate-50">
+                    <button 
+                      onClick={() => setModalQuantity(Math.max(1, modalQuantity - 1))}
+                      className="px-3 py-1 font-black text-slate-700 hover:bg-slate-200 text-xs cursor-pointer"
+                    >
+                      -
+                    </button>
+                    <span className="px-4 py-1 font-extrabold text-slate-900 text-xs bg-white border-x border-slate-200">{modalQuantity}</span>
+                    <button 
+                      onClick={() => {
+                        const stock = selectedTireModal.stock[selectedModalLoc] || 1;
+                        setModalQuantity(Math.min(stock, modalQuantity + 1));
+                      }}
+                      className="px-3 py-1 font-black text-slate-700 hover:bg-slate-200 text-xs cursor-pointer"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                {/* Total & Action Button */}
+                <div className="pt-3 space-y-2">
+                  <button
+                    onClick={() => {
+                      const stockCount = selectedTireModal.stock[selectedModalLoc] || 0;
+                      if (stockCount <= 0) return;
+                      setCart([{ tire: selectedTireModal, locationId: selectedModalLoc, qty: modalQuantity }]);
+                      setIsCheckoutOpen(true);
+                      setSelectedTireModal(null);
+                    }}
+                    disabled={(selectedTireModal.stock[selectedModalLoc] || 0) <= 0}
+                    className={`w-full py-3.5 rounded-xl font-black text-xs uppercase tracking-wider shadow-lg transition cursor-pointer ${
+                      (selectedTireModal.stock[selectedModalLoc] || 0) > 0
+                        ? 'bg-red-600 hover:bg-red-700 text-white'
+                        : 'bg-slate-300 text-slate-500 cursor-not-allowed'
+                    }`}
+                  >
+                    {(selectedTireModal.stock[selectedModalLoc] || 0) > 0 
+                      ? `Reserve & Get Lockbox Code ($${selectedTireModal.price * modalQuantity})` 
+                      : 'Out of Stock at this Location'}
+                  </button>
+
+                  <a 
+                    href="sms:8643955393"
+                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl block text-center text-xs uppercase transition border border-slate-700"
+                  >
+                    Text "TIRES" to 864-395-5393
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Cart Checkout Modal */}
       {isCheckoutOpen && (

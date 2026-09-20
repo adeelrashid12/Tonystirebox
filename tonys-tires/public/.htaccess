@@ -5,12 +5,22 @@ DirectoryIndex index.html
   RewriteEngine On
   RewriteBase /
 
-  # Serve index.html for directory requests
+  # 1. Serve index.html for existing directory requests
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteCond %{REQUEST_FILENAME}/index.html -f
   RewriteRule ^(.*)$ $1/index.html [L]
 
-  # Fallback for HTML export pages
+  # 2. Serve existing physical files directly (images, css, js)
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+
+  # 3. Serve existing .html files directly (e.g. admin.html)
   RewriteCond %{REQUEST_FILENAME}.html -f
   RewriteRule ^(.*)$ $1.html [L]
+
+  # 4. Fallback for dynamic client routes (like /tires/t-1789886897789)
+  # Rewrite non-existent pages/folders back to /index.html so SPA router loads smoothly
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)$ /index.html [L]
 </IfModule>
