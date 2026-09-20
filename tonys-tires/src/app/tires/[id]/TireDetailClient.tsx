@@ -20,7 +20,9 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
   const tire = INITIAL_TIRES.find(t => t.id === tireId) || INITIAL_TIRES[0];
   const validImages = (tire.images && tire.images.length > 0 ? tire.images : [tire.image]).filter(Boolean);
 
-  const [selectedLoc, setSelectedLoc] = useState<string>('greer');
+  // Auto-select the first location that actually has stock available for this tire
+  const defaultLoc = Object.keys(tire.stock).find(locId => (tire.stock[locId] || 0) > 0) || 'columbia';
+  const [selectedLoc, setSelectedLoc] = useState<string>(defaultLoc);
   const [quantity, setQuantity] = useState<number>(1);
   const [isAddedToCart, setIsAddedToCart] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<'specs' | 'locations' | 'pickup'>('specs');
