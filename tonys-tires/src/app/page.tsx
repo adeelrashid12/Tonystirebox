@@ -456,18 +456,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. Featured Inventory Section */}
+      {/* 5. Featured Inventory Section (Top 8 Items Preview) */}
       <section id="inventory" className="py-14 max-w-7xl mx-auto px-4">
-        <div className="flex justify-between items-end mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
           <div>
+            <span className="text-red-600 font-extrabold text-xs tracking-widest uppercase block mb-1">POPULAR SIZES • IN STOCK</span>
             <h3 className="text-2xl sm:text-3xl font-black uppercase text-slate-950">Featured Inventory</h3>
-            <p className="text-xs text-slate-600 font-semibold mt-1">Here are some of our current tire sizes. Real-time availability across all locations.</p>
+            <p className="text-xs text-slate-600 font-semibold mt-1">Here are some of our top requested tire sizes. Real-time availability across container locations.</p>
           </div>
+
+          <Link 
+            href="/inventory"
+            className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-black text-xs px-5 py-3 rounded-xl uppercase tracking-wider shadow transition"
+          >
+            Browse All Inventory ({filteredTires.length} sizes) <ArrowRight className="w-4 h-4 text-red-500" />
+          </Link>
         </div>
 
-        {/* Inventory Cards Grid */}
+        {/* Inventory Cards Grid (Limit 8 on Homepage) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredTires.map(tire => {
+          {filteredTires.slice(0, 8).map(tire => {
             // Get available count for active location or sum across all
             const activeStockCount = selectedLocation === 'all' 
               ? Object.values(tire.stock).reduce((a, b) => a + b, 0)
@@ -539,6 +547,16 @@ export default function Home() {
               </div>
             );
           })}
+        </div>
+
+        {/* View All Inventory Call To Action Bar */}
+        <div className="mt-10 text-center">
+          <Link 
+            href="/inventory"
+            className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-black text-sm px-8 py-4 rounded-2xl uppercase tracking-wider shadow-xl transition transform hover:scale-105"
+          >
+            View All Inventory Catalog ({filteredTires.length} sizes in stock) <ArrowRight className="w-5 h-5" />
+          </Link>
         </div>
       </section>
 
