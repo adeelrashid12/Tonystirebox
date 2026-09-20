@@ -1319,5 +1319,811 @@ export const INITIAL_TIRES: TireItem[] = [
     "stock": {
       "fountain-inn": 4
     }
+  },
+  {
+    "id": "grr-1",
+    "brand": "Michelin",
+    "model": "Touring Radial",
+    "size": "175/65R14",
+    "rimSize": 14,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image1.jpeg",
+    "stock": {
+      "greer": 8
+    }
+  },
+  {
+    "id": "grr-2",
+    "brand": "Goodyear",
+    "model": "Assurance All-Season",
+    "size": "185/65R15",
+    "rimSize": 15,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image2.jpeg",
+    "stock": {
+      "greer": 13
+    }
+  },
+  {
+    "id": "grr-3",
+    "brand": "Bridgestone",
+    "model": "Ecopia EP422",
+    "size": "195/55R15",
+    "rimSize": 15,
+    "condition": "Like New (90%+ tread)",
+    "price": 45,
+    "image": "/tires/image3.jpeg",
+    "stock": {
+      "greer": 8
+    }
+  },
+  {
+    "id": "grr-4",
+    "brand": "Continental",
+    "model": "ProContact TX",
+    "size": "195/60R15",
+    "rimSize": 15,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image4.jpeg",
+    "stock": {
+      "greer": 7
+    }
+  },
+  {
+    "id": "grr-5",
+    "brand": "Goodyear",
+    "model": "Assurance MaxLife",
+    "size": "195/65R15",
+    "rimSize": 15,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image5.jpeg",
+    "stock": {
+      "greer": 7
+    }
+  },
+  {
+    "id": "grr-6",
+    "brand": "Goodyear",
+    "model": "Assurance (Clearance Single)",
+    "size": "195/65R15",
+    "rimSize": 15,
+    "condition": "Good (70%+ tread)",
+    "price": 35,
+    "image": "/tires/image6.jpeg",
+    "stock": {
+      "greer": 1
+    }
+  },
+  {
+    "id": "grr-7",
+    "brand": "Pirelli",
+    "model": "P4 Four Seasons",
+    "size": "205/65R15",
+    "rimSize": 15,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image7.jpeg",
+    "stock": {
+      "greer": 7
+    }
+  },
+  {
+    "id": "grr-8",
+    "brand": "Michelin",
+    "model": "Energy Saver A/S",
+    "size": "205/50R16",
+    "rimSize": 16,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image8.jpeg",
+    "stock": {
+      "greer": 1
+    }
+  },
+  {
+    "id": "grr-9",
+    "brand": "Continental",
+    "model": "TrueContact Tour",
+    "size": "205/55R16",
+    "rimSize": 16,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image9.jpeg",
+    "stock": {
+      "greer": 6
+    }
+  },
+  {
+    "id": "grr-10",
+    "brand": "Hankook",
+    "model": "Kinergy GT",
+    "size": "205/60R16",
+    "rimSize": 16,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image10.jpeg",
+    "stock": {
+      "greer": 7
+    }
+  },
+  {
+    "id": "grr-11",
+    "brand": "Yokohama",
+    "model": "Avid Ascend LX",
+    "size": "205/65R16",
+    "rimSize": 16,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image11.jpeg",
+    "stock": {
+      "greer": 8
+    }
+  },
+  {
+    "id": "grr-12",
+    "brand": "Bridgestone",
+    "model": "Turanza QuietTrack (Single)",
+    "size": "215/55R16",
+    "rimSize": 16,
+    "condition": "Good (70%+ tread)",
+    "price": 35,
+    "image": "/tires/image12.jpeg",
+    "stock": {
+      "greer": 1
+    }
+  },
+  {
+    "id": "grr-13",
+    "brand": "Toyo",
+    "model": "Extensa A/S II",
+    "size": "215/60R16",
+    "rimSize": 16,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image13.jpeg",
+    "stock": {
+      "greer": 8
+    }
+  },
+  {
+    "id": "grr-14",
+    "brand": "Michelin",
+    "model": "Defender2",
+    "size": "215/65R16",
+    "rimSize": 16,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image14.jpeg",
+    "stock": {
+      "greer": 5
+    }
+  },
+  {
+    "id": "grr-15",
+    "brand": "Goodyear",
+    "model": "Wrangler ST",
+    "size": "235/65R16",
+    "rimSize": 16,
+    "condition": "Like New (90%+ tread)",
+    "price": 50,
+    "image": "/tires/image15.jpeg",
+    "stock": {
+      "greer": 6
+    }
+  },
+  {
+    "id": "grr-16",
+    "brand": "Pirelli",
+    "model": "Cinturato P7",
+    "size": "205/45R17",
+    "rimSize": 17,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image16.jpeg",
+    "stock": {
+      "greer": 3
+    }
+  },
+  {
+    "id": "grr-17",
+    "brand": "Michelin",
+    "model": "Primacy MXM4 (Single)",
+    "size": "215/55R17",
+    "rimSize": 17,
+    "condition": "Good (70%+ tread)",
+    "price": 35,
+    "image": "/tires/image17.jpeg",
+    "stock": {
+      "greer": 1
+    }
+  },
+  {
+    "id": "grr-18",
+    "brand": "Hankook",
+    "model": "Ventus V2 Concept2",
+    "size": "225/45R17",
+    "rimSize": 17,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image18.jpeg",
+    "stock": {
+      "greer": 10
+    }
+  },
+  {
+    "id": "grr-19",
+    "brand": "BFGoodrich",
+    "model": "g-Force COMP-2 A/S",
+    "size": "225/55R17",
+    "rimSize": 17,
+    "condition": "Good (70%+ tread)",
+    "price": 35,
+    "image": "/tires/image19.jpeg",
+    "stock": {
+      "greer": 1
+    }
+  },
+  {
+    "id": "grr-20",
+    "brand": "Yokohama",
+    "model": "Geolandar A/T (Set of 4 + 1)",
+    "size": "225/60R17",
+    "rimSize": 17,
+    "condition": "Good (70%+ tread)",
+    "price": 100,
+    "image": "/tires/image20.jpeg",
+    "stock": {
+      "greer": 5
+    }
+  },
+  {
+    "id": "grr-21",
+    "brand": "Goodyear",
+    "model": "Assurance Pair",
+    "size": "225/65R17",
+    "rimSize": 17,
+    "condition": "Good (70%+ tread)",
+    "price": 35,
+    "image": "/tires/image21.jpeg",
+    "stock": {
+      "greer": 2
+    }
+  },
+  {
+    "id": "grr-22",
+    "brand": "Firestone",
+    "model": "Transforce HT Heavy Duty",
+    "size": "235/80R17",
+    "rimSize": 17,
+    "condition": "Good (70%+ tread)",
+    "price": 50,
+    "image": "/tires/image22.jpeg",
+    "stock": {
+      "greer": 10
+    }
+  },
+  {
+    "id": "grr-23",
+    "brand": "Goodyear",
+    "model": "Wrangler SR-A Pair",
+    "size": "245/65R17",
+    "rimSize": 17,
+    "condition": "Good (70%+ tread)",
+    "price": 35,
+    "image": "/tires/image23.jpeg",
+    "stock": {
+      "greer": 2
+    }
+  },
+  {
+    "id": "grr-24",
+    "brand": "BFGoodrich",
+    "model": "All-Terrain KO2 (3 Sets)",
+    "size": "265/70R17",
+    "rimSize": 17,
+    "condition": "Like New (90%+ tread)",
+    "price": 250,
+    "image": "/tires/image24.jpeg",
+    "stock": {
+      "greer": 12
+    }
+  },
+  {
+    "id": "grr-25",
+    "brand": "Falken",
+    "model": "Wildpeak A/T3W Set",
+    "size": "285/70R17",
+    "rimSize": 17,
+    "condition": "Good (70%+ tread)",
+    "price": 175,
+    "image": "/tires/image25.jpeg",
+    "stock": {
+      "greer": 4
+    }
+  },
+  {
+    "id": "grr-26",
+    "brand": "Nitto",
+    "model": "Ridge Grappler Set",
+    "size": "295/70R17",
+    "rimSize": 17,
+    "condition": "Like New (90%+ tread)",
+    "price": 375,
+    "image": "/tires/image26.jpeg",
+    "stock": {
+      "greer": 4
+    }
+  },
+  {
+    "id": "grr-27",
+    "brand": "Toyo",
+    "model": "Open Country M/T Pair",
+    "size": "35x12.50R17",
+    "rimSize": 17,
+    "condition": "Like New (90%+ tread)",
+    "price": 150,
+    "image": "/tires/image27.jpeg",
+    "stock": {
+      "greer": 2
+    }
+  },
+  {
+    "id": "grr-28",
+    "brand": "Commercial HD",
+    "model": "Trailer Duty Set",
+    "size": "215/75R17.5",
+    "rimSize": 17,
+    "condition": "Good (70%+ tread)",
+    "price": 75,
+    "image": "/tires/image28.jpeg",
+    "stock": {
+      "greer": 5
+    }
+  },
+  {
+    "id": "grr-29",
+    "brand": "Michelin",
+    "model": "Primacy Tour A/S Set",
+    "size": "225/60R18",
+    "rimSize": 18,
+    "condition": "Good (70%+ tread)",
+    "price": 180,
+    "image": "/tires/image29.jpeg",
+    "stock": {
+      "greer": 4
+    }
+  },
+  {
+    "id": "grr-30",
+    "brand": "Continental",
+    "model": "CrossContact LX25",
+    "size": "235/60R18",
+    "rimSize": 18,
+    "condition": "Good (70%+ tread)",
+    "price": 45,
+    "image": "/tires/image30.jpeg",
+    "stock": {
+      "greer": 3
+    }
+  },
+  {
+    "id": "grr-31",
+    "brand": "Bridgestone",
+    "model": "Dueler H/T 685 (2 Sets & Pair)",
+    "size": "255/70R18",
+    "rimSize": 18,
+    "condition": "Good (70%+ tread)",
+    "price": 200,
+    "image": "/tires/image31.jpeg",
+    "stock": {
+      "greer": 10
+    }
+  },
+  {
+    "id": "grr-32",
+    "brand": "Goodyear",
+    "model": "Eagle Touring Set",
+    "size": "255/60R18",
+    "rimSize": 18,
+    "condition": "Good (70%+ tread)",
+    "price": 180,
+    "image": "/tires/image32.jpeg",
+    "stock": {
+      "greer": 4
+    }
+  },
+  {
+    "id": "grr-33",
+    "brand": "Michelin",
+    "model": "Defender LTX M/S (2 Sets)",
+    "size": "265/60R18",
+    "rimSize": 18,
+    "condition": "Good (70%+ tread)",
+    "price": 240,
+    "image": "/tires/image33.jpeg",
+    "stock": {
+      "greer": 8
+    }
+  },
+  {
+    "id": "grr-34",
+    "brand": "Goodyear",
+    "model": "Wrangler All-Terrain Set",
+    "size": "275/65R18",
+    "rimSize": 18,
+    "condition": "Good (70%+ tread)",
+    "price": 175,
+    "image": "/tires/image34.jpeg",
+    "stock": {
+      "greer": 4
+    }
+  },
+  {
+    "id": "grr-35",
+    "brand": "Nitto",
+    "model": "Terra Grappler Set",
+    "size": "295/70R18",
+    "rimSize": 18,
+    "condition": "Like New (90%+ tread)",
+    "price": 200,
+    "image": "/tires/image35.jpeg",
+    "stock": {
+      "greer": 4
+    }
+  },
+  {
+    "id": "grr-36",
+    "brand": "Toyo",
+    "model": "Open Country A/T III Set",
+    "size": "33x12.50R18",
+    "rimSize": 18,
+    "condition": "Like New (90%+ tread)",
+    "price": 250,
+    "image": "/tires/image1.jpeg",
+    "stock": {
+      "greer": 4
+    }
+  },
+  {
+    "id": "grr-37",
+    "brand": "Toyo",
+    "model": "Celsius CUV (2 Pairs)",
+    "size": "225/55R19",
+    "rimSize": 19,
+    "condition": "Good (70%+ tread)",
+    "price": 50,
+    "image": "/tires/image2.jpeg",
+    "stock": {
+      "greer": 4
+    }
+  },
+  {
+    "id": "grr-38",
+    "brand": "Michelin",
+    "model": "Pilot Sport 4S (3+1)",
+    "size": "235/40R19",
+    "rimSize": 19,
+    "condition": "Like New (90%+ tread)",
+    "price": 50,
+    "image": "/tires/image3.jpeg",
+    "stock": {
+      "greer": 2
+    }
+  },
+  {
+    "id": "grr-39",
+    "brand": "Continental",
+    "model": "CrossContact LX",
+    "size": "235/55R19",
+    "rimSize": 19,
+    "condition": "Good (70%+ tread)",
+    "price": 35,
+    "image": "/tires/image4.jpeg",
+    "stock": {
+      "greer": 3
+    }
+  },
+  {
+    "id": "grr-40",
+    "brand": "Pirelli",
+    "model": "P Zero Performance Pair",
+    "size": "255/35R19",
+    "rimSize": 19,
+    "condition": "Like New (90%+ tread)",
+    "price": 320,
+    "image": "/tires/image5.jpeg",
+    "stock": {
+      "greer": 2
+    }
+  },
+  {
+    "id": "grr-41",
+    "brand": "Hankook",
+    "model": "Ventus S1 Noble2 Pair",
+    "size": "255/40R19",
+    "rimSize": 19,
+    "condition": "Good (70%+ tread)",
+    "price": 120,
+    "image": "/tires/image6.jpeg",
+    "stock": {
+      "greer": 2
+    }
+  },
+  {
+    "id": "grr-42",
+    "brand": "Michelin",
+    "model": "Pilot Super Sport",
+    "size": "275/40R19",
+    "rimSize": 19,
+    "condition": "Like New (90%+ tread)",
+    "price": 75,
+    "image": "/tires/image7.jpeg",
+    "stock": {
+      "greer": 7
+    }
+  },
+  {
+    "id": "grr-43",
+    "brand": "Continental",
+    "model": "ExtremeContact DWS06 Pair",
+    "size": "285/30R19",
+    "rimSize": 19,
+    "condition": "Like New (90%+ tread)",
+    "price": 320,
+    "image": "/tires/image8.jpeg",
+    "stock": {
+      "greer": 2
+    }
+  },
+  {
+    "id": "grr-44",
+    "brand": "Pirelli",
+    "model": "P Zero All Season",
+    "size": "245/40R20",
+    "rimSize": 20,
+    "condition": "Good (70%+ tread)",
+    "price": 60,
+    "image": "/tires/image9.jpeg",
+    "stock": {
+      "greer": 5
+    }
+  },
+  {
+    "id": "grr-45",
+    "brand": "Goodyear",
+    "model": "Eagle F1 Asymmetric (Set & Singles)",
+    "size": "245/45R20",
+    "rimSize": 20,
+    "condition": "Good (70%+ tread)",
+    "price": 60,
+    "image": "/tires/image10.jpeg",
+    "stock": {
+      "greer": 6
+    }
+  },
+  {
+    "id": "grr-46",
+    "brand": "Goodyear",
+    "model": "Eagle Touring Set",
+    "size": "245/50R20",
+    "rimSize": 20,
+    "condition": "Like New (90%+ tread)",
+    "price": 250,
+    "image": "/tires/image11.jpeg",
+    "stock": {
+      "greer": 4
+    }
+  },
+  {
+    "id": "grr-47",
+    "brand": "Bridgestone",
+    "model": "Dueler H/L Alenza Set",
+    "size": "245/60R20",
+    "rimSize": 20,
+    "condition": "Good (70%+ tread)",
+    "price": 200,
+    "image": "/tires/image12.jpeg",
+    "stock": {
+      "greer": 4
+    }
+  },
+  {
+    "id": "grr-48",
+    "brand": "Michelin",
+    "model": "Pilot Sport EV",
+    "size": "255/40R20",
+    "rimSize": 20,
+    "condition": "Good (70%+ tread)",
+    "price": 60,
+    "image": "/tires/image13.jpeg",
+    "stock": {
+      "greer": 7
+    }
+  },
+  {
+    "id": "grr-49",
+    "brand": "Continental",
+    "model": "CrossContact Set",
+    "size": "255/50R20",
+    "rimSize": 20,
+    "condition": "Good (70%+ tread)",
+    "price": 220,
+    "image": "/tires/image14.jpeg",
+    "stock": {
+      "greer": 4
+    }
+  },
+  {
+    "id": "grr-50",
+    "brand": "Bridgestone",
+    "model": "Alenza Sport (3 Sets)",
+    "size": "265/50R20",
+    "rimSize": 20,
+    "condition": "Good (70%+ tread)",
+    "price": 250,
+    "image": "/tires/image15.jpeg",
+    "stock": {
+      "greer": 12
+    }
+  },
+  {
+    "id": "grr-51",
+    "brand": "Pirelli",
+    "model": "P Zero PZ4 Pair",
+    "size": "275/40R20",
+    "rimSize": 20,
+    "condition": "Good (70%+ tread)",
+    "price": 100,
+    "image": "/tires/image16.jpeg",
+    "stock": {
+      "greer": 2
+    }
+  },
+  {
+    "id": "grr-52",
+    "brand": "Goodyear",
+    "model": "Wrangler SR-A (4 Sets & Pair)",
+    "size": "275/55R20",
+    "rimSize": 20,
+    "condition": "Good (70%+ tread)",
+    "price": 250,
+    "image": "/tires/image17.jpeg",
+    "stock": {
+      "greer": 15
+    }
+  },
+  {
+    "id": "grr-53",
+    "brand": "Hankook",
+    "model": "Dynapro AT2 Pair",
+    "size": "275/60R20",
+    "rimSize": 20,
+    "condition": "Good (70%+ tread)",
+    "price": 120,
+    "image": "/tires/image18.jpeg",
+    "stock": {
+      "greer": 2
+    }
+  },
+  {
+    "id": "grr-54",
+    "brand": "Goodyear",
+    "model": "Wrangler Ultraterrain Set of 5",
+    "size": "275/65R20",
+    "rimSize": 20,
+    "condition": "Like New (90%+ tread)",
+    "price": 175,
+    "image": "/tires/image19.jpeg",
+    "stock": {
+      "greer": 5
+    }
+  },
+  {
+    "id": "grr-55",
+    "brand": "Nitto",
+    "model": "Ridge Grappler Set",
+    "size": "295/55R20",
+    "rimSize": 20,
+    "condition": "Like New (90%+ tread)",
+    "price": 350,
+    "image": "/tires/image20.jpeg",
+    "stock": {
+      "greer": 4
+    }
+  },
+  {
+    "id": "grr-56",
+    "brand": "Michelin",
+    "model": "Pilot Sport Supercar Pair",
+    "size": "345/25R21",
+    "rimSize": 21,
+    "condition": "Like New (90%+ tread)",
+    "price": 350,
+    "image": "/tires/image21.jpeg",
+    "stock": {
+      "greer": 2
+    }
+  },
+  {
+    "id": "grr-57",
+    "brand": "Bridgestone",
+    "model": "Alenza Sport A/S Set",
+    "size": "275/50R22",
+    "rimSize": 22,
+    "condition": "Good (70%+ tread)",
+    "price": 250,
+    "image": "/tires/image22.jpeg",
+    "stock": {
+      "greer": 10
+    }
+  },
+  {
+    "id": "grr-58",
+    "brand": "Goodyear",
+    "model": "Eagle Touring Set",
+    "size": "285/45R22",
+    "rimSize": 22,
+    "condition": "Like New (90%+ tread)",
+    "price": 250,
+    "image": "/tires/image23.jpeg",
+    "stock": {
+      "greer": 4
+    }
+  },
+  {
+    "id": "grr-59",
+    "brand": "Continental",
+    "model": "SportContact 6 Pair",
+    "size": "285/40R22",
+    "rimSize": 22,
+    "condition": "Like New (90%+ tread)",
+    "price": 600,
+    "image": "/tires/image24.jpeg",
+    "stock": {
+      "greer": 2
+    }
+  },
+  {
+    "id": "grr-60",
+    "brand": "Pirelli",
+    "model": "P Zero Performance Pair",
+    "size": "325/35R22",
+    "rimSize": 22,
+    "condition": "Like New (90%+ tread)",
+    "price": 600,
+    "image": "/tires/image25.jpeg",
+    "stock": {
+      "greer": 2
+    }
+  },
+  {
+    "id": "grr-61",
+    "brand": "Nitto",
+    "model": "Terra Grappler Single",
+    "size": "325/50R22",
+    "rimSize": 22,
+    "condition": "Good (70%+ tread)",
+    "price": 50,
+    "image": "/tires/image26.jpeg",
+    "stock": {
+      "greer": 1
+    }
+  },
+  {
+    "id": "grr-62",
+    "brand": "Lexani",
+    "model": "LX-Twenty Performance Set",
+    "size": "305/35R24",
+    "rimSize": 24,
+    "condition": "Like New (90%+ tread)",
+    "price": 599,
+    "image": "/tires/image27.jpeg",
+    "stock": {
+      "greer": 4
+    }
   }
 ];
