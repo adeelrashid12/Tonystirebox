@@ -706,11 +706,9 @@ export default function Home() {
 
       {/* WhatsApp Floating Chat Button */}
       <a 
-        href="#"
-        onClick={(e) => {
-          e.preventDefault();
-          alert("WhatsApp number will be connected soon!");
-        }}
+        href="https://wa.me/18643955393?text=Hi%20Tony%27s%20Tire%20Box%2C%20I%20am%20looking%20for%20tires"
+        target="_blank"
+        rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 bg-emerald-500 hover:bg-emerald-600 text-white p-3.5 sm:p-4 rounded-full shadow-2xl hover:scale-110 transition duration-300 flex items-center justify-center group border-2 border-white/20"
         title="Chat on WhatsApp"
       >
