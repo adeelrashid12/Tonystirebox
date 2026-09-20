@@ -18,17 +18,14 @@ DirectoryIndex index.html
   RewriteCond %{REQUEST_FILENAME}.html -f
   RewriteRule ^(.*)$ $1.html [L]
 
-  # 4. If _next assets or images are requested under subpaths, rewrite to root asset path
-  RewriteRule ^.*/(_next/.*)$ /$1 [L]
-
-  # 5. For dynamic subpath routes like /tires/* that do not exist as physical static HTML on server,
-  # redirect safely back to homepage / with 302 redirect so site loads with 100% full CSS styles!
+  # 4. Fallback for dynamic /tires/[id] routes (for newly added admin items in localStorage):
+  # Rewrite non-existent pages/folders under /tires/ to /tires/col-1/index.html so full detail page loads with 100% CSS styles!
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_URI} !\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|json)$ [NC]
-  RewriteRule ^tires/.*$ / [L,R=302]
+  RewriteRule ^tires/.*$ /tires/col-1/index.html [L]
 
-  # 6. Fallback for any other missing page route back to main index
+  # 5. Catch-all fallback for any other missing page route
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_URI} !\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|json)$ [NC]

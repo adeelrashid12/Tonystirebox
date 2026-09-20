@@ -17,6 +17,18 @@ import {
 } from 'lucide-react';
 
 export default function TireDetailClient({ tireId }: { tireId: string }) {
+  const [targetId, setTargetId] = useState<string>(tireId);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const path = window.location.pathname;
+      const match = path.match(/\/tires\/([^\/]+)/);
+      if (match && match[1]) {
+        setTargetId(match[1]);
+      }
+    }
+  }, []);
+
   const [tire, setTire] = useState<TireItem>(() => {
     return INITIAL_TIRES.find(t => t.id === tireId) || INITIAL_TIRES[0];
   });
@@ -24,13 +36,13 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
   useEffect(() => {
     try {
       const savedInv = localStorage.getItem('tony_admin_inventory');
-      if (savedInv) {
-        const parsed: TireItem[] = JSON.parse(savedInv);
-        const found = parsed.find(t => t.id === tireId);
-        if (found) setTire(found);
+      const invList: TireItem[] = savedInv ? JSON.parse(savedInv) : INITIAL_TIRES;
+      const found = invList.find(t => t.id === targetId);
+      if (found) {
+        setTire(found);
       }
     } catch (e) {}
-  }, [tireId]);
+  }, [targetId]);
 
   const validImages = (tire.images && tire.images.length > 0 ? tire.images : [tire.image]).filter(Boolean);
 
