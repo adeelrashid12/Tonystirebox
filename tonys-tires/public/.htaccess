@@ -5,22 +5,32 @@ DirectoryIndex index.html
   RewriteEngine On
   RewriteBase /
 
-  # 1. Serve index.html for existing directory requests
+  # 1. Serve existing physical files directly (CSS, JS, images, fonts)
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+
+  # 2. Serve index.html for existing physical directories
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteCond %{REQUEST_FILENAME}/index.html -f
   RewriteRule ^(.*)$ $1/index.html [L]
-
-  # 2. Serve existing physical files directly (images, css, js)
-  RewriteCond %{REQUEST_FILENAME} -f
-  RewriteRule ^ - [L]
 
   # 3. Serve existing .html files directly (e.g. admin.html)
   RewriteCond %{REQUEST_FILENAME}.html -f
   RewriteRule ^(.*)$ $1.html [L]
 
-  # 4. Fallback for dynamic client routes (like /tires/t-1789886897789)
-  # Rewrite non-existent pages/folders back to /index.html so SPA router loads smoothly
+  # 4. If _next assets or images are requested under subpaths, rewrite to root asset path
+  RewriteRule ^.*/(_next/.*)$ /$1 [L]
+
+  # 5. For dynamic subpath routes like /tires/* that do not exist as physical static HTML on server,
+  # redirect safely back to homepage / with 302 redirect so site loads with 100% full CSS styles!
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^(.*)$ /index.html [L]
+  RewriteCond %{REQUEST_URI} !\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|json)$ [NC]
+  RewriteRule ^tires/.*$ / [L,R=302]
+
+  # 6. Fallback for any other missing page route back to main index
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|json)$ [NC]
+  RewriteRule . /index.html [L]
 </IfModule>
