@@ -384,9 +384,24 @@ export default function AdminPage() {
 
   const pendingOrdersCount = orders.filter(o => o.status === 'Pending Pickup').length;
 
+  // Flexible tire size normalization (e.g., 175/65/14, 175 65 14, 1756514, 175/65R14 all match!)
+  const normalizeTireSize = (str: string) => {
+    if (!str) return '';
+    return str.toLowerCase().replace(/[^a-z0-9]/g, '').replace(/r/g, '');
+  };
+
   // Filtering Inventory
   const filteredInventory = inventory.filter(t => {
-    const matchesSearch = t.size.toLowerCase().includes(searchFilter.toLowerCase());
+    const rawSearch = searchFilter.toLowerCase().trim();
+    const normalizedSearch = normalizeTireSize(searchFilter);
+    const normalizedTireSize = normalizeTireSize(t.size);
+
+    const matchesSearch = 
+      !rawSearch ||
+      t.size.toLowerCase().includes(rawSearch) || 
+      (normalizedSearch.length > 0 && normalizedTireSize.includes(normalizedSearch)) ||
+      t.brand.toLowerCase().includes(rawSearch);
+
     const matchesRim = selectedRimFilter === 'all' || t.rimSize === Number(selectedRimFilter);
     const itemLocStock = selectedLocation === 'all' 
       ? Object.values(t.stock).reduce((a, b) => a + b, 0)

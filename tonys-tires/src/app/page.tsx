@@ -107,11 +107,25 @@ export default function Home() {
     } catch (e) {}
   };
 
+  // Flexible tire size normalization (e.g., 175/65/14, 175 65 14, 1756514, 175/65R14 all match!)
+  const normalizeTireSize = (str: string) => {
+    if (!str) return '';
+    return str.toLowerCase().replace(/[^a-z0-9]/g, '').replace(/r/g, '');
+  };
+
   // Filter tires based on search & location
   const filteredTires = inventory.filter(tire => {
     const matchesRim = selectedRimSize === 'all' || tire.rimSize === Number(selectedRimSize);
-    const matchesSearch = tire.size.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          tire.brand.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    const rawSearch = searchQuery.toLowerCase().trim();
+    const normalizedSearch = normalizeTireSize(searchQuery);
+    const normalizedTireSize = normalizeTireSize(tire.size);
+
+    const matchesSearch = 
+      !rawSearch ||
+      tire.size.toLowerCase().includes(rawSearch) || 
+      (normalizedSearch.length > 0 && normalizedTireSize.includes(normalizedSearch)) ||
+      tire.brand.toLowerCase().includes(rawSearch);
     
     // Check if location has stock if specific location selected
     const hasLocationStock = selectedLocation === 'all' || (tire.stock[selectedLocation] || 0) > 0;
