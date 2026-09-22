@@ -27,8 +27,8 @@ export const LOCATIONS: Location[] = [
   { id: 'aiken', name: 'Aiken', address: '1693 Edgefield Hwy, Aiken, SC 29801', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', image: '/container_aiken.png' },
   { id: 'fountain-inn', name: 'Fountain Inn', address: '2431 Greenpond Rd, Fountain Inn, SC 29644', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', isPopular: true, image: '/container_fountain_inn.png' },
   { id: 'little-river', name: 'Little River', address: '2329 Old Sanders Dr, Little River, SC 29566', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', image: '/container_little_river.png' },
-  { id: 'longs', name: 'Longs', address: '1870 Hwy 9 East, Longs, SC 29568 (Tippy Toes RV)', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', image: '/container_little_river.png' },
-  { id: 'columbia', name: 'Columbia', address: '3223 Platt Springs Rd, West Columbia, SC 29170', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', image: '/container_fountain_inn.png' },
+  { id: 'longs', name: 'Longs', address: '1870 Hwy 9 East, Longs, SC 29568 (Tippy Toes RV)', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', image: '/container_longs.png' },
+  { id: 'columbia', name: 'Columbia', address: '3223 Platt Springs Rd, West Columbia, SC 29170', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', image: '/container_columbia.png' },
   { id: 'hickory', name: 'Hickory', address: '1045 2nd Ave NW, Hickory, NC 28601 (The Xtra Space)', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', image: '/container_hickory.png' },
 ];
 
