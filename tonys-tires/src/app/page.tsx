@@ -536,13 +536,13 @@ export default function Home() {
                 <div className="h-44 w-full rounded-2xl overflow-hidden mb-4 bg-white flex items-center justify-center p-1">
                   <img 
                     src="/step_05.jpg" 
-                    alt="Step 05 - Load Up" 
+                    alt="Step 05 - Load Up & Go" 
                     className="w-full h-full object-contain group-hover:scale-105 transition duration-500" 
                   />
                 </div>
 
                 <h4 className="font-black text-xl text-slate-950 uppercase tracking-tight leading-snug">
-                  LOAD UP
+                  LOAD UP & GO
                 </h4>
                 <p className="text-xs text-slate-600 font-semibold mt-1">
                   Load your purchased tires into your vehicle yourself — quick & easy
