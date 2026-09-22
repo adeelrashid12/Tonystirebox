@@ -24,7 +24,7 @@ export interface TireItem {
 export const LOCATIONS: Location[] = [
   { id: 'greer', name: 'Greer', address: '3574 Brown Rd, Greer, SC 29651', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', isPopular: true, image: '/container_greer.png' },
   { id: 'greenville', name: 'Greenville', address: '2490 New Easley Hwy, Greenville, SC 29611', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', isPopular: true, image: '/container_greer.png' },
-  { id: 'aiken', name: 'Aiken', address: '1693 Edgefield Hwy, Aiken, SC 29801', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', image: '/container_fountain_inn.png' },
+  { id: 'aiken', name: 'Aiken', address: '1693 Edgefield Hwy, Aiken, SC 29801', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', image: '/container_aiken.png' },
   { id: 'fountain-inn', name: 'Fountain Inn', address: '2431 Greenpond Rd, Fountain Inn, SC 29644', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', isPopular: true, image: '/container_fountain_inn.png' },
   { id: 'little-river', name: 'Little River', address: '2329 Old Sanders Dr, Little River, SC 29566', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', image: '/container_little_river.png' },
   { id: 'longs', name: 'Longs', address: '1870 Hwy 9 East, Longs, SC 29568 (Tippy Toes RV)', phone: '864-395-5393', hours: '8:00 AM - 8:00 PM', image: '/container_little_river.png' },
