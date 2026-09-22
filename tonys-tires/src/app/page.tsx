@@ -664,7 +664,7 @@ export default function Home() {
               <div>
                 <div className="flex flex-wrap items-center gap-2">
                   <h4 className="font-black text-slate-950 text-sm uppercase">
-                    Viewing {LOCATIONS.find(l => l.id === selectedLocation)?.name} Container Inventory
+                    Viewing {LOCATIONS.find(l => l.id === selectedLocation)?.name} {LOCATIONS.find(l => l.id === selectedLocation)?.type || 'Container'} Inventory
                   </h4>
                   {isGeoDetected && userDetectedCity && (
                     <span className="bg-emerald-600 text-white font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow animate-pulse">
@@ -782,9 +782,9 @@ export default function Home() {
             {LOCATIONS.map((loc, i) => (
               <div key={loc.id} className="bg-white rounded-2xl border border-slate-300 overflow-hidden shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
                 <div className="h-44 bg-slate-900 relative">
-                  <img src={loc.image} alt={`${loc.name} Container`} className="w-full h-full object-cover" />
+                  <img src={loc.image} alt={`${loc.name} ${loc.type || 'Container'}`} className="w-full h-full object-cover" />
                   <div className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded uppercase shadow">
-                    Container #{i+1}
+                    {loc.type || 'Container'} #{i+1}
                   </div>
                 </div>
 

@@ -308,7 +308,7 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
 
               {/* Location Selector */}
               <div className="py-5 border-b border-slate-100 space-y-3">
-                <label className="block text-xs font-black uppercase text-slate-900">Select Container Pickup Hub</label>
+                <label className="block text-xs font-black uppercase text-slate-900">Select Location Pickup Hub</label>
                 <select
                   value={selectedLoc}
                   onChange={(e) => setSelectedLoc(e.target.value)}
@@ -318,7 +318,7 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
                     const count = tire.stock[loc.id] || 0;
                     return (
                       <option key={loc.id} value={loc.id}>
-                        {loc.name} Container ({count > 0 ? `${count} available` : 'Out of stock'})
+                        {loc.name} {loc.type || 'Container'} ({count > 0 ? `${count} available` : 'Out of stock'})
                       </option>
                     );
                   })}
