@@ -31,7 +31,8 @@ export default function Home() {
   const [checkoutComplete, setCheckoutComplete] = useState<boolean>(false);
   const [customerPhone, setCustomerPhone] = useState<string>('');
   const [customerName, setCustomerName] = useState<string>('');
-  const [lastOrderDetails, setLastOrderDetails] = useState<{ id: string; lockbox: string; phone: string; total: number } | null>(null);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('Cash App');
+  const [lastOrderDetails, setLastOrderDetails] = useState<{ id: string; lockbox: string; phone: string; total: number; paymentMethod: string } | null>(null);
 
   // Tire Specs Modal State
   const [selectedTireModal, setSelectedTireModal] = useState<TireItem | null>(null);
@@ -192,6 +193,7 @@ export default function Home() {
       totalPrice: totalCartPrice,
       locationName: `${targetLocName} Container`,
       lockboxCode,
+      paymentMethod: selectedPaymentMethod,
       status: 'Pending Pickup' as const,
       createdAt: 'Just now'
     };
@@ -206,7 +208,8 @@ export default function Home() {
       id: orderId,
       lockbox: lockboxCode,
       phone: customerPhone,
-      total: totalCartPrice
+      total: totalCartPrice,
+      paymentMethod: selectedPaymentMethod
     });
 
     setCheckoutComplete(true);
@@ -881,6 +884,36 @@ export default function Home() {
                         />
                       </div>
 
+                      <div>
+                        <label className="block text-xs font-black uppercase text-slate-700 mb-1.5">Select Preferred Payment Method:</label>
+                        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                          {[
+                            { name: 'Cash App', color: 'bg-emerald-600 text-white', label: 'Cash App ($)' },
+                            { name: 'Venmo', color: 'bg-sky-500 text-white', label: 'Venmo' },
+                            { name: 'Zelle', color: 'bg-purple-600 text-white', label: 'Zelle' },
+                            { name: 'Apple Pay', color: 'bg-slate-950 text-white', label: 'Apple Pay' },
+                            { name: 'Cash (Container Box)', color: 'bg-amber-500 text-slate-950', label: 'Cash at Box' },
+                          ].map(pm => {
+                            const isSelected = selectedPaymentMethod === pm.name;
+                            return (
+                              <button
+                                type="button"
+                                key={pm.name}
+                                onClick={() => setSelectedPaymentMethod(pm.name)}
+                                className={`py-2 px-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider transition border flex items-center justify-center gap-1.5 ${
+                                  isSelected 
+                                    ? `${pm.color} ring-2 ring-red-500 shadow-md border-transparent scale-[1.02]` 
+                                    : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                                }`}
+                              >
+                                <span>{pm.label}</span>
+                                {isSelected && <span className="text-[10px]">✓</span>}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
                       <div className="pt-2 flex justify-between items-center font-black text-lg text-slate-950">
                         <span>Total Amount:</span>
                         <span className="text-red-600 font-mono text-xl">${totalCartPrice}</span>
@@ -919,16 +952,41 @@ export default function Home() {
                       <span className="text-slate-400">Lockbox Combination:</span>
                       <span className="text-emerald-400 font-black text-base tracking-widest">{lastOrderDetails.lockbox}</span>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between border-b border-slate-800 pb-2">
                       <span className="text-slate-400">Customer Phone:</span>
                       <span className="text-white font-bold">{lastOrderDetails.phone}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-400">Selected Payment:</span>
+                      <span className="text-emerald-400 font-bold">{lastOrderDetails.paymentMethod}</span>
                     </div>
                   </div>
                 )}
 
+                <div className="bg-amber-50 border border-amber-200 p-3 rounded-xl text-left text-xs font-semibold text-amber-900 space-y-1">
+                  <div className="font-bold uppercase text-[11px] text-amber-950 flex items-center gap-1">
+                    💳 How to Complete Payment ({lastOrderDetails?.paymentMethod}):
+                  </div>
+                  {lastOrderDetails?.paymentMethod === 'Cash App' && (
+                    <p>Send <strong>${lastOrderDetails?.total}</strong> to Cash App tag <strong>$TonysTireBox</strong> or phone <strong>864-395-5393</strong>.</p>
+                  )}
+                  {lastOrderDetails?.paymentMethod === 'Venmo' && (
+                    <p>Send <strong>${lastOrderDetails?.total}</strong> to Venmo <strong>@TonysTireBox</strong> or <strong>864-395-5393</strong>.</p>
+                  )}
+                  {lastOrderDetails?.paymentMethod === 'Zelle' && (
+                    <p>Send <strong>${lastOrderDetails?.total}</strong> via Zelle to <strong>864-395-5393</strong>.</p>
+                  )}
+                  {lastOrderDetails?.paymentMethod === 'Apple Pay' && (
+                    <p>Send <strong>${lastOrderDetails?.total}</strong> via Apple Pay text to <strong>864-395-5393</strong>.</p>
+                  )}
+                  {lastOrderDetails?.paymentMethod === 'Cash (Container Box)' && (
+                    <p>Deposit <strong>${lastOrderDetails?.total}</strong> cash directly into the secured drop box inside the container.</p>
+                  )}
+                </div>
+
                 <div className="pt-2">
                   <a 
-                    href={`sms:8643955393?body=${encodeURIComponent(`Hi Tony, I placed order ${lastOrderDetails?.id || ''} for ${lastOrderDetails?.phone || ''}`)}`}
+                    href={`sms:8643955393?body=${encodeURIComponent(`Hi Tony, I placed order ${lastOrderDetails?.id || ''} via ${lastOrderDetails?.paymentMethod || 'phone'} for ${lastOrderDetails?.phone || ''}`)}`}
                     className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-3 rounded-xl block text-xs uppercase shadow transition"
                   >
                     Text Order Receipt to 864-395-5393

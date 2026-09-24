@@ -37,6 +37,7 @@ interface Order {
   totalPrice: number;
   locationName: string;
   lockboxCode: string;
+  paymentMethod?: string;
   status: 'Pending Pickup' | 'Completed' | 'Cancelled';
   createdAt: string;
 }
@@ -51,6 +52,7 @@ const INITIAL_ORDERS: Order[] = [
     totalPrice: 90,
     locationName: 'Greer Container',
     lockboxCode: '3941',
+    paymentMethod: 'Cash App',
     status: 'Pending Pickup',
     createdAt: 'Today, 08:15 AM'
   },
@@ -63,6 +65,7 @@ const INITIAL_ORDERS: Order[] = [
     totalPrice: 45,
     locationName: 'Fountain Inn Container',
     lockboxCode: '7102',
+    paymentMethod: 'Venmo',
     status: 'Completed',
     createdAt: 'Yesterday, 04:30 PM'
   },
@@ -75,6 +78,7 @@ const INITIAL_ORDERS: Order[] = [
     totalPrice: 250,
     locationName: 'Little River Container',
     lockboxCode: '5519',
+    paymentMethod: 'Zelle',
     status: 'Pending Pickup',
     createdAt: 'Yesterday, 01:10 PM'
   }
@@ -1135,6 +1139,17 @@ export default function AdminPage() {
                       </div>
 
                       <div className="flex items-center gap-2">
+                        {order.paymentMethod && (
+                          <span className={`text-[11px] font-black px-2.5 py-1 rounded-lg uppercase ${
+                            order.paymentMethod === 'Cash App' ? 'bg-emerald-950 border border-emerald-500 text-emerald-400' :
+                            order.paymentMethod === 'Venmo' ? 'bg-sky-950 border border-sky-500 text-sky-400' :
+                            order.paymentMethod === 'Zelle' ? 'bg-purple-950 border border-purple-500 text-purple-400' :
+                            order.paymentMethod === 'Apple Pay' ? 'bg-slate-800 border border-slate-600 text-white' :
+                            'bg-amber-950 border border-amber-500 text-amber-400'
+                          }`}>
+                            💳 {order.paymentMethod}
+                          </span>
+                        )}
                         <span className={`text-xs font-black px-3 py-1 rounded-lg uppercase ${
                           order.status === 'Pending Pickup' ? 'bg-amber-500/20 border border-amber-500 text-amber-400' :
                           order.status === 'Completed' ? 'bg-emerald-500/20 border border-emerald-500 text-emerald-400' :
