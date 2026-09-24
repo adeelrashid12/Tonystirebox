@@ -968,16 +968,16 @@ export default function Home() {
                     💳 How to Complete Payment ({lastOrderDetails?.paymentMethod}):
                   </div>
                   {lastOrderDetails?.paymentMethod === 'Cash App' && (
-                    <p>Send <strong>${lastOrderDetails?.total}</strong> to Cash App tag <strong>$TonysTireBox</strong> or phone <strong>864-395-5393</strong>.</p>
+                    <p>Send <strong>${lastOrderDetails?.total}</strong> to Cash App tag <strong>$TonyPiwowarski</strong> (Tony Piwowarski).</p>
                   )}
                   {lastOrderDetails?.paymentMethod === 'Venmo' && (
-                    <p>Send <strong>${lastOrderDetails?.total}</strong> to Venmo <strong>@TonysTireBox</strong> or <strong>864-395-5393</strong>.</p>
+                    <p>Send <strong>${lastOrderDetails?.total}</strong> to Venmo <strong>@Lisa-Piwowarski</strong> (Lisa Piwowarski).</p>
                   )}
                   {lastOrderDetails?.paymentMethod === 'Zelle' && (
-                    <p>Send <strong>${lastOrderDetails?.total}</strong> via Zelle to <strong>864-395-5393</strong>.</p>
+                    <p>Send <strong>${lastOrderDetails?.total}</strong> via Zelle to phone <strong>864-395-5393</strong> or email <strong>hbkncc@yahoo.com</strong>.</p>
                   )}
                   {lastOrderDetails?.paymentMethod === 'Apple Pay' && (
-                    <p>Send <strong>${lastOrderDetails?.total}</strong> via Apple Pay text to <strong>864-395-5393</strong>.</p>
+                    <p>Send <strong>${lastOrderDetails?.total}</strong> via Apple Pay to phone <strong>864-395-5393</strong>.</p>
                   )}
                   {lastOrderDetails?.paymentMethod === 'Cash (Container Box)' && (
                     <p>Deposit <strong>${lastOrderDetails?.total}</strong> cash directly into the secured drop box inside the container.</p>
