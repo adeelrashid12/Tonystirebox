@@ -462,7 +462,7 @@ export default function Home() {
                 
                 <div className="h-44 w-full rounded-2xl overflow-hidden mb-4 bg-white flex items-center justify-center p-1">
                   <img 
-                    src="/container_greer.png" 
+                    src="/step_02_container.jpg" 
                     alt="Step 02 - Come To Container" 
                     className="w-full h-full object-contain group-hover:scale-105 transition duration-500" 
                   />
