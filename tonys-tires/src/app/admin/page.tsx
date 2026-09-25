@@ -25,12 +25,16 @@ import {
   Layers,
   Copy,
   TrendingUp,
-  UserCheck
+  UserCheck,
+  Edit,
+  RotateCcw,
+  Tag,
+  ShieldCheck
 } from 'lucide-react';
 
 export type OrderStatus = 'Pending Verification' | 'Payment Verified' | 'Pending Pickup' | 'Completed' | 'Cancelled';
 
-interface Order {
+export interface Order {
   id: string;
   customerPhone: string;
   tireSize: string;
@@ -43,6 +47,7 @@ interface Order {
   senderRef?: string;
   status: OrderStatus;
   createdAt: string;
+  notes?: string;
 }
 
 const INITIAL_ORDERS: Order[] = [
@@ -107,6 +112,7 @@ export default function AdminPage() {
 
   // New Tire Form State
   const [newSize, setNewSize] = useState<string>('');
+  const [newBrand, setNewBrand] = useState<string>('Quality Used Tire');
   const [newRimSize, setNewRimSize] = useState<number>(16);
   const [newPrice, setNewPrice] = useState<number>(45);
   const [newCondition, setNewCondition] = useState<'Good (70%+ tread)' | 'Like New (90%+ tread)'>('Good (70%+ tread)');
@@ -114,7 +120,30 @@ export default function AdminPage() {
   const [newTargetLocation, setNewTargetLocation] = useState<string>('greer');
   const [newImagesInput, setNewImagesInput] = useState<string>('');
   
-  // Edit Image Modal State
+  // Edit Tire Modal State (Comprehensive Spec & Hub Stock Editor)
+  const [editingTire, setEditingTire] = useState<TireItem | null>(null);
+  const [editTireSize, setEditTireSize] = useState<string>('');
+  const [editTireBrand, setEditTireBrand] = useState<string>('');
+  const [editTireRimSize, setEditTireRimSize] = useState<number>(16);
+  const [editTireCondition, setEditTireCondition] = useState<'Good (70%+ tread)' | 'Like New (90%+ tread)'>('Good (70%+ tread)');
+  const [editTirePrice, setEditTirePrice] = useState<number>(45);
+  const [editTireHubStock, setEditTireHubStock] = useState<Record<string, number>>({});
+  const [editTireImagesInput, setEditTireImagesInput] = useState<string>('');
+
+  // Edit Order Modal State (Comprehensive Order Details Editor)
+  const [editingOrder, setEditingOrder] = useState<Order | null>(null);
+  const [editOrderPhone, setEditOrderPhone] = useState<string>('');
+  const [editOrderLockbox, setEditOrderLockbox] = useState<string>('');
+  const [editOrderStatus, setEditOrderStatus] = useState<OrderStatus>('Pending Verification');
+  const [editOrderPaymentMethod, setEditOrderPaymentMethod] = useState<string>('Cash App');
+  const [editOrderSenderRef, setEditOrderSenderRef] = useState<string>('');
+  const [editOrderLocationName, setEditOrderLocationName] = useState<string>('Greer Container');
+  const [editOrderTireSize, setEditOrderTireSize] = useState<string>('');
+  const [editOrderBrand, setEditOrderBrand] = useState<string>('Quality Used Tire');
+  const [editOrderQuantity, setEditOrderQuantity] = useState<number>(1);
+  const [editOrderTotalPrice, setEditOrderTotalPrice] = useState<number>(45);
+
+  // Quick Edit Photo Gallery Modal State
   const [editingImagesTireId, setEditingImagesTireId] = useState<string | null>(null);
   const [editImagesInput, setEditImagesInput] = useState<string>('');
 
@@ -122,9 +151,12 @@ export default function AdminPage() {
   const [showManualOrderForm, setShowManualOrderForm] = useState<boolean>(false);
   const [manualPhone, setManualPhone] = useState<string>('');
   const [manualSize, setManualSize] = useState<string>('225/65R17');
+  const [manualBrand, setManualBrand] = useState<string>('Quality Used Tire');
   const [manualQty, setManualQty] = useState<number>(2);
   const [manualPrice, setManualPrice] = useState<number>(90);
   const [manualLocation, setManualLocation] = useState<string>('greer');
+  const [manualPaymentMethod, setManualPaymentMethod] = useState<string>('Cash App');
+  const [manualSenderRef, setManualSenderRef] = useState<string>('');
   
   const [showAddForm, setShowAddForm] = useState<boolean>(false);
   const [successMsg, setSuccessMsg] = useState<string>('');
@@ -268,6 +300,128 @@ export default function AdminPage() {
     });
   };
 
+  const handleEditTireFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    Array.from(files).forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const base64Url = event.target?.result as string;
+        if (base64Url) {
+          setEditTireImagesInput(prev => prev ? `${prev}\n${base64Url}` : base64Url);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  // Open Edit Tire Modal
+  const handleOpenEditTireModal = (tire: TireItem) => {
+    setEditingTire(tire);
+    setEditTireSize(tire.size);
+    setEditTireBrand(tire.brand || 'Quality Used Tire');
+    setEditTireRimSize(tire.rimSize);
+    setEditTireCondition(tire.condition);
+    setEditTirePrice(tire.price);
+    setEditTireHubStock({ ...tire.stock });
+    const imgList = (tire.images && tire.images.length > 0) ? tire.images : [tire.image];
+    setEditTireImagesInput(imgList.join('\n'));
+  };
+
+  // Save Edit Tire Modal
+  const handleSaveEditTire = () => {
+    if (!editingTire) return;
+
+    const parsedImages = editTireImagesInput
+      .split('\n')
+      .map(url => url.trim())
+      .filter(url => url.length > 0);
+
+    const mainImage = parsedImages.length > 0 ? parsedImages[0] : (editingTire.image || '/container_fountain_inn.png');
+
+    const updatedTire: TireItem = {
+      ...editingTire,
+      size: editTireSize,
+      model: editTireSize,
+      brand: editTireBrand || 'Quality Used Tire',
+      rimSize: Number(editTireRimSize),
+      condition: editTireCondition,
+      price: Number(editTirePrice),
+      image: mainImage,
+      images: parsedImages.length > 0 ? parsedImages : [mainImage],
+      stock: { ...editTireHubStock }
+    };
+
+    const updatedInv = inventory.map(t => t.id === editingTire.id ? updatedTire : t);
+    saveInventory(updatedInv);
+    setEditingTire(null);
+    setSuccessMsg(`Tire specs & stock for ${editTireSize} saved successfully!`);
+    setTimeout(() => setSuccessMsg(''), 4000);
+  };
+
+  // Open Edit Order Modal
+  const handleOpenEditOrderModal = (order: Order) => {
+    setEditingOrder(order);
+    setEditOrderPhone(order.customerPhone);
+    setEditOrderLockbox(order.lockboxCode);
+    setEditOrderStatus(order.status);
+    setEditOrderPaymentMethod(order.paymentMethod || 'Cash App');
+    setEditOrderSenderRef(order.senderRef || '');
+    setEditOrderLocationName(order.locationName);
+    setEditOrderTireSize(order.tireSize);
+    setEditOrderBrand(order.brand || 'Quality Used Tire');
+    setEditOrderQuantity(order.quantity);
+    setEditOrderTotalPrice(order.totalPrice);
+  };
+
+  // Save Edit Order Modal
+  const handleSaveEditOrder = () => {
+    if (!editingOrder) return;
+
+    const updatedOrder: Order = {
+      ...editingOrder,
+      customerPhone: editOrderPhone,
+      lockboxCode: editOrderLockbox,
+      status: editOrderStatus,
+      paymentMethod: editOrderPaymentMethod,
+      senderRef: editOrderSenderRef,
+      locationName: editOrderLocationName,
+      tireSize: editOrderTireSize,
+      brand: editOrderBrand || 'Quality Used Tire',
+      quantity: Number(editOrderQuantity),
+      totalPrice: Number(editOrderTotalPrice)
+    };
+
+    const updatedOrders = orders.map(o => o.id === editingOrder.id ? updatedOrder : o);
+    saveOrders(updatedOrders);
+    setEditingOrder(null);
+    setSuccessMsg(`Order ${editingOrder.id} updated successfully!`);
+    setTimeout(() => setSuccessMsg(''), 4000);
+  };
+
+  // Delete Order Handler
+  const handleDeleteOrder = (orderId: string) => {
+    if (window.confirm(`Are you sure you want to delete order ${orderId}?`)) {
+      const updatedOrders = orders.filter(o => o.id !== orderId);
+      saveOrders(updatedOrders);
+      if (editingOrder?.id === orderId) {
+        setEditingOrder(null);
+      }
+      setSuccessMsg(`Order ${orderId} deleted successfully!`);
+      setTimeout(() => setSuccessMsg(''), 3000);
+    }
+  };
+
+  // Reset Inventory to Default Initial Inventory
+  const handleResetInventory = () => {
+    if (window.confirm('Are you sure you want to reset inventory to system defaults? Any custom added tires will be reset.')) {
+      saveInventory(INITIAL_TIRES);
+      setSuccessMsg('Inventory reset to system defaults!');
+      setTimeout(() => setSuccessMsg(''), 3000);
+    }
+  };
+
   // Add New Tire Item
   const handleAddNewTire = (e: React.FormEvent) => {
     e.preventDefault();
@@ -282,7 +436,7 @@ export default function AdminPage() {
 
     const newTire: TireItem = {
       id: `t-${Date.now()}`,
-      brand: 'Quality Used Tire',
+      brand: newBrand || 'Quality Used Tire',
       model: newSize,
       size: newSize,
       rimSize: Number(newRimSize),
@@ -352,11 +506,13 @@ export default function AdminPage() {
       id: orderId,
       customerPhone: manualPhone,
       tireSize: manualSize,
-      brand: 'Quality Used Tire',
+      brand: manualBrand || 'Quality Used Tire',
       quantity: Number(manualQty),
       totalPrice: Number(manualPrice),
       locationName: `${targetLocName} Container`,
       lockboxCode: lockboxCode,
+      paymentMethod: manualPaymentMethod,
+      senderRef: manualSenderRef || manualPhone,
       status: 'Pending Pickup',
       createdAt: 'Just now'
     };
@@ -378,6 +534,7 @@ export default function AdminPage() {
 
     setShowManualOrderForm(false);
     setManualPhone('');
+    setManualSenderRef('');
     setSuccessMsg(`Order ${orderId} created! Assigned Lockbox Code: ${lockboxCode}`);
     setTimeout(() => setSuccessMsg(''), 5000);
   };
@@ -394,7 +551,7 @@ export default function AdminPage() {
 
   const pendingOrdersCount = orders.filter(o => o.status === 'Pending Verification' || o.status === 'Pending Pickup' || o.status === 'Payment Verified').length;
 
-  // Flexible tire size normalization (e.g., 175/65/14, 175 65 14, 1756514, 175/65R14 all match!)
+  // Flexible tire size normalization
   const normalizeTireSize = (str: string) => {
     if (!str) return '';
     return str.toLowerCase().replace(/[^a-z0-9]/g, '').replace(/r/g, '');
@@ -410,7 +567,7 @@ export default function AdminPage() {
       !rawSearch ||
       t.size.toLowerCase().includes(rawSearch) || 
       (normalizedSearch.length > 0 && normalizedTireSize.includes(normalizedSearch)) ||
-      t.brand.toLowerCase().includes(rawSearch);
+      (t.brand && t.brand.toLowerCase().includes(rawSearch));
 
     const matchesRim = selectedRimFilter === 'all' || t.rimSize === Number(selectedRimFilter);
     const itemLocStock = selectedLocation === 'all' 
@@ -494,7 +651,7 @@ export default function AdminPage() {
             </div>
           </div>
 
-          {/* Navigation Tabs & Logout */}
+          {/* Navigation Tabs & Actions */}
           <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
             <div className="flex bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs font-bold">
               <button
@@ -583,13 +740,22 @@ export default function AdminPage() {
             
             {/* Location Selector Bar */}
             <div className="bg-slate-950 border border-slate-800 p-4 rounded-2xl shadow-xl space-y-3">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between flex-wrap gap-2">
                 <h3 className="text-xs font-black uppercase text-white flex items-center gap-2 tracking-wider">
                   <MapPin className="w-4 h-4 text-red-500" /> Filter Inventory by Container Location:
                 </h3>
-                <span className="text-xs text-amber-400 font-mono font-bold bg-amber-950/80 px-3 py-1 rounded-lg border border-amber-800/60">
-                  {selectedLocation === 'all' ? 'All Container Hubs' : `${currentLocationData?.name} Container`}
-                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleResetInventory}
+                    title="Reset inventory to system defaults"
+                    className="text-[10px] text-slate-400 hover:text-amber-400 bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-lg flex items-center gap-1 transition"
+                  >
+                    <RotateCcw className="w-3 h-3" /> Reset Defaults
+                  </button>
+                  <span className="text-xs text-amber-400 font-mono font-bold bg-amber-950/80 px-3 py-1 rounded-lg border border-amber-800/60">
+                    {selectedLocation === 'all' ? 'All Container Hubs' : `${currentLocationData?.name} Container`}
+                  </span>
+                </div>
               </div>
 
               <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
@@ -691,9 +857,9 @@ export default function AdminPage() {
                   <button type="button" onClick={() => setShowAddForm(false)} className="text-slate-400 hover:text-white font-bold text-sm">✕</button>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-3">
                   <div>
-                    <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Target Container Hub:</label>
+                    <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Target Hub:</label>
                     <select
                       value={newTargetLocation}
                       onChange={(e) => setNewTargetLocation(e.target.value)}
@@ -716,6 +882,16 @@ export default function AdminPage() {
                     />
                   </div>
                   <div>
+                    <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Brand Name:</label>
+                    <input 
+                      type="text" 
+                      placeholder="e.g. Michelin / Quality Used" 
+                      value={newBrand}
+                      onChange={(e) => setNewBrand(e.target.value)}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white font-bold focus:outline-none focus:border-red-500"
+                    />
+                  </div>
+                  <div>
                     <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Rim Size (Inches):</label>
                     <input 
                       type="number" 
@@ -730,7 +906,7 @@ export default function AdminPage() {
                       type="number" 
                       value={newPrice}
                       onChange={(e) => setNewPrice(Number(e.target.value))}
-                      className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white font-bold focus:outline-none focus:border-red-500"
+                      className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-amber-400 font-black focus:outline-none focus:border-amber-500"
                     />
                   </div>
                   <div>
@@ -816,144 +992,297 @@ export default function AdminPage() {
                     </button>
                   </div>
                 </div>
-              ) :
+              ) : (
                 filteredInventory.map(tire => {
-                const activeLocId = selectedLocation === 'all' ? 'greer' : selectedLocation;
-                const stockQty = tire.stock[activeLocId] || 0;
-                const totalStockAllHubs = Object.values(tire.stock).reduce((a, b) => a + b, 0);
-                const photoCount = tire.images && tire.images.length > 0 ? tire.images.length : 1;
+                  const activeLocId = selectedLocation === 'all' ? 'greer' : selectedLocation;
+                  const stockQty = tire.stock[activeLocId] || 0;
+                  const totalStockAllHubs = Object.values(tire.stock).reduce((a, b) => a + b, 0);
+                  const photoCount = tire.images && tire.images.length > 0 ? tire.images.length : 1;
 
-                return (
-                  <div 
-                    key={tire.id}
-                    className="bg-slate-950 border border-slate-800 p-4 rounded-2xl flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 hover:border-slate-700 transition shadow-xl"
-                  >
-                    {/* Item Details */}
-                    <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 bg-slate-900 rounded-xl overflow-hidden border border-slate-800 flex items-center justify-center p-1 shrink-0 relative">
-                        <img src={tire.image} alt={tire.size} className="h-full w-full object-contain" />
-                        <span className="absolute bottom-0 inset-x-0 bg-slate-950/90 text-[9px] font-black text-amber-400 text-center py-0.5 border-t border-slate-800">
-                          {tire.rimSize}" Rim
-                        </span>
-                      </div>
-
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <h4 className="text-xl font-black text-white">{tire.size}</h4>
-                          <span className="text-[10px] text-emerald-400 font-extrabold bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800">
-                            {tire.condition}
+                  return (
+                    <div 
+                      key={tire.id}
+                      className="bg-slate-950 border border-slate-800 p-4 rounded-2xl flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 hover:border-slate-700 transition shadow-xl"
+                    >
+                      {/* Item Details */}
+                      <div className="flex items-center gap-4">
+                        <div className="w-16 h-16 bg-slate-900 rounded-xl overflow-hidden border border-slate-800 flex items-center justify-center p-1 shrink-0 relative">
+                          <img src={tire.image} alt={tire.size} className="h-full w-full object-contain" />
+                          <span className="absolute bottom-0 inset-x-0 bg-slate-950/90 text-[9px] font-black text-amber-400 text-center py-0.5 border-t border-slate-800">
+                            {tire.rimSize}" Rim
                           </span>
                         </div>
 
-                        <div className="flex flex-wrap items-center gap-3 mt-1 text-xs">
-                          <span className="text-slate-400 font-semibold">Total Stock Across All Hubs: <strong className="text-white font-mono">{totalStockAllHubs}</strong></span>
-                          
-                          <button
-                            onClick={() => {
-                              setEditingImagesTireId(tire.id);
-                              setEditImagesInput((tire.images || [tire.image]).join('\n'));
-                            }}
-                            className="bg-slate-900 hover:bg-slate-800 text-amber-400 border border-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-lg flex items-center gap-1 transition"
-                          >
-                            📷 {photoCount} Photo{photoCount > 1 ? 's' : ''} (Edit)
-                          </button>
+                        <div>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <h4 className="text-xl font-black text-white">{tire.size}</h4>
+                            <span className="text-[10px] text-emerald-400 font-extrabold bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800">
+                              {tire.condition}
+                            </span>
+                          </div>
+
+                          <div className="flex flex-wrap items-center gap-3 mt-1 text-xs">
+                            <span className="text-slate-400 font-semibold">Total Stock Across All Hubs: <strong className="text-white font-mono">{totalStockAllHubs}</strong></span>
+                            
+                            <button
+                              onClick={() => handleOpenEditTireModal(tire)}
+                              className="bg-amber-500 hover:bg-amber-400 text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded-lg flex items-center gap-1 transition shadow"
+                            >
+                              <Edit className="w-3 h-3" /> Edit Tire Specs & Stock
+                            </button>
+
+                            <button
+                              onClick={() => {
+                                setEditingImagesTireId(tire.id);
+                                setEditImagesInput((tire.images || [tire.image]).join('\n'));
+                              }}
+                              className="bg-slate-900 hover:bg-slate-800 text-amber-400 border border-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-lg flex items-center gap-1 transition"
+                            >
+                              📷 {photoCount} Photo{photoCount > 1 ? 's' : ''} (Gallery)
+                            </button>
+                          </div>
                         </div>
+                      </div>
+
+                      {/* Stock & Price Controls */}
+                      <div className="flex flex-wrap items-center justify-between lg:justify-end w-full lg:w-auto gap-4 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-800">
+                        
+                        {/* Location Selector (If 'all' hubs view) */}
+                        {selectedLocation === 'all' && (
+                          <div className="text-xs">
+                            <span className="text-slate-500 font-bold block text-[10px] uppercase mb-0.5">Editing Hub Stock:</span>
+                            <select
+                              value={activeLocId}
+                              onChange={(e) => setSelectedLocation(e.target.value)}
+                              className="bg-slate-900 border border-slate-700 text-amber-400 font-bold text-xs rounded-lg px-2.5 py-1.5 focus:outline-none"
+                            >
+                              {LOCATIONS.map(l => (
+                                <option key={l.id} value={l.id}>{l.name} ({tire.stock[l.id] || 0})</option>
+                              ))}
+                            </select>
+                          </div>
+                        )}
+
+                        {/* Price Editor */}
+                        <div className="bg-slate-900 p-2 rounded-xl border border-slate-800 flex items-center gap-1 text-xs">
+                          <span className="text-[10px] text-slate-400 font-bold uppercase">Price:</span>
+                          <div className="flex items-center text-amber-400 font-black font-mono">
+                            <span>$</span>
+                            <input 
+                              type="number"
+                              value={tire.price}
+                              onChange={(e) => updatePrice(tire.id, Number(e.target.value))}
+                              className="w-14 bg-transparent text-amber-400 font-black font-mono text-center focus:outline-none"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Stock Quantity Adjuster Buttons */}
+                        <div className="bg-slate-900 p-2 rounded-2xl border border-slate-800 flex items-center gap-2">
+                          <span className="text-[10px] text-slate-400 font-bold uppercase pl-1">
+                            {selectedLocation === 'all' ? 'Greer Stock:' : `${currentLocationData?.name}:`}
+                          </span>
+
+                          <div className="flex items-center gap-1">
+                            <button
+                              onClick={() => updateStock(tire.id, -5, activeLocId)}
+                              title="Subtract 5"
+                              className="bg-red-950 hover:bg-red-900 text-red-300 px-2 py-1 rounded-lg text-xs font-black transition border border-red-800"
+                            >
+                              -5
+                            </button>
+                            <button
+                              onClick={() => updateStock(tire.id, -1, activeLocId)}
+                              title="Subtract 1"
+                              className="bg-red-600 hover:bg-red-500 text-white p-1.5 rounded-lg font-bold transition shadow"
+                            >
+                              <Minus className="w-3.5 h-3.5" />
+                            </button>
+
+                            <input 
+                              type="number"
+                              value={stockQty}
+                              onChange={(e) => setDirectStock(tire.id, Number(e.target.value), activeLocId)}
+                              className="w-12 bg-slate-950 text-white font-mono text-center font-black text-base py-1 rounded-lg border border-slate-800 focus:outline-none focus:border-red-500"
+                            />
+
+                            <button
+                              onClick={() => updateStock(tire.id, 1, activeLocId)}
+                              title="Add 1"
+                              className="bg-emerald-600 hover:bg-emerald-500 text-white p-1.5 rounded-lg font-bold transition shadow"
+                            >
+                              <Plus className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              onClick={() => updateStock(tire.id, 5, activeLocId)}
+                              title="Add 5"
+                              className="bg-emerald-950 hover:bg-emerald-900 text-emerald-300 px-2 py-1 rounded-lg text-xs font-black transition border border-emerald-800"
+                            >
+                              +5
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Delete Tire Button */}
+                        <button
+                          onClick={() => handleDeleteTire(tire.id, tire.size)}
+                          title="Delete Product"
+                          className="bg-slate-900 hover:bg-red-950 text-slate-400 hover:text-red-400 p-2.5 rounded-xl border border-slate-800 hover:border-red-800 transition"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+
+            {/* Comprehensive Edit Tire Modal */}
+            {editingTire && (
+              <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-2xl w-full p-6 text-white shadow-2xl relative my-8">
+                  <button 
+                    onClick={() => setEditingTire(null)}
+                    className="absolute top-4 right-4 text-slate-400 hover:text-white font-bold text-base"
+                  >
+                    ✕
+                  </button>
+
+                  <h3 className="text-lg font-black uppercase text-amber-400 mb-1 flex items-center gap-2">
+                    <Edit className="w-5 h-5 text-amber-500" /> Edit Product Specs & Multi-Container Stock
+                  </h3>
+                  <p className="text-xs text-slate-400 mb-5">Update tire size, brand, pricing, and stock count for each container hub.</p>
+
+                  <div className="space-y-4 text-xs">
+                    
+                    {/* Size & Brand */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Tire Size String:</label>
+                        <input 
+                          type="text" 
+                          value={editTireSize}
+                          onChange={(e) => setEditTireSize(e.target.value)}
+                          className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white font-bold"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Brand Name:</label>
+                        <input 
+                          type="text" 
+                          value={editTireBrand}
+                          onChange={(e) => setEditTireBrand(e.target.value)}
+                          placeholder="e.g. Michelin / Goodyear / Quality Used"
+                          className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white font-bold"
+                        />
                       </div>
                     </div>
 
-                    {/* Stock & Price Controls */}
-                    <div className="flex flex-wrap items-center justify-between lg:justify-end w-full lg:w-auto gap-4 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-800">
-                      
-                      {/* Location Selector (If 'all' hubs view) */}
-                      {selectedLocation === 'all' && (
-                        <div className="text-xs">
-                          <span className="text-slate-500 font-bold block text-[10px] uppercase mb-0.5">Editing Hub Stock:</span>
-                          <select
-                            value={activeLocId}
-                            onChange={(e) => setSelectedLocation(e.target.value)}
-                            className="bg-slate-900 border border-slate-700 text-amber-400 font-bold text-xs rounded-lg px-2.5 py-1.5 focus:outline-none"
-                          >
-                            {LOCATIONS.map(l => (
-                              <option key={l.id} value={l.id}>{l.name} ({tire.stock[l.id] || 0})</option>
-                            ))}
-                          </select>
-                        </div>
-                      )}
-
-                      {/* Price Editor */}
-                      <div className="bg-slate-900 p-2 rounded-xl border border-slate-800 flex items-center gap-1 text-xs">
-                        <span className="text-[10px] text-slate-400 font-bold uppercase">Price:</span>
-                        <div className="flex items-center text-amber-400 font-black font-mono">
-                          <span>$</span>
-                          <input 
-                            type="number"
-                            value={tire.price}
-                            onChange={(e) => updatePrice(tire.id, Number(e.target.value))}
-                            className="w-14 bg-transparent text-amber-400 font-black font-mono text-center focus:outline-none"
-                          />
-                        </div>
+                    {/* Rim, Condition & Price */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div>
+                        <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Rim Diameter (Inches):</label>
+                        <input 
+                          type="number" 
+                          value={editTireRimSize}
+                          onChange={(e) => setEditTireRimSize(Number(e.target.value))}
+                          className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white font-bold"
+                        />
                       </div>
-
-                      {/* Stock Quantity Adjuster Buttons */}
-                      <div className="bg-slate-900 p-2 rounded-2xl border border-slate-800 flex items-center gap-2">
-                        <span className="text-[10px] text-slate-400 font-bold uppercase pl-1">
-                          {selectedLocation === 'all' ? 'Greer Stock:' : `${currentLocationData?.name}:`}
-                        </span>
-
-                        <div className="flex items-center gap-1">
-                          <button
-                            onClick={() => updateStock(tire.id, -5, activeLocId)}
-                            title="Subtract 5"
-                            className="bg-red-950 hover:bg-red-900 text-red-300 px-2 py-1 rounded-lg text-xs font-black transition border border-red-800"
-                          >
-                            -5
-                          </button>
-                          <button
-                            onClick={() => updateStock(tire.id, -1, activeLocId)}
-                            title="Subtract 1"
-                            className="bg-red-600 hover:bg-red-500 text-white p-1.5 rounded-lg font-bold transition shadow"
-                          >
-                            <Minus className="w-3.5 h-3.5" />
-                          </button>
-
-                          <input 
-                            type="number"
-                            value={stockQty}
-                            onChange={(e) => setDirectStock(tire.id, Number(e.target.value), activeLocId)}
-                            className="w-12 bg-slate-950 text-white font-mono text-center font-black text-base py-1 rounded-lg border border-slate-800 focus:outline-none focus:border-red-500"
-                          />
-
-                          <button
-                            onClick={() => updateStock(tire.id, 1, activeLocId)}
-                            title="Add 1"
-                            className="bg-emerald-600 hover:bg-emerald-500 text-white p-1.5 rounded-lg font-bold transition shadow"
-                          >
-                            <Plus className="w-3.5 h-3.5" />
-                          </button>
-                          <button
-                            onClick={() => updateStock(tire.id, 5, activeLocId)}
-                            title="Add 5"
-                            className="bg-emerald-950 hover:bg-emerald-900 text-emerald-300 px-2 py-1 rounded-lg text-xs font-black transition border border-emerald-800"
-                          >
-                            +5
-                          </button>
-                        </div>
+                      <div>
+                        <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Tread Condition:</label>
+                        <select
+                          value={editTireCondition}
+                          onChange={(e) => setEditTireCondition(e.target.value as any)}
+                          className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-emerald-400 font-bold"
+                        >
+                          <option value="Good (70%+ tread)">Good (70%+ tread)</option>
+                          <option value="Like New (90%+ tread)">Like New (90%+ tread)</option>
+                        </select>
                       </div>
+                      <div>
+                        <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Price Per Tire ($):</label>
+                        <input 
+                          type="number" 
+                          value={editTirePrice}
+                          onChange={(e) => setEditTirePrice(Number(e.target.value))}
+                          className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-amber-400 font-black"
+                        />
+                      </div>
+                    </div>
 
-                      {/* Delete Tire Button */}
+                    {/* Multi-Container Stock Grid */}
+                    <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
+                      <label className="text-[11px] text-amber-400 font-black block uppercase tracking-wider">
+                        📦 Inventory Stock Count Across All 8 Container Hubs:
+                      </label>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        {LOCATIONS.map(loc => (
+                          <div key={loc.id} className="bg-slate-900 p-2.5 rounded-xl border border-slate-800">
+                            <span className="text-[10px] text-slate-400 font-bold block truncate mb-1">{loc.name}</span>
+                            <input 
+                              type="number"
+                              value={editTireHubStock[loc.id] || 0}
+                              onChange={(e) => {
+                                const val = Math.max(0, Number(e.target.value));
+                                setEditTireHubStock(prev => ({ ...prev, [loc.id]: val }));
+                              }}
+                              className="w-full bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-white font-mono font-black text-sm"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Image Upload/URLs */}
+                    <div>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <label className="text-[10px] text-slate-400 font-bold block uppercase">Tire Photo URLs / PC Upload:</label>
+                        <label className="cursor-pointer bg-red-600 hover:bg-red-500 text-white text-[11px] font-bold px-3 py-1 rounded-lg flex items-center gap-1 transition">
+                          <Upload className="w-3.5 h-3.5" /> Upload from PC
+                          <input type="file" accept="image/*" multiple onChange={handleEditTireFileUpload} className="hidden" />
+                        </label>
+                      </div>
+                      <textarea
+                        rows={3}
+                        value={editTireImagesInput}
+                        onChange={(e) => setEditTireImagesInput(e.target.value)}
+                        className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs font-mono text-white placeholder:text-slate-500"
+                        placeholder="Image URLs (1 per line)..."
+                      />
+                    </div>
+
+                  </div>
+
+                  <div className="flex justify-between items-center pt-5 border-t border-slate-800 mt-5">
+                    <button
+                      onClick={() => handleDeleteTire(editingTire.id, editingTire.size)}
+                      className="text-xs bg-red-950 hover:bg-red-900 text-red-400 px-3.5 py-2 rounded-xl border border-red-800 flex items-center gap-1.5 font-bold transition"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" /> Delete Tire
+                    </button>
+                    
+                    <div className="flex gap-3">
                       <button
-                        onClick={() => handleDeleteTire(tire.id, tire.size)}
-                        title="Delete Product"
-                        className="bg-slate-900 hover:bg-red-950 text-slate-400 hover:text-red-400 p-2.5 rounded-xl border border-slate-800 hover:border-red-800 transition"
+                        onClick={() => setEditingTire(null)}
+                        className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl text-slate-300 uppercase"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        Cancel
                       </button>
-
+                      <button
+                        onClick={handleSaveEditTire}
+                        className="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black rounded-xl uppercase shadow-lg"
+                      >
+                        Save Product Specs
+                      </button>
                     </div>
                   </div>
-                );
-              })}
-            </div>
+
+                </div>
+              </div>
+            )}
 
             {/* Edit Product Images Modal */}
             {editingImagesTireId && (
@@ -1023,13 +1352,13 @@ export default function AdminPage() {
                   <ShoppingBag className="w-5 h-5 text-red-500" /> Customer Orders & Lockbox Code Access
                 </h2>
                 <p className="text-xs text-slate-400 mt-0.5 font-semibold">
-                  Manage customer tire reservations, assigned lockbox codes & pickup status.
+                  Manage customer tire reservations, assigned lockbox codes, payment verification & pickup status.
                 </p>
               </div>
 
               {/* Order Status Filters & Create Order Button */}
               <div className="flex flex-wrap items-center gap-2">
-                {(['all', 'Pending Pickup', 'Completed', 'Cancelled'] as const).map(status => (
+                {(['all', 'Pending Verification', 'Payment Verified', 'Pending Pickup', 'Completed', 'Cancelled'] as const).map(status => (
                   <button
                     key={status}
                     onClick={() => setOrderStatusFilter(status)}
@@ -1062,7 +1391,7 @@ export default function AdminPage() {
                   <button type="button" onClick={() => setShowManualOrderForm(false)} className="text-slate-400 hover:text-white font-bold text-sm">✕</button>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs">
                   <div>
                     <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Customer Phone:</label>
                     <input 
@@ -1083,6 +1412,16 @@ export default function AdminPage() {
                       onChange={(e) => setManualSize(e.target.value)}
                       className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white font-bold"
                       required
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Brand Name:</label>
+                    <input 
+                      type="text" 
+                      placeholder="e.g. Quality Used Tire" 
+                      value={manualBrand}
+                      onChange={(e) => setManualBrand(e.target.value)}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white font-bold"
                     />
                   </div>
                   <div>
@@ -1115,6 +1454,30 @@ export default function AdminPage() {
                       className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-emerald-400 font-black"
                     />
                   </div>
+                  <div>
+                    <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Payment Method:</label>
+                    <select
+                      value={manualPaymentMethod}
+                      onChange={(e) => setManualPaymentMethod(e.target.value)}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white font-bold"
+                    >
+                      <option value="Cash App">Cash App</option>
+                      <option value="Venmo">Venmo</option>
+                      <option value="Zelle">Zelle</option>
+                      <option value="Apple Pay">Apple Pay</option>
+                      <option value="Cash at Box">Cash at Box</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Sender Name / Handle:</label>
+                    <input 
+                      type="text" 
+                      placeholder="e.g. $John / Phone" 
+                      value={manualSenderRef}
+                      onChange={(e) => setManualSenderRef(e.target.value)}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-amber-400 font-bold"
+                    />
+                  </div>
                 </div>
 
                 <div className="flex justify-end gap-3 pt-2">
@@ -1133,132 +1496,330 @@ export default function AdminPage() {
                   No orders found matching status filter "{orderStatusFilter}".
                 </div>
               ) : (
-                filteredOrders.map(order => (
-                  <div key={order.id} className="bg-slate-950 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
-                    
-                    <div className="flex flex-col sm:flex-row justify-between sm:items-center pb-4 border-b border-slate-800/80 gap-2">
-                      <div className="flex items-center gap-3">
-                        <span className="font-mono font-black text-amber-400 text-sm bg-amber-950/60 border border-amber-800/60 px-3 py-1 rounded-lg">
-                          {order.id}
-                        </span>
-                        <span className="text-xs text-slate-400 font-semibold">{order.createdAt}</span>
-                      </div>
+                filteredOrders.map(order => {
+                  const qtyLabel = order.quantity === 1 ? 'Single' : order.quantity === 2 ? 'Pair' : `Set of ${order.quantity}`;
+                  const orderBrandName = order.brand || 'Quality Used Tire';
 
-                      <div className="flex items-center gap-2">
-                        {order.paymentMethod && (
-                          <span className={`text-[11px] font-black px-2.5 py-1 rounded-lg uppercase ${
-                            order.paymentMethod === 'Cash App' ? 'bg-emerald-950 border border-emerald-500 text-emerald-400' :
-                            order.paymentMethod === 'Venmo' ? 'bg-sky-950 border border-sky-500 text-sky-400' :
-                            order.paymentMethod === 'Zelle' ? 'bg-purple-950 border border-purple-500 text-purple-400' :
-                            order.paymentMethod === 'Apple Pay' ? 'bg-slate-800 border border-slate-600 text-white' :
-                            'bg-amber-950 border border-amber-500 text-amber-400'
+                  return (
+                    <div key={order.id} className="bg-slate-950 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4 hover:border-slate-700 transition">
+                      
+                      {/* Order Header Info Bar */}
+                      <div className="flex flex-col sm:flex-row justify-between sm:items-center pb-4 border-b border-slate-800/80 gap-2">
+                        <div className="flex items-center gap-3">
+                          <span className="font-mono font-black text-amber-400 text-sm bg-amber-950/60 border border-amber-800/60 px-3 py-1 rounded-lg">
+                            {order.id}
+                          </span>
+                          <span className="text-xs text-slate-400 font-semibold flex items-center gap-1">
+                            <Clock className="w-3.5 h-3.5 text-slate-500" /> {order.createdAt}
+                          </span>
+                        </div>
+
+                        <div className="flex items-center gap-2 flex-wrap">
+                          {order.paymentMethod && (
+                            <span className={`text-[11px] font-black px-3 py-1 rounded-lg uppercase flex items-center gap-1 ${
+                              order.paymentMethod === 'Cash App' ? 'bg-emerald-950 border border-emerald-500 text-emerald-400' :
+                              order.paymentMethod === 'Venmo' ? 'bg-sky-950 border border-sky-500 text-sky-400' :
+                              order.paymentMethod === 'Zelle' ? 'bg-purple-950 border border-purple-500 text-purple-400' :
+                              order.paymentMethod === 'Apple Pay' ? 'bg-slate-800 border border-slate-600 text-white' :
+                              'bg-amber-950 border border-amber-500 text-amber-400'
+                            }`}>
+                              💳 {order.paymentMethod}
+                            </span>
+                          )}
+                          <span className={`text-xs font-black px-3 py-1 rounded-lg uppercase flex items-center gap-1 ${
+                            order.status === 'Pending Verification' ? 'bg-amber-500/20 border border-amber-500 text-amber-400 animate-pulse' :
+                            order.status === 'Payment Verified' ? 'bg-emerald-500/20 border border-emerald-500 text-emerald-400' :
+                            order.status === 'Completed' ? 'bg-blue-500/20 border border-blue-500 text-blue-400' :
+                            'bg-red-500/20 border border-red-500 text-red-400'
                           }`}>
-                            💳 {order.paymentMethod}
+                            {order.status === 'Pending Verification' ? '⏳ Pending Verification' : order.status}
                           </span>
-                        )}
-                        <span className={`text-xs font-black px-3 py-1 rounded-lg uppercase flex items-center gap-1 ${
-                          order.status === 'Pending Verification' ? 'bg-amber-500/20 border border-amber-500 text-amber-400 animate-pulse' :
-                          order.status === 'Payment Verified' ? 'bg-emerald-500/20 border border-emerald-500 text-emerald-400' :
-                          order.status === 'Completed' ? 'bg-blue-500/20 border border-blue-500 text-blue-400' :
-                          'bg-red-500/20 border border-red-500 text-red-400'
-                        }`}>
-                          {order.status === 'Pending Verification' ? '⏳ Pending Verification' : order.status}
-                        </span>
-                      </div>
-                    </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-                      <div className="bg-slate-900 p-3 rounded-xl border border-slate-800">
-                        <span className="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Customer Contact & Sender Name:</span>
-                        <a href={`tel:${order.customerPhone}`} className="text-white font-mono font-black text-sm hover:text-red-400 flex items-center gap-1">
-                          <Phone className="w-3.5 h-3.5 text-red-500" /> {order.customerPhone}
-                        </a>
-                        {order.senderRef && (
-                          <span className="text-amber-400 font-bold text-[11px] block mt-1">
-                            Paid via: {order.senderRef}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="bg-slate-900 p-3 rounded-xl border border-slate-800">
-                        <span className="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Reserved Size & Quantity:</span>
-                        <span className="text-white font-extrabold text-sm block">{order.tireSize}</span>
-                        <span className="text-amber-400 font-bold">{order.quantity} Tire({order.quantity > 1 ? 's' : ''}) • ${order.totalPrice} Total</span>
-                      </div>
-
-                      <div className="bg-slate-900 p-3 rounded-xl border border-slate-800">
-                        <span className="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Pickup Location:</span>
-                        <span className="text-white font-extrabold text-sm flex items-center gap-1">
-                          <MapPin className="w-3.5 h-3.5 text-red-500" /> {order.locationName}
-                        </span>
-                      </div>
-
-                      <div className="bg-slate-900 p-3 rounded-xl border border-slate-800 relative group">
-                        <span className="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Container Lockbox Code:</span>
-                        <div className="flex items-center justify-between bg-emerald-950/60 p-1.5 rounded-lg border border-emerald-800">
-                          <span className="text-emerald-400 font-mono font-black text-base tracking-widest pl-2">
-                            {order.lockboxCode}
-                          </span>
                           <button
-                            onClick={() => {
-                              navigator.clipboard.writeText(order.lockboxCode);
-                              setSuccessMsg(`Copied Lockbox Code ${order.lockboxCode} to clipboard!`);
-                              setTimeout(() => setSuccessMsg(''), 3000);
-                            }}
-                            title="Copy Code"
-                            className="bg-emerald-900 hover:bg-emerald-800 text-emerald-300 p-1 rounded transition"
+                            onClick={() => handleOpenEditOrderModal(order)}
+                            className="bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-black px-3 py-1 rounded-lg flex items-center gap-1 transition shadow"
                           >
-                            <Copy className="w-3.5 h-3.5" />
+                            <Edit className="w-3.5 h-3.5" /> Edit Order
                           </button>
                         </div>
                       </div>
+
+                      {/* Detailed Order Card Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                        
+                        {/* Customer & Payment Info */}
+                        <div className="bg-slate-900 p-3.5 rounded-xl border border-slate-800">
+                          <span className="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Customer Contact & Sender Handle:</span>
+                          <div className="flex items-center justify-between">
+                            <a href={`tel:${order.customerPhone}`} className="text-white font-mono font-black text-sm hover:text-red-400 flex items-center gap-1">
+                              <Phone className="w-3.5 h-3.5 text-red-500" /> {order.customerPhone}
+                            </a>
+                            <button 
+                              onClick={() => {
+                                navigator.clipboard.writeText(order.customerPhone);
+                                setSuccessMsg(`Copied phone number ${order.customerPhone}!`);
+                                setTimeout(() => setSuccessMsg(''), 3000);
+                              }}
+                              className="text-slate-400 hover:text-white text-[10px]"
+                              title="Copy Phone"
+                            >
+                              <Copy className="w-3 h-3" />
+                            </button>
+                          </div>
+                          {order.senderRef && (
+                            <span className="text-amber-400 font-bold text-[11px] block mt-1.5 bg-slate-950/70 px-2 py-1 rounded border border-slate-800">
+                              Paid via: <strong>{order.senderRef}</strong>
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Item Brand, Size & Quantity */}
+                        <div className="bg-slate-900 p-3.5 rounded-xl border border-slate-800">
+                          <span className="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Reserved Size & Item Specs:</span>
+                          <span className="text-white font-black text-sm block">{order.tireSize}</span>
+                          <span className="text-slate-400 text-[11px] block font-semibold">{orderBrandName}</span>
+                          <span className="text-amber-400 font-extrabold text-[11px] block mt-1">
+                            {order.quantity} Tire{order.quantity > 1 ? 's' : ''} ({qtyLabel}) • <strong className="text-emerald-400">${order.totalPrice} Total</strong>
+                          </span>
+                        </div>
+
+                        {/* Pickup Container Location */}
+                        <div className="bg-slate-900 p-3.5 rounded-xl border border-slate-800">
+                          <span className="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Pickup Container Hub:</span>
+                          <span className="text-white font-extrabold text-sm flex items-center gap-1">
+                            <MapPin className="w-3.5 h-3.5 text-red-500" /> {order.locationName}
+                          </span>
+                          <span className="text-[10px] text-slate-400 block mt-1">Self-Serve 24/7 Lockbox Access</span>
+                        </div>
+
+                        {/* Lockbox Code Box */}
+                        <div className="bg-slate-900 p-3.5 rounded-xl border border-slate-800 relative group">
+                          <span className="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Container Lockbox Code:</span>
+                          <div className="flex items-center justify-between bg-emerald-950/60 p-2 rounded-xl border border-emerald-800">
+                            <span className="text-emerald-400 font-mono font-black text-lg tracking-widest pl-2">
+                              {order.lockboxCode}
+                            </span>
+                            <button
+                              onClick={() => {
+                                navigator.clipboard.writeText(order.lockboxCode);
+                                setSuccessMsg(`Copied Lockbox Code ${order.lockboxCode} to clipboard!`);
+                                setTimeout(() => setSuccessMsg(''), 3000);
+                              }}
+                              title="Copy Code"
+                              className="bg-emerald-900 hover:bg-emerald-800 text-emerald-300 p-1.5 rounded-lg transition"
+                            >
+                              <Copy className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      {/* Order Action Buttons Bar */}
+                      <div className="pt-2 flex flex-wrap items-center justify-between border-t border-slate-800/80 gap-2">
+                        <a 
+                          href={`sms:${order.customerPhone.replace(/[^0-9]/g, '')}?body=${encodeURIComponent(`Tony's Tire Box Order ${order.id}: Payment of $${order.totalPrice} verified! Your lockbox access code for ${order.quantity}x ${order.tireSize} at ${order.locationName} is: ${order.lockboxCode}`)}`}
+                          className="text-xs bg-slate-900 hover:bg-slate-800 text-amber-400 font-bold px-3.5 py-2 rounded-xl border border-slate-800 flex items-center gap-1.5 transition"
+                        >
+                          📱 SMS Lockbox Code to Customer
+                        </a>
+
+                        <div className="flex flex-wrap items-center gap-2">
+                          {order.status === 'Pending Verification' && (
+                            <button
+                              onClick={() => {
+                                updateOrderStatus(order.id, 'Payment Verified');
+                                setSuccessMsg(`Verified payment for ${order.id}! Click SMS to send code.`);
+                                setTimeout(() => setSuccessMsg(''), 4000);
+                              }}
+                              className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2 rounded-xl flex items-center gap-1.5 transition shadow"
+                            >
+                              <Check className="w-3.5 h-3.5" /> Approve Payment & Send Code
+                            </button>
+                          )}
+                          {order.status === 'Payment Verified' && (
+                            <button
+                              onClick={() => updateOrderStatus(order.id, 'Completed')}
+                              className="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-4 py-2 rounded-xl flex items-center gap-1.5 transition shadow"
+                            >
+                              <Check className="w-3.5 h-3.5" /> Mark Pickup Completed
+                            </button>
+                          )}
+                          {order.status !== 'Cancelled' && (
+                            <button
+                              onClick={() => updateOrderStatus(order.id, 'Cancelled')}
+                              className="bg-slate-900 hover:bg-red-950 text-slate-400 hover:text-red-400 font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1 transition border border-slate-800"
+                            >
+                              <X className="w-3.5 h-3.5" /> Reject / Cancel
+                            </button>
+                          )}
+                        </div>
+                      </div>
+
+                    </div>
+                  );
+                })
+              )}
+            </div>
+
+            {/* Comprehensive Edit Order Details Modal */}
+            {editingOrder && (
+              <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-xl w-full p-6 text-white shadow-2xl relative my-8">
+                  <button 
+                    onClick={() => setEditingOrder(null)}
+                    className="absolute top-4 right-4 text-slate-400 hover:text-white font-bold text-base"
+                  >
+                    ✕
+                  </button>
+
+                  <h3 className="text-lg font-black uppercase text-amber-400 mb-1 flex items-center gap-2">
+                    <Edit className="w-5 h-5 text-amber-500" /> Edit Order Details ({editingOrder.id})
+                  </h3>
+                  <p className="text-xs text-slate-400 mb-5">Modify customer contact, lockbox code, payment method, location or status.</p>
+
+                  <div className="space-y-4 text-xs">
+                    
+                    {/* Customer Phone & Lockbox Code */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Customer Phone:</label>
+                        <input 
+                          type="text" 
+                          value={editOrderPhone}
+                          onChange={(e) => setEditOrderPhone(e.target.value)}
+                          className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white font-mono font-bold"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Lockbox Combination Code:</label>
+                        <input 
+                          type="text" 
+                          value={editOrderLockbox}
+                          onChange={(e) => setEditOrderLockbox(e.target.value)}
+                          className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-emerald-400 font-mono font-black text-sm"
+                        />
+                      </div>
                     </div>
 
-                    {/* Order Status Action Buttons */}
-                    <div className="pt-2 flex flex-wrap items-center justify-between border-t border-slate-800/80 gap-2">
-                      <a 
-                        href={`sms:${order.customerPhone.replace(/[^0-9]/g, '')}?body=${encodeURIComponent(`Tony's Tire Box Order ${order.id}: Payment of $${order.totalPrice} verified! Your lockbox access code for ${order.quantity}x ${order.tireSize} at ${order.locationName} is: ${order.lockboxCode}`)}`}
-                        className="text-xs bg-slate-900 hover:bg-slate-800 text-amber-400 font-bold px-3 py-1.5 rounded-lg border border-slate-800 flex items-center gap-1 transition"
-                      >
-                        📱 SMS Lockbox Code to Customer
-                      </a>
+                    {/* Order Status & Payment Method */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Order Status:</label>
+                        <select
+                          value={editOrderStatus}
+                          onChange={(e) => setEditOrderStatus(e.target.value as OrderStatus)}
+                          className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-amber-400 font-bold"
+                        >
+                          <option value="Pending Verification">Pending Verification</option>
+                          <option value="Payment Verified">Payment Verified</option>
+                          <option value="Pending Pickup">Pending Pickup</option>
+                          <option value="Completed">Completed</option>
+                          <option value="Cancelled">Cancelled</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Payment Method:</label>
+                        <select
+                          value={editOrderPaymentMethod}
+                          onChange={(e) => setEditOrderPaymentMethod(e.target.value)}
+                          className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white font-bold"
+                        >
+                          <option value="Cash App">Cash App</option>
+                          <option value="Venmo">Venmo</option>
+                          <option value="Zelle">Zelle</option>
+                          <option value="Apple Pay">Apple Pay</option>
+                          <option value="Cash at Box">Cash at Box</option>
+                        </select>
+                      </div>
+                    </div>
 
-                      <div className="flex flex-wrap items-center gap-2">
-                        {order.status === 'Pending Verification' && (
-                          <button
-                            onClick={() => {
-                              updateOrderStatus(order.id, 'Payment Verified');
-                              setSuccessMsg(`Verified payment for ${order.id}! Click SMS to send code.`);
-                              setTimeout(() => setSuccessMsg(''), 4000);
-                            }}
-                            className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3.5 py-1.5 rounded-lg flex items-center gap-1 transition shadow animate-bounce"
-                          >
-                            <Check className="w-3.5 h-3.5" /> Approve Payment & Send Code
-                          </button>
-                        )}
-                        {order.status === 'Payment Verified' && (
-                          <button
-                            onClick={() => updateOrderStatus(order.id, 'Completed')}
-                            className="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-3 py-1.5 rounded-lg flex items-center gap-1 transition shadow"
-                          >
-                            <Check className="w-3.5 h-3.5" /> Mark Pickup Completed
-                          </button>
-                        )}
-                        {order.status !== 'Cancelled' && (
-                          <button
-                            onClick={() => updateOrderStatus(order.id, 'Cancelled')}
-                            className="bg-slate-900 hover:bg-red-950 text-slate-400 hover:text-red-400 font-bold text-xs px-3 py-1.5 rounded-lg flex items-center gap-1 transition border border-slate-800"
-                          >
-                            <X className="w-3.5 h-3.5" /> Reject / Cancel
-                          </button>
-                        )}
+                    {/* Sender Reference & Location */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Payment Sender Name / Handle:</label>
+                        <input 
+                          type="text" 
+                          value={editOrderSenderRef}
+                          onChange={(e) => setEditOrderSenderRef(e.target.value)}
+                          placeholder="e.g. $John / Phone"
+                          className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-amber-400 font-bold"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Pickup Location Hub:</label>
+                        <select
+                          value={editOrderLocationName}
+                          onChange={(e) => setEditOrderLocationName(e.target.value)}
+                          className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white font-bold"
+                        >
+                          {LOCATIONS.map(l => (
+                            <option key={l.id} value={`${l.name} Container`}>{l.name} Container</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Item Size, Quantity & Total Price */}
+                    <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                      <div className="sm:col-span-2">
+                        <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Reserved Tire Size:</label>
+                        <input 
+                          type="text" 
+                          value={editOrderTireSize}
+                          onChange={(e) => setEditOrderTireSize(e.target.value)}
+                          className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white font-bold"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Quantity:</label>
+                        <input 
+                          type="number" 
+                          value={editOrderQuantity}
+                          onChange={(e) => setEditOrderQuantity(Number(e.target.value))}
+                          className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white font-bold"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Total Price ($):</label>
+                        <input 
+                          type="number" 
+                          value={editOrderTotalPrice}
+                          onChange={(e) => setEditOrderTotalPrice(Number(e.target.value))}
+                          className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-emerald-400 font-black"
+                        />
                       </div>
                     </div>
 
                   </div>
-                ))
-              )}
-            </div>
+
+                  <div className="flex justify-between items-center pt-5 border-t border-slate-800 mt-5">
+                    <button
+                      onClick={() => handleDeleteOrder(editingOrder.id)}
+                      className="text-xs bg-red-950 hover:bg-red-900 text-red-400 px-3.5 py-2 rounded-xl border border-red-800 flex items-center gap-1.5 font-bold transition"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" /> Delete Order
+                    </button>
+                    
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => setEditingOrder(null)}
+                        className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl text-slate-300 uppercase"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handleSaveEditOrder}
+                        className="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black rounded-xl uppercase shadow-lg"
+                      >
+                        Save Order Details
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            )}
           </div>
         )}
 
