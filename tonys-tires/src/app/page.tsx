@@ -31,8 +31,9 @@ export default function Home() {
   const [checkoutComplete, setCheckoutComplete] = useState<boolean>(false);
   const [customerPhone, setCustomerPhone] = useState<string>('');
   const [customerName, setCustomerName] = useState<string>('');
+  const [paymentSenderRef, setPaymentSenderRef] = useState<string>('');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('Cash App');
-  const [lastOrderDetails, setLastOrderDetails] = useState<{ id: string; lockbox: string; phone: string; total: number; paymentMethod: string } | null>(null);
+  const [lastOrderDetails, setLastOrderDetails] = useState<{ id: string; lockbox: string; phone: string; total: number; paymentMethod: string; senderRef: string } | null>(null);
 
   // Tire Specs Modal State
   const [selectedTireModal, setSelectedTireModal] = useState<TireItem | null>(null);
@@ -194,7 +195,8 @@ export default function Home() {
       locationName: `${targetLocName} Container`,
       lockboxCode,
       paymentMethod: selectedPaymentMethod,
-      status: 'Pending Pickup' as const,
+      senderRef: paymentSenderRef || customerPhone,
+      status: 'Pending Verification' as const,
       createdAt: 'Just now'
     };
 
@@ -209,7 +211,8 @@ export default function Home() {
       lockbox: lockboxCode,
       phone: customerPhone,
       total: totalCartPrice,
-      paymentMethod: selectedPaymentMethod
+      paymentMethod: selectedPaymentMethod,
+      senderRef: paymentSenderRef || customerPhone
     });
 
     setCheckoutComplete(true);
@@ -885,6 +888,17 @@ export default function Home() {
                       </div>
 
                       <div>
+                        <label className="block text-xs font-black uppercase text-slate-700 mb-1">Your Name / Cashtag (so we can verify your payment):</label>
+                        <input 
+                          type="text" 
+                          placeholder="e.g. $JohnDoe or John Smith"
+                          value={paymentSenderRef}
+                          onChange={(e) => setPaymentSenderRef(e.target.value)}
+                          className="w-full bg-slate-50 border-2 border-slate-300 rounded-xl px-4 py-2.5 text-sm font-bold text-slate-900 focus:outline-none focus:border-red-600"
+                        />
+                      </div>
+
+                      <div>
                         <label className="block text-xs font-black uppercase text-slate-700 mb-1.5">Select Preferred Payment Method:</label>
                         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                           {[
@@ -936,17 +950,21 @@ export default function Home() {
               </>
             ) : (
               <div className="text-center py-4 space-y-3">
-                <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-2 font-black text-2xl shadow">
-                  ✓
+                <div className="w-14 h-14 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-2 font-black text-2xl shadow animate-bounce">
+                  ⏳
                 </div>
-                <h3 className="text-2xl font-black text-slate-950 uppercase">Reservation Confirmed!</h3>
-                <p className="text-xs text-slate-600 font-medium">Stock has been reserved and automatically updated in our inventory.</p>
+                <h3 className="text-2xl font-black text-slate-950 uppercase">Order Reserved & Submitted!</h3>
+                <p className="text-xs text-slate-600 font-semibold">Tire stock is held. Complete your payment below to get lockbox code.</p>
 
                 {lastOrderDetails && (
                   <div className="bg-slate-900 text-white p-4 rounded-2xl text-left text-xs space-y-2 font-mono border border-slate-800">
                     <div className="flex justify-between border-b border-slate-800 pb-2">
                       <span className="text-slate-400">Order ID:</span>
                       <span className="text-amber-400 font-bold">{lastOrderDetails.id}</span>
+                    </div>
+                    <div className="flex justify-between border-b border-slate-800 pb-2">
+                      <span className="text-slate-400">Payment Status:</span>
+                      <span className="text-amber-400 font-black animate-pulse">⏳ PENDING VERIFICATION</span>
                     </div>
                     <div className="flex justify-between border-b border-slate-800 pb-2">
                       <span className="text-slate-400">Lockbox Combination:</span>
@@ -956,16 +974,20 @@ export default function Home() {
                       <span className="text-slate-400">Customer Phone:</span>
                       <span className="text-white font-bold">{lastOrderDetails.phone}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-400">Selected Payment:</span>
+                    <div className="flex justify-between border-b border-slate-800 pb-2">
+                      <span className="text-slate-400">Payment Method:</span>
                       <span className="text-emerald-400 font-bold">{lastOrderDetails.paymentMethod}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-400">Payment Sender Name:</span>
+                      <span className="text-amber-300 font-bold">{lastOrderDetails.senderRef}</span>
                     </div>
                   </div>
                 )}
 
-                <div className="bg-amber-50 border border-amber-200 p-3 rounded-xl text-left text-xs font-semibold text-amber-900 space-y-1">
-                  <div className="font-bold uppercase text-[11px] text-amber-950 flex items-center gap-1">
-                    💳 How to Complete Payment ({lastOrderDetails?.paymentMethod}):
+                <div className="bg-amber-50 border border-amber-300 p-3 rounded-xl text-left text-xs font-semibold text-amber-950 space-y-1.5 shadow-sm">
+                  <div className="font-black uppercase text-[11px] text-amber-900 flex items-center gap-1">
+                    💳 Step 2: Send Payment Now ({lastOrderDetails?.paymentMethod}):
                   </div>
                   {lastOrderDetails?.paymentMethod === 'Cash App' && (
                     <p>Send <strong>${lastOrderDetails?.total}</strong> to Cash App tag <strong>$TonyPiwowarski</strong> (Tony Piwowarski).</p>
@@ -974,22 +996,23 @@ export default function Home() {
                     <p>Send <strong>${lastOrderDetails?.total}</strong> to Venmo <strong>@Lisa-Piwowarski</strong> (Lisa Piwowarski).</p>
                   )}
                   {lastOrderDetails?.paymentMethod === 'Zelle' && (
-                    <p>Send <strong>${lastOrderDetails?.total}</strong> via Zelle to phone <strong>864-395-5393</strong> or email <strong>hbkncc@yahoo.com</strong>.</p>
+                    <p>Send <strong>${lastOrderDetails?.total}</strong> via Zelle to <strong>864-395-5393</strong> or email <strong>hbkncc@yahoo.com</strong>.</p>
                   )}
                   {lastOrderDetails?.paymentMethod === 'Apple Pay' && (
-                    <p>Send <strong>${lastOrderDetails?.total}</strong> via Apple Pay to phone <strong>864-395-5393</strong>.</p>
+                    <p>Send <strong>${lastOrderDetails?.total}</strong> via Apple Pay to <strong>864-395-5393</strong>.</p>
                   )}
                   {lastOrderDetails?.paymentMethod === 'Cash (Container Box)' && (
                     <p>Deposit <strong>${lastOrderDetails?.total}</strong> cash directly into the secured drop box inside the container.</p>
                   )}
+                  <p className="text-[11px] text-slate-600 italic">Once Tony sees your payment, he will verify and text your lockbox code!</p>
                 </div>
 
                 <div className="pt-2">
                   <a 
-                    href={`sms:8643955393?body=${encodeURIComponent(`Hi Tony, I placed order ${lastOrderDetails?.id || ''} via ${lastOrderDetails?.paymentMethod || 'phone'} for ${lastOrderDetails?.phone || ''}`)}`}
+                    href={`sms:8643955393?body=${encodeURIComponent(`Hi Tony, I placed order ${lastOrderDetails?.id || ''} ($${lastOrderDetails?.total || ''}) via ${lastOrderDetails?.paymentMethod || 'App'} from ${lastOrderDetails?.senderRef || ''}. My phone is ${lastOrderDetails?.phone || ''}`)}`}
                     className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-3 rounded-xl block text-xs uppercase shadow transition"
                   >
-                    Text Order Receipt to 864-395-5393
+                    Text Payment Confirmation to 864-395-5393
                   </a>
                 </div>
               </div>

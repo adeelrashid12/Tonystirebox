@@ -28,6 +28,8 @@ import {
   UserCheck
 } from 'lucide-react';
 
+export type OrderStatus = 'Pending Verification' | 'Payment Verified' | 'Pending Pickup' | 'Completed' | 'Cancelled';
+
 interface Order {
   id: string;
   customerPhone: string;
@@ -38,7 +40,8 @@ interface Order {
   locationName: string;
   lockboxCode: string;
   paymentMethod?: string;
-  status: 'Pending Pickup' | 'Completed' | 'Cancelled';
+  senderRef?: string;
+  status: OrderStatus;
   createdAt: string;
 }
 
@@ -53,7 +56,8 @@ const INITIAL_ORDERS: Order[] = [
     locationName: 'Greer Container',
     lockboxCode: '3941',
     paymentMethod: 'Cash App',
-    status: 'Pending Pickup',
+    senderRef: '$JohnDoe',
+    status: 'Pending Verification',
     createdAt: 'Today, 08:15 AM'
   },
   {
@@ -66,7 +70,8 @@ const INITIAL_ORDERS: Order[] = [
     locationName: 'Fountain Inn Container',
     lockboxCode: '7102',
     paymentMethod: 'Venmo',
-    status: 'Completed',
+    senderRef: '@LisaSmith',
+    status: 'Payment Verified',
     createdAt: 'Yesterday, 04:30 PM'
   },
   {
@@ -79,7 +84,8 @@ const INITIAL_ORDERS: Order[] = [
     locationName: 'Little River Container',
     lockboxCode: '5519',
     paymentMethod: 'Zelle',
-    status: 'Pending Pickup',
+    senderRef: 'Robert Johnson',
+    status: 'Completed',
     createdAt: 'Yesterday, 01:10 PM'
   }
 ];
@@ -97,7 +103,7 @@ export default function AdminPage() {
   const [inventory, setInventory] = useState<TireItem[]>(INITIAL_TIRES);
   const [orders, setOrders] = useState<Order[]>(INITIAL_ORDERS);
   const [searchFilter, setSearchFilter] = useState<string>('');
-  const [orderStatusFilter, setOrderStatusFilter] = useState<'all' | 'Pending Pickup' | 'Completed' | 'Cancelled'>('all');
+  const [orderStatusFilter, setOrderStatusFilter] = useState<'all' | OrderStatus>('all');
 
   // New Tire Form State
   const [newSize, setNewSize] = useState<string>('');
@@ -222,7 +228,7 @@ export default function AdminPage() {
   };
 
   // Update order status
-  const updateOrderStatus = (orderId: string, newStatus: 'Pending Pickup' | 'Completed' | 'Cancelled') => {
+  const updateOrderStatus = (orderId: string, newStatus: OrderStatus) => {
     const updated = orders.map(o => o.id === orderId ? { ...o, status: newStatus } : o);
     saveOrders(updated);
     setSuccessMsg(`Order ${orderId} status updated to: ${newStatus}`);
@@ -386,7 +392,7 @@ export default function AdminPage() {
     return total + (itemStockTotal * item.price);
   }, 0);
 
-  const pendingOrdersCount = orders.filter(o => o.status === 'Pending Pickup').length;
+  const pendingOrdersCount = orders.filter(o => o.status === 'Pending Verification' || o.status === 'Pending Pickup' || o.status === 'Payment Verified').length;
 
   // Flexible tire size normalization (e.g., 175/65/14, 175 65 14, 1756514, 175/65R14 all match!)
   const normalizeTireSize = (str: string) => {
@@ -1150,22 +1156,28 @@ export default function AdminPage() {
                             💳 {order.paymentMethod}
                           </span>
                         )}
-                        <span className={`text-xs font-black px-3 py-1 rounded-lg uppercase ${
-                          order.status === 'Pending Pickup' ? 'bg-amber-500/20 border border-amber-500 text-amber-400' :
-                          order.status === 'Completed' ? 'bg-emerald-500/20 border border-emerald-500 text-emerald-400' :
+                        <span className={`text-xs font-black px-3 py-1 rounded-lg uppercase flex items-center gap-1 ${
+                          order.status === 'Pending Verification' ? 'bg-amber-500/20 border border-amber-500 text-amber-400 animate-pulse' :
+                          order.status === 'Payment Verified' ? 'bg-emerald-500/20 border border-emerald-500 text-emerald-400' :
+                          order.status === 'Completed' ? 'bg-blue-500/20 border border-blue-500 text-blue-400' :
                           'bg-red-500/20 border border-red-500 text-red-400'
                         }`}>
-                          {order.status}
+                          {order.status === 'Pending Verification' ? '⏳ Pending Verification' : order.status}
                         </span>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
                       <div className="bg-slate-900 p-3 rounded-xl border border-slate-800">
-                        <span className="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Customer Phone:</span>
+                        <span className="text-slate-500 font-bold block mb-1 uppercase text-[10px]">Customer Contact & Sender Name:</span>
                         <a href={`tel:${order.customerPhone}`} className="text-white font-mono font-black text-sm hover:text-red-400 flex items-center gap-1">
                           <Phone className="w-3.5 h-3.5 text-red-500" /> {order.customerPhone}
                         </a>
+                        {order.senderRef && (
+                          <span className="text-amber-400 font-bold text-[11px] block mt-1">
+                            Paid via: {order.senderRef}
+                          </span>
+                        )}
                       </div>
 
                       <div className="bg-slate-900 p-3 rounded-xl border border-slate-800">
@@ -1205,26 +1217,41 @@ export default function AdminPage() {
                     {/* Order Status Action Buttons */}
                     <div className="pt-2 flex flex-wrap items-center justify-between border-t border-slate-800/80 gap-2">
                       <a 
-                        href={`sms:${order.customerPhone.replace(/[^0-9]/g, '')}?body=${encodeURIComponent(`Tony's Tire Box Order ${order.id}: Your lockbox access code for ${order.quantity}x ${order.tireSize} at ${order.locationName} is: ${order.lockboxCode}`)}`}
+                        href={`sms:${order.customerPhone.replace(/[^0-9]/g, '')}?body=${encodeURIComponent(`Tony's Tire Box Order ${order.id}: Payment of $${order.totalPrice} verified! Your lockbox access code for ${order.quantity}x ${order.tireSize} at ${order.locationName} is: ${order.lockboxCode}`)}`}
                         className="text-xs bg-slate-900 hover:bg-slate-800 text-amber-400 font-bold px-3 py-1.5 rounded-lg border border-slate-800 flex items-center gap-1 transition"
                       >
                         📱 SMS Lockbox Code to Customer
                       </a>
 
-                      <div className="flex items-center gap-2">
-                        <span className="text-[11px] text-slate-400 font-bold mr-1">Update Status:</span>
-                        <button
-                          onClick={() => updateOrderStatus(order.id, 'Completed')}
-                          className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3 py-1.5 rounded-lg flex items-center gap-1 transition shadow"
-                        >
-                          <Check className="w-3.5 h-3.5" /> Mark Completed
-                        </button>
-                        <button
-                          onClick={() => updateOrderStatus(order.id, 'Cancelled')}
-                          className="bg-slate-900 hover:bg-red-950 text-slate-400 hover:text-red-400 font-bold text-xs px-3 py-1.5 rounded-lg flex items-center gap-1 transition border border-slate-800"
-                        >
-                          <X className="w-3.5 h-3.5" /> Cancel Order
-                        </button>
+                      <div className="flex flex-wrap items-center gap-2">
+                        {order.status === 'Pending Verification' && (
+                          <button
+                            onClick={() => {
+                              updateOrderStatus(order.id, 'Payment Verified');
+                              setSuccessMsg(`Verified payment for ${order.id}! Click SMS to send code.`);
+                              setTimeout(() => setSuccessMsg(''), 4000);
+                            }}
+                            className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3.5 py-1.5 rounded-lg flex items-center gap-1 transition shadow animate-bounce"
+                          >
+                            <Check className="w-3.5 h-3.5" /> Approve Payment & Send Code
+                          </button>
+                        )}
+                        {order.status === 'Payment Verified' && (
+                          <button
+                            onClick={() => updateOrderStatus(order.id, 'Completed')}
+                            className="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-3 py-1.5 rounded-lg flex items-center gap-1 transition shadow"
+                          >
+                            <Check className="w-3.5 h-3.5" /> Mark Pickup Completed
+                          </button>
+                        )}
+                        {order.status !== 'Cancelled' && (
+                          <button
+                            onClick={() => updateOrderStatus(order.id, 'Cancelled')}
+                            className="bg-slate-900 hover:bg-red-950 text-slate-400 hover:text-red-400 font-bold text-xs px-3 py-1.5 rounded-lg flex items-center gap-1 transition border border-slate-800"
+                          >
+                            <X className="w-3.5 h-3.5" /> Reject / Cancel
+                          </button>
+                        )}
                       </div>
                     </div>
 
