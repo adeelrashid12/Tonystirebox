@@ -58,7 +58,7 @@ const INITIAL_ORDERS: Order[] = [
     brand: 'Quality Used Tire',
     quantity: 2,
     totalPrice: 90,
-    locationName: 'Greer Container',
+    locationName: 'Greer',
     lockboxCode: '3941',
     paymentMethod: 'Cash App',
     senderRef: '$JohnDoe',
@@ -72,7 +72,7 @@ const INITIAL_ORDERS: Order[] = [
     brand: 'Quality Used Tire',
     quantity: 1,
     totalPrice: 45,
-    locationName: 'Fountain Inn Container',
+    locationName: 'Fountain Inn',
     lockboxCode: '7102',
     paymentMethod: 'Venmo',
     senderRef: '@LisaSmith',
@@ -86,7 +86,7 @@ const INITIAL_ORDERS: Order[] = [
     brand: 'Quality Used Tire',
     quantity: 4,
     totalPrice: 250,
-    locationName: 'Little River Container',
+    locationName: 'Little River',
     lockboxCode: '5519',
     paymentMethod: 'Zelle',
     senderRef: 'Robert Johnson',
@@ -137,7 +137,7 @@ export default function AdminPage() {
   const [editOrderStatus, setEditOrderStatus] = useState<OrderStatus>('Pending Verification');
   const [editOrderPaymentMethod, setEditOrderPaymentMethod] = useState<string>('Cash App');
   const [editOrderSenderRef, setEditOrderSenderRef] = useState<string>('');
-  const [editOrderLocationName, setEditOrderLocationName] = useState<string>('Greer Container');
+  const [editOrderLocationName, setEditOrderLocationName] = useState<string>('Greer');
   const [editOrderTireSize, setEditOrderTireSize] = useState<string>('');
   const [editOrderBrand, setEditOrderBrand] = useState<string>('Quality Used Tire');
   const [editOrderQuantity, setEditOrderQuantity] = useState<number>(1);
@@ -1432,7 +1432,7 @@ export default function AdminPage() {
                       className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-amber-400 font-bold"
                     >
                       {LOCATIONS.map(l => (
-                        <option key={l.id} value={l.id}>{l.name} Container</option>
+                        <option key={l.id} value={l.id}>{l.name}</option>
                       ))}
                     </select>
                   </div>
@@ -1754,7 +1754,7 @@ export default function AdminPage() {
                           className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white font-bold"
                         >
                           {LOCATIONS.map(l => (
-                            <option key={l.id} value={`${l.name} Container`}>{l.name} Container</option>
+                            <option key={l.id} value={l.name}>{l.name}</option>
                           ))}
                         </select>
                       </div>

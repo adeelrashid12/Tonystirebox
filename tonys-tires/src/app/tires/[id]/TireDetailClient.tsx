@@ -106,7 +106,7 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
       brand: tire.brand,
       quantity,
       totalPrice,
-      locationName: `${targetLocName} ${targetLocType}`,
+      locationName: targetLocName,
       lockboxCode,
       paymentMethod: selectedPaymentMethod,
       senderRef: paymentSenderRef || customerPhone,
@@ -127,7 +127,7 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
       total: totalPrice,
       paymentMethod: selectedPaymentMethod,
       senderRef: paymentSenderRef || customerPhone,
-      locationName: `${targetLocName} ${targetLocType}`
+      locationName: targetLocName
     });
 
     setCheckoutComplete(true);
@@ -506,7 +506,7 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
                     <div className="flex justify-between items-center bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-sm">
                       <div>
                         <div className="font-bold text-slate-950">{tire.brand} {tire.size}</div>
-                        <div className="text-xs text-slate-500">{selectedLocData.name} {selectedLocData.type || 'Container'} • Qty: {quantity}</div>
+                        <div className="text-xs text-slate-500">{selectedLocData.name} • Qty: {quantity}</div>
                       </div>
                       <span className="font-mono font-black text-red-600">${totalPrice}</span>
                     </div>

@@ -192,7 +192,7 @@ export default function Home() {
       brand: firstCartItem.tire.brand,
       quantity: firstCartItem.qty,
       totalPrice: totalCartPrice,
-      locationName: `${targetLocName} Container`,
+      locationName: targetLocName,
       lockboxCode,
       paymentMethod: selectedPaymentMethod,
       senderRef: paymentSenderRef || customerPhone,
@@ -350,7 +350,7 @@ export default function Home() {
                         <option value="all">All Locations (8 SC & NC Hubs)</option>
                         {LOCATIONS.map(loc => (
                           <option key={loc.id} value={loc.id}>
-                            {loc.name} Container
+                            {loc.name}
                           </option>
                         ))}
                       </select>
@@ -866,7 +866,7 @@ export default function Home() {
                           <div key={i} className="flex justify-between items-center bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-sm">
                             <div>
                               <div className="font-bold text-slate-950">{item.tire.brand} {item.tire.size}</div>
-                              <div className="text-xs text-slate-500">{locName} Container • Qty: {item.qty}</div>
+                              <div className="text-xs text-slate-500">{locName} • Qty: {item.qty}</div>
                             </div>
                             <span className="font-mono font-black text-red-600">${item.tire.price * item.qty}</span>
                           </div>
