@@ -57,11 +57,17 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
 
   // Auto-select the first location that actually has stock available for this tire
   const defaultLoc = Object.keys(tire.stock).find(locId => (tire.stock[locId] || 0) > 0) || 'columbia';
+  const [selectedImage, setSelectedImage] = useState<string>(validImages[0] || tire.image || '');
   const [selectedLoc, setSelectedLoc] = useState<string>(defaultLoc);
   const [quantity, setQuantity] = useState<number>(1);
-  const [isAddedToCart, setIsAddedToCart] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<'specs' | 'locations' | 'pickup'>('specs');
-  const [selectedImage, setSelectedImage] = useState<string>(validImages[0] || tire.image);
+  const [isAddedToCart, setIsAddedToCart] = useState<boolean>(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState<boolean>(false);
+  const [checkoutComplete, setCheckoutComplete] = useState<boolean>(false);
+  const [customerPhone, setCustomerPhone] = useState<string>('');
+  const [paymentSenderRef, setPaymentSenderRef] = useState<string>('');
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('Cash App');
+  const [lastOrderDetails, setLastOrderDetails] = useState<{ id: string; lockbox: string; phone: string; total: number; paymentMethod: string; senderRef: string; locationName: string } | null>(null);
 
   const selectedLocData = LOCATIONS.find(l => l.id === selectedLoc) || LOCATIONS[0];
   const availableStock = tire.stock[selectedLoc] || 0;
@@ -69,8 +75,62 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
 
   const handleAddToCart = () => {
     if (availableStock <= 0) return;
-    setIsAddedToCart(true);
-    setTimeout(() => setIsAddedToCart(false), 3000);
+    setIsCheckoutOpen(true);
+  };
+
+  const handleCompleteOrder = () => {
+    if (!customerPhone || availableStock <= 0) return;
+
+    // Deduct stock for selected location
+    const updatedStock = { ...tire.stock, [selectedLoc]: Math.max(0, availableStock - quantity) };
+    const updatedTire = { ...tire, stock: updatedStock };
+    setTire(updatedTire);
+
+    // Save updated inventory to localStorage for Admin
+    try {
+      const savedInvRaw = localStorage.getItem('tony_admin_inventory');
+      const allInv: TireItem[] = savedInvRaw ? JSON.parse(savedInvRaw) : INITIAL_TIRES;
+      const updatedInvList = allInv.map(t => t.id === tire.id ? updatedTire : t);
+      localStorage.setItem('tony_admin_inventory', JSON.stringify(updatedInvList));
+    } catch (e) {}
+
+    const orderId = `ORD-${Math.floor(1000 + Math.random() * 9000)}`;
+    const lockboxCode = `${Math.floor(1000 + Math.random() * 9000)}`;
+    const targetLocName = selectedLocData.name;
+    const targetLocType = selectedLocData.type || 'Container';
+
+    const newOrder = {
+      id: orderId,
+      customerPhone,
+      tireSize: tire.size,
+      brand: tire.brand,
+      quantity,
+      totalPrice,
+      locationName: `${targetLocName} ${targetLocType}`,
+      lockboxCode,
+      paymentMethod: selectedPaymentMethod,
+      senderRef: paymentSenderRef || customerPhone,
+      status: 'Pending Verification' as const,
+      createdAt: 'Just now'
+    };
+
+    try {
+      const existingOrdersRaw = localStorage.getItem('tony_admin_orders');
+      const existingOrders = existingOrdersRaw ? JSON.parse(existingOrdersRaw) : [];
+      localStorage.setItem('tony_admin_orders', JSON.stringify([newOrder, ...existingOrders]));
+    } catch (e) {}
+
+    setLastOrderDetails({
+      id: orderId,
+      lockbox: lockboxCode,
+      phone: customerPhone,
+      total: totalPrice,
+      paymentMethod: selectedPaymentMethod,
+      senderRef: paymentSenderRef || customerPhone,
+      locationName: `${targetLocName} ${targetLocType}`
+    });
+
+    setCheckoutComplete(true);
   };
 
   return (
@@ -425,6 +485,178 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
           </div>
         </div>
       </footer>
+
+      {/* Cart Checkout Modal */}
+      {isCheckoutOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative text-slate-900 border border-slate-200">
+            <button 
+              onClick={() => { setIsCheckoutOpen(false); setCheckoutComplete(false); }}
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 text-lg font-bold"
+            >
+              ✕
+            </button>
+
+            {!checkoutComplete ? (
+              <>
+                <h3 className="text-xl font-black uppercase text-slate-950 mb-4">Self-Serve Container Checkout</h3>
+                
+                <div className="space-y-4">
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-sm">
+                      <div>
+                        <div className="font-bold text-slate-950">{tire.brand} {tire.size}</div>
+                        <div className="text-xs text-slate-500">{selectedLocData.name} {selectedLocData.type || 'Container'} • Qty: {quantity}</div>
+                      </div>
+                      <span className="font-mono font-black text-red-600">${totalPrice}</span>
+                    </div>
+                  </div>
+
+                  <div className="pt-2 border-t border-slate-200 space-y-3">
+                    <div>
+                      <label className="block text-xs font-black uppercase text-slate-700 mb-1">Enter Your Mobile Phone Number (for Lockbox Code SMS):</label>
+                      <input 
+                        type="tel" 
+                        placeholder="e.g. 864-395-5393"
+                        value={customerPhone}
+                        onChange={(e) => setCustomerPhone(e.target.value)}
+                        className="w-full bg-slate-50 border-2 border-slate-300 rounded-xl px-4 py-2.5 text-sm font-bold text-slate-900 focus:outline-none focus:border-red-600"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-black uppercase text-slate-700 mb-1">Your Name / Cashtag (so we can verify your payment):</label>
+                      <input 
+                        type="text" 
+                        placeholder="e.g. $JohnDoe or John Smith"
+                        value={paymentSenderRef}
+                        onChange={(e) => setPaymentSenderRef(e.target.value)}
+                        className="w-full bg-slate-50 border-2 border-slate-300 rounded-xl px-4 py-2.5 text-sm font-bold text-slate-900 focus:outline-none focus:border-red-600"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-black uppercase text-slate-700 mb-1.5">Select Preferred Payment Method:</label>
+                      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                        {[
+                          { name: 'Cash App', color: 'bg-emerald-600 text-white', label: 'Cash App ($)' },
+                          { name: 'Venmo', color: 'bg-sky-500 text-white', label: 'Venmo' },
+                          { name: 'Zelle', color: 'bg-purple-600 text-white', label: 'Zelle' },
+                          { name: 'Apple Pay', color: 'bg-slate-950 text-white', label: 'Apple Pay' },
+                          { name: 'Cash (Container Box)', color: 'bg-amber-500 text-slate-950', label: 'Cash at Box' },
+                        ].map(pm => {
+                          const isSelected = selectedPaymentMethod === pm.name;
+                          return (
+                            <button
+                              type="button"
+                              key={pm.name}
+                              onClick={() => setSelectedPaymentMethod(pm.name)}
+                              className={`py-2 px-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider transition border flex items-center justify-center gap-1.5 ${
+                                isSelected 
+                                  ? `${pm.color} ring-2 ring-red-500 shadow-md border-transparent scale-[1.02]` 
+                                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                              }`}
+                            >
+                              <span>{pm.label}</span>
+                              {isSelected && <span className="text-[10px]">✓</span>}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="pt-2 flex justify-between items-center font-black text-lg text-slate-950">
+                      <span>Total Amount:</span>
+                      <span className="text-red-600 font-mono text-xl">${totalPrice}</span>
+                    </div>
+
+                    <button 
+                      onClick={handleCompleteOrder}
+                      disabled={!customerPhone}
+                      className={`w-full py-3.5 rounded-xl font-black text-sm uppercase tracking-wider shadow transition ${
+                        customerPhone 
+                          ? 'bg-red-600 hover:bg-red-700 text-white' 
+                          : 'bg-slate-300 text-slate-500 cursor-not-allowed'
+                      }`}
+                    >
+                      Confirm Order & Reserve Stock
+                    </button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="text-center py-4 space-y-3">
+                <div className="w-14 h-14 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-2 font-black text-2xl shadow animate-bounce">
+                  ⏳
+                </div>
+                <h3 className="text-2xl font-black text-slate-950 uppercase">Order Reserved & Submitted!</h3>
+                <p className="text-xs text-slate-600 font-semibold">Tire stock is held. Complete your payment below to get lockbox code.</p>
+
+                {lastOrderDetails && (
+                  <div className="bg-slate-900 text-white p-4 rounded-2xl text-left text-xs space-y-2 font-mono border border-slate-800">
+                    <div className="flex justify-between border-b border-slate-800 pb-2">
+                      <span className="text-slate-400">Order ID:</span>
+                      <span className="text-amber-400 font-bold">{lastOrderDetails.id}</span>
+                    </div>
+                    <div className="flex justify-between border-b border-slate-800 pb-2">
+                      <span className="text-slate-400">Payment Status:</span>
+                      <span className="text-amber-400 font-black animate-pulse">⏳ PENDING VERIFICATION</span>
+                    </div>
+                    <div className="flex justify-between border-b border-slate-800 pb-2">
+                      <span className="text-slate-400">Lockbox Combination:</span>
+                      <span className="text-emerald-400 font-black text-base tracking-widest">{lastOrderDetails.lockbox}</span>
+                    </div>
+                    <div className="flex justify-between border-b border-slate-800 pb-2">
+                      <span className="text-slate-400">Customer Phone:</span>
+                      <span className="text-white font-bold">{lastOrderDetails.phone}</span>
+                    </div>
+                    <div className="flex justify-between border-b border-slate-800 pb-2">
+                      <span className="text-slate-400">Payment Method:</span>
+                      <span className="text-emerald-400 font-bold">{lastOrderDetails.paymentMethod}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-400">Payment Sender Name:</span>
+                      <span className="text-amber-300 font-bold">{lastOrderDetails.senderRef}</span>
+                    </div>
+                  </div>
+                )}
+
+                <div className="bg-amber-50 border border-amber-300 p-3 rounded-xl text-left text-xs font-semibold text-amber-950 space-y-1.5 shadow-sm">
+                  <div className="font-black uppercase text-[11px] text-amber-900 flex items-center gap-1">
+                    💳 Step 2: Send Payment Now ({lastOrderDetails?.paymentMethod}):
+                  </div>
+                  {lastOrderDetails?.paymentMethod === 'Cash App' && (
+                    <p>Send <strong>${lastOrderDetails?.total}</strong> to Cash App tag <strong>$TonyPiwowarski</strong> (Tony Piwowarski).</p>
+                  )}
+                  {lastOrderDetails?.paymentMethod === 'Venmo' && (
+                    <p>Send <strong>${lastOrderDetails?.total}</strong> to Venmo <strong>@Lisa-Piwowarski</strong> (Lisa Piwowarski).</p>
+                  )}
+                  {lastOrderDetails?.paymentMethod === 'Zelle' && (
+                    <p>Send <strong>${lastOrderDetails?.total}</strong> via Zelle to <strong>864-395-5393</strong> or email <strong>hbkncc@yahoo.com</strong>.</p>
+                  )}
+                  {lastOrderDetails?.paymentMethod === 'Apple Pay' && (
+                    <p>Send <strong>${lastOrderDetails?.total}</strong> via Apple Pay to <strong>864-395-5393</strong>.</p>
+                  )}
+                  {lastOrderDetails?.paymentMethod === 'Cash (Container Box)' && (
+                    <p>Deposit <strong>${lastOrderDetails?.total}</strong> cash directly into the secured drop box inside the container.</p>
+                  )}
+                  <p className="text-[11px] text-slate-600 italic">Once Tony sees your payment, he will verify and text your lockbox code!</p>
+                </div>
+
+                <div className="pt-2">
+                  <a 
+                    href={`sms:8643955393?body=${encodeURIComponent(`Hi Tony, I placed order ${lastOrderDetails?.id || ''} ($${lastOrderDetails?.total || ''}) via ${lastOrderDetails?.paymentMethod || 'App'} from ${lastOrderDetails?.senderRef || ''}. My phone is ${lastOrderDetails?.phone || ''}`)}`}
+                    className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-3 rounded-xl block text-xs uppercase shadow transition"
+                  >
+                    Text Payment Confirmation to 864-395-5393
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
     </div>
   );
