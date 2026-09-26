@@ -302,7 +302,7 @@ export default function Home() {
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Left Content Column */}
-            <div className="lg:col-span-6 space-y-5 animate-fade-in-up">
+            <div className="lg:col-span-7 space-y-5 animate-fade-in-up">
               <div className="inline-flex items-center gap-2 bg-red-950/80 border border-red-600/60 px-3.5 py-1.5 rounded-full text-red-400 font-extrabold text-xs tracking-widest uppercase shadow">
                 <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                 QUALITY USED TIRES • SELF-SERVE • LOW PRICES
@@ -335,14 +335,14 @@ export default function Home() {
                     </div>
 
                     {/* Location Select Dropdown */}
-                    <div className="md:col-span-4 relative">
+                    <div className="md:col-span-3 relative">
                       <MapPin className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
                       <select
                         value={selectedLocation}
                         onChange={(e) => changeLocation(e.target.value)}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-7 py-3 text-xs sm:text-sm text-slate-900 font-bold focus:outline-none focus:border-red-600 focus:bg-white cursor-pointer appearance-none"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-6 py-3 text-xs sm:text-sm text-slate-900 font-bold focus:outline-none focus:border-red-600 focus:bg-white cursor-pointer appearance-none truncate"
                       >
-                        <option value="all">All Locations (8 SC & NC Hubs)</option>
+                        <option value="all">All Locations (8 Hubs)</option>
                         {LOCATIONS.map(loc => (
                           <option key={loc.id} value={loc.id}>
                             {loc.name}
@@ -352,10 +352,10 @@ export default function Home() {
                     </div>
 
                     {/* Search Button */}
-                    <div className="md:col-span-3">
+                    <div className="md:col-span-4">
                       <button 
                         onClick={() => scrollToSection('inventory')}
-                        className="w-full bg-red-600 hover:bg-red-700 text-white font-black text-xs sm:text-sm py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition uppercase tracking-wider whitespace-nowrap"
+                        className="w-full bg-red-600 hover:bg-red-700 text-white font-black text-xs sm:text-sm py-3 px-3 rounded-xl flex items-center justify-center gap-1.5 shadow-md hover:shadow-lg transition uppercase tracking-wider whitespace-nowrap"
                       >
                         SEARCH TIRES <ArrowRight className="w-4 h-4 shrink-0" />
                       </button>
@@ -395,33 +395,15 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column: Hero Container Image Box */}
-            <div className="lg:col-span-6 relative mt-6 lg:mt-0">
-              <div className="relative rounded-3xl overflow-hidden border-2 border-red-600/70 shadow-2xl bg-slate-900/90 p-2.5 sm:p-3 group">
+            {/* Right Column: Clean Hero Container Image Box (No Bottom Text/Phone Bar) */}
+            <div className="lg:col-span-5 relative mt-6 lg:mt-0">
+              <div className="relative rounded-3xl overflow-hidden border-2 border-red-600/70 shadow-2xl bg-slate-900/90 p-2 group">
                 <div className="w-full aspect-[16/9.5] rounded-2xl overflow-hidden bg-slate-950 flex items-center justify-center relative">
                   <img 
                     src="/container_hero_raw.jpg" 
                     alt="Tony's Tirebox Self-Serve Container" 
                     className="w-full h-full object-contain group-hover:scale-105 transition duration-500" 
                   />
-                </div>
-                
-                <div className="pt-3 px-2 flex items-center justify-between gap-2 flex-wrap">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="bg-red-600 text-white text-[10px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider shadow">
-                        24/7 SELF-SERVE HUB
-                      </span>
-                      <h4 className="text-sm sm:text-base font-black uppercase tracking-tight text-white">TONY'S TIREBOX CONTAINERS</h4>
-                    </div>
-                    <p className="text-[11px] text-amber-400 font-bold mt-1">8 Locations Across SC & NC • Open 7 Days a Week</p>
-                  </div>
-                  <a 
-                    href="sms:8643955393" 
-                    className="bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-black px-3.5 py-1.5 rounded-xl uppercase shadow transition"
-                  >
-                    Text 864-395-5393
-                  </a>
                 </div>
               </div>
             </div>
