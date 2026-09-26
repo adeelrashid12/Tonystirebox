@@ -400,8 +400,25 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column: Left transparent so the background container from hero_banner_final.png shows through cleanly */}
-            <div className="hidden lg:block lg:col-span-5"></div>
+            {/* Right Column: Hero Banner Showcase Card */}
+            <div className="lg:col-span-5">
+              <div className="relative rounded-3xl overflow-hidden border-2 border-amber-500/40 shadow-2xl bg-slate-950 group">
+                <img 
+                  src="/container_hero_raw.jpg" 
+                  alt="Tony's Tirebox Self-Serve Container" 
+                  className="w-full h-64 sm:h-80 object-cover group-hover:scale-105 transition duration-500" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent flex items-end p-5">
+                  <div>
+                    <span className="bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-wider block w-fit mb-1 shadow">
+                      24/7 Self-Serve Hub
+                    </span>
+                    <h4 className="text-lg font-black text-white uppercase tracking-tight">TONY'S TIREBOX CONTAINERS</h4>
+                    <p className="text-xs text-amber-400 font-bold">Text Your Size • Pay Online or Cash • Unlock Lockbox</p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
           </div>
         </section>
