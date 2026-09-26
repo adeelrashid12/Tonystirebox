@@ -395,13 +395,13 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column: Large Container Image Box */}
+            {/* Right Column: Large Uncropped Container Image Box */}
             <div className="lg:col-span-6 relative mt-6 lg:mt-0">
-              <div className="relative w-full h-[360px] sm:h-[440px] lg:h-[480px] rounded-3xl overflow-hidden border-2 border-red-600/80 shadow-2xl bg-slate-950 group">
+              <div className="relative w-full rounded-3xl overflow-hidden border-2 border-red-600/80 shadow-2xl bg-slate-950 p-1 group">
                 <img 
                   src="/container_hero_raw.jpg" 
                   alt="Tony's Tirebox Self-Serve Container" 
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition duration-500" 
+                  className="w-full h-auto block rounded-2xl group-hover:scale-105 transition duration-500" 
                 />
               </div>
             </div>
