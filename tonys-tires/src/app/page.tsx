@@ -352,34 +352,34 @@ export default function Home() {
                 Self-serve lockbox access available 7 days a week. Search by size or browse location inventory.
               </p>
 
-              {/* Find Tires Quick Search Bar (1:1 Match with Screenshot 1) */}
+              {/* Find Tires Quick Search Bar (Sleek Dark Glassmorphic Harami Style) */}
               <div className="pt-2">
-                <div className="bg-white p-4 sm:p-5 rounded-2xl shadow-2xl border border-slate-200 max-w-2xl">
+                <div className="bg-slate-900/90 backdrop-blur-xl p-4 sm:p-5 rounded-2xl shadow-2xl border border-slate-800/90 border-t-2 border-t-red-600 max-w-2xl">
                   <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
                     
                     {/* Size Search Input */}
                     <div className="md:col-span-5 relative">
-                      <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+                      <Search className="w-4 h-4 text-red-500 absolute left-3.5 top-3.5" />
                       <input 
                         type="text" 
                         placeholder="Enter Tire Size (e.g. 225/65R17)"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-3 py-3 text-xs sm:text-sm text-slate-900 font-semibold focus:outline-none focus:border-red-600 focus:bg-white transition placeholder:text-slate-400"
+                        className="w-full bg-slate-950/90 border border-slate-800 text-white placeholder-slate-400 pl-10 pr-3 py-3 rounded-xl text-xs sm:text-sm font-semibold focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition"
                       />
                     </div>
 
                     {/* Location Select Dropdown */}
                     <div className="md:col-span-3 relative">
-                      <MapPin className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+                      <MapPin className="w-4 h-4 text-red-500 absolute left-3.5 top-3.5" />
                       <select
                         value={selectedLocation}
                         onChange={(e) => changeLocation(e.target.value)}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-6 py-3 text-xs sm:text-sm text-slate-900 font-bold focus:outline-none focus:border-red-600 focus:bg-white cursor-pointer appearance-none truncate"
+                        className="w-full bg-slate-950/90 border border-slate-800 text-white pl-9 pr-6 py-3 text-xs sm:text-sm font-bold focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 cursor-pointer appearance-none truncate"
                       >
-                        <option value="all">All Locations (8 Hubs)</option>
+                        <option value="all" className="bg-slate-900 text-white">All Hubs (8)</option>
                         {LOCATIONS.map(loc => (
-                          <option key={loc.id} value={loc.id}>
+                          <option key={loc.id} value={loc.id} className="bg-slate-900 text-white">
                             {loc.name}
                           </option>
                         ))}
@@ -390,7 +390,7 @@ export default function Home() {
                     <div className="md:col-span-4">
                       <button 
                         onClick={() => scrollToSection('inventory')}
-                        className="w-full bg-red-600 hover:bg-red-700 text-white font-black text-xs sm:text-sm py-3 px-3 rounded-xl flex items-center justify-center gap-1.5 shadow-md hover:shadow-lg transition uppercase tracking-wider whitespace-nowrap"
+                        className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-black text-xs sm:text-sm py-3 px-3 rounded-xl flex items-center justify-center gap-1.5 shadow-lg shadow-red-600/30 transition uppercase tracking-wider whitespace-nowrap active:scale-95"
                       >
                         SEARCH TIRES <ArrowRight className="w-4 h-4 shrink-0" />
                       </button>
@@ -398,13 +398,13 @@ export default function Home() {
                   </div>
 
                   {/* Popular Size Pills */}
-                  <div className="mt-3 pt-3 border-t border-slate-100 flex flex-wrap items-center gap-1.5 text-xs">
-                    <span className="text-slate-500 font-bold text-[10px] mr-1">Popular sizes:</span>
+                  <div className="mt-3.5 pt-3 border-t border-slate-800/80 flex flex-wrap items-center gap-1.5 text-xs">
+                    <span className="text-slate-400 font-bold text-[10px] uppercase mr-1">Popular sizes:</span>
                     {['225/65R17', '235/60R18', '265/70R17', '275/65R18', '245/45R19', '195/65R15'].map(size => (
                       <button
                         key={size}
                         onClick={() => setSearchQuery(size)}
-                        className="bg-slate-100 hover:bg-red-100 hover:text-red-700 text-slate-700 px-2.5 py-0.5 rounded-lg text-[11px] font-bold border border-slate-200 transition"
+                        className="bg-slate-950/80 hover:bg-red-600 hover:text-white text-slate-300 px-2.5 py-1 rounded-lg text-[11px] font-extrabold border border-slate-800 hover:border-red-500 transition"
                       >
                         {size}
                       </button>
@@ -430,13 +430,13 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column: Large Uncropped Container Image Box */}
+            {/* Right Column: Large Trimmed Container Image Box */}
             <div className="lg:col-span-6 relative mt-6 lg:mt-0">
-              <div className="relative w-full rounded-3xl overflow-hidden border-2 border-red-600/80 shadow-2xl bg-slate-950 p-1 group">
+              <div className="relative w-full h-[320px] sm:h-[380px] lg:h-[440px] rounded-3xl overflow-hidden border-2 border-red-600/90 shadow-2xl shadow-red-950/40 bg-slate-950 group">
                 <img 
-                  src="/container_hero_raw.jpg" 
+                  src="/container_hero_trimmed.jpg" 
                   alt="Tony's Tirebox Self-Serve Container" 
-                  className="w-full h-auto block rounded-2xl group-hover:scale-105 transition duration-500" 
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition duration-500" 
                 />
               </div>
             </div>
