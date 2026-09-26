@@ -395,16 +395,14 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column: Clean Hero Container Image Box (No Bottom Text/Phone Bar) */}
+            {/* Right Column: Large Uncropped Container Image Box */}
             <div className="lg:col-span-5 relative mt-6 lg:mt-0">
-              <div className="relative rounded-3xl overflow-hidden border-2 border-red-600/70 shadow-2xl bg-slate-900/90 p-2 group">
-                <div className="w-full aspect-[16/9.5] rounded-2xl overflow-hidden bg-slate-950 flex items-center justify-center relative">
-                  <img 
-                    src="/container_hero_raw.jpg" 
-                    alt="Tony's Tirebox Self-Serve Container" 
-                    className="w-full h-full object-contain group-hover:scale-105 transition duration-500" 
-                  />
-                </div>
+              <div className="relative w-full rounded-3xl overflow-hidden border-2 border-red-600/80 shadow-2xl bg-slate-950 p-1.5 group">
+                <img 
+                  src="/container_hero_raw.jpg" 
+                  alt="Tony's Tirebox Self-Serve Container" 
+                  className="w-full h-auto block rounded-2xl group-hover:scale-105 transition duration-500" 
+                />
               </div>
             </div>
 
