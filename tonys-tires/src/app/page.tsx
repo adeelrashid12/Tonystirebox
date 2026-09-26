@@ -38,8 +38,8 @@ export default function Home() {
   // Hero typing animation state
   const heroPhrases = [
     "READY WHEN YOU ARE.",
-    "SELF-SERVE 7 DAYS A WEEK.",
-    "QUALITY AT LOW PRICES.",
+    "OPEN 7 DAYS A WEEK.",
+    "LOW PRICES & QUALITY.",
     "FAST & CONTACTLESS."
   ];
   const [heroTextIndex, setHeroTextIndex] = useState(0);
@@ -338,13 +338,15 @@ export default function Home() {
                 QUALITY USED TIRES • SELF-SERVE • LOW PRICES
               </div>
 
-              <h2 className="text-4xl sm:text-6xl font-black text-white leading-tight uppercase tracking-tight min-h-[2.2em] sm:min-h-[2.1em]">
-                USED TIRES.<br />
-                <span className="text-red-500">
-                  {heroPhrases[heroTextIndex].substring(0, heroSubIndex)}
-                </span>
-                <span className="inline-block w-1.5 sm:w-2 h-7 sm:h-11 bg-red-500 ml-1.5 translate-y-0.5 sm:translate-y-1 align-baseline animate-pulse" />
-              </h2>
+              <div className="h-[95px] sm:h-[115px] lg:h-[130px] flex flex-col justify-start">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight uppercase tracking-tight">
+                  USED TIRES.<br />
+                  <span className="text-red-500">
+                    {heroPhrases[heroTextIndex].substring(0, heroSubIndex)}
+                  </span>
+                  <span className="inline-block w-1.5 sm:w-2 h-6 sm:h-9 bg-red-500 ml-1.5 translate-y-0.5 align-baseline animate-pulse" />
+                </h2>
+              </div>
 
               <p className="text-slate-300 text-base sm:text-lg font-medium max-w-xl leading-relaxed">
                 Self-serve lockbox access available 7 days a week. Search by size or browse location inventory.
