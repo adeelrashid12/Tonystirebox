@@ -302,7 +302,7 @@ export default function Home() {
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Left Content Column */}
-            <div className="lg:col-span-7 space-y-5 animate-fade-in-up">
+            <div className="lg:col-span-6 space-y-5 animate-fade-in-up">
               <div className="inline-flex items-center gap-2 bg-red-950/80 border border-red-600/60 px-3.5 py-1.5 rounded-full text-red-400 font-extrabold text-xs tracking-widest uppercase shadow">
                 <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                 QUALITY USED TIRES • SELF-SERVE • LOW PRICES
@@ -396,21 +396,32 @@ export default function Home() {
             </div>
 
             {/* Right Column: Hero Container Image Box */}
-            <div className="lg:col-span-5 relative mt-6 lg:mt-0">
-              <div className="relative rounded-3xl overflow-hidden border-2 border-red-600/60 shadow-2xl bg-slate-950 group">
-                <img 
-                  src="/container_hero_raw.jpg" 
-                  alt="Tony's Tirebox Self-Serve Container" 
-                  className="w-full h-[320px] sm:h-[380px] object-cover group-hover:scale-105 transition duration-500" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent flex items-end p-5">
-                  <div className="text-white">
-                    <span className="bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-wider block w-fit mb-1 shadow">
-                      24/7 SELF-SERVE HUB
-                    </span>
-                    <h4 className="text-xl font-black uppercase tracking-tight text-white">TONY'S TIREBOX CONTAINERS</h4>
-                    <p className="text-xs text-amber-400 font-bold mt-0.5">8 Locations Across SC & NC • Open 7 Days a Week</p>
+            <div className="lg:col-span-6 relative mt-6 lg:mt-0">
+              <div className="relative rounded-3xl overflow-hidden border-2 border-red-600/70 shadow-2xl bg-slate-900/90 p-2.5 sm:p-3 group">
+                <div className="w-full aspect-[16/9.5] rounded-2xl overflow-hidden bg-slate-950 flex items-center justify-center relative">
+                  <img 
+                    src="/container_hero_raw.jpg" 
+                    alt="Tony's Tirebox Self-Serve Container" 
+                    className="w-full h-full object-contain group-hover:scale-105 transition duration-500" 
+                  />
+                </div>
+                
+                <div className="pt-3 px-2 flex items-center justify-between gap-2 flex-wrap">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="bg-red-600 text-white text-[10px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider shadow">
+                        24/7 SELF-SERVE HUB
+                      </span>
+                      <h4 className="text-sm sm:text-base font-black uppercase tracking-tight text-white">TONY'S TIREBOX CONTAINERS</h4>
+                    </div>
+                    <p className="text-[11px] text-amber-400 font-bold mt-1">8 Locations Across SC & NC • Open 7 Days a Week</p>
                   </div>
+                  <a 
+                    href="sms:8643955393" 
+                    className="bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-black px-3.5 py-1.5 rounded-xl uppercase shadow transition"
+                  >
+                    Text 864-395-5393
+                  </a>
                 </div>
               </div>
             </div>
