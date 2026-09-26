@@ -297,12 +297,7 @@ export default function Home() {
         </header>
 
         {/* 2. Hero Section - Refactored to Match Banner Final Screenshot */}
-        <section 
-          className="relative z-10 min-h-[580px] lg:min-h-[640px] flex items-center bg-cover bg-center bg-no-repeat overflow-hidden"
-          style={{ backgroundImage: "url('/hero_banner_final.png')" }}
-        >
-          {/* Dark Vignette Overlay for Crisp Contrast on Left Text Side */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/85 to-transparent z-0 pointer-events-none"></div>
+        <section className="relative z-10 min-h-[540px] lg:min-h-[580px] flex items-center bg-slate-950 overflow-hidden">
 
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
