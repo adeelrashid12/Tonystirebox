@@ -302,7 +302,7 @@ export default function Home() {
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Left Content Column */}
-            <div className="lg:col-span-7 space-y-5 animate-fade-in-up">
+            <div className="lg:col-span-6 space-y-5 animate-fade-in-up">
               <div className="inline-flex items-center gap-2 bg-red-950/80 border border-red-600/60 px-3.5 py-1.5 rounded-full text-red-400 font-extrabold text-xs tracking-widest uppercase shadow">
                 <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                 QUALITY USED TIRES • SELF-SERVE • LOW PRICES
@@ -395,13 +395,13 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column: Large Uncropped Container Image Box */}
-            <div className="lg:col-span-5 relative mt-6 lg:mt-0">
-              <div className="relative w-full rounded-3xl overflow-hidden border-2 border-red-600/80 shadow-2xl bg-slate-950 p-1.5 group">
+            {/* Right Column: Large Container Image Box */}
+            <div className="lg:col-span-6 relative mt-6 lg:mt-0">
+              <div className="relative w-full h-[360px] sm:h-[440px] lg:h-[480px] rounded-3xl overflow-hidden border-2 border-red-600/80 shadow-2xl bg-slate-950 group">
                 <img 
                   src="/container_hero_raw.jpg" 
                   alt="Tony's Tirebox Self-Serve Container" 
-                  className="w-full h-auto block rounded-2xl group-hover:scale-105 transition duration-500" 
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition duration-500" 
                 />
               </div>
             </div>
