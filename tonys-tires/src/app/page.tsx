@@ -400,62 +400,12 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column: Transparent for Hero background */}
+            {/* Right Column: Left transparent so the background container from hero_banner_final.png shows through cleanly */}
             <div className="hidden lg:block lg:col-span-5"></div>
 
           </div>
         </section>
       </div>
-
-      {/* 3. Full-Width Container Showcase Banner Block */}
-      <section className="relative z-20 -mt-8 max-w-7xl mx-auto px-4 sm:px-6 mb-12">
-        <div className="bg-slate-950 border-2 border-amber-500/40 rounded-3xl overflow-hidden shadow-2xl relative group">
-          <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
-            
-            {/* Banner Left Info Column */}
-            <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10 space-y-4 z-10">
-              <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/40 px-3.5 py-1.5 rounded-full text-amber-400 font-extrabold text-xs tracking-wider uppercase">
-                <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                24/7 SELF-SERVE CONTAINER HUBS
-              </div>
-              
-              <h3 className="text-2xl sm:text-4xl font-black text-white uppercase tracking-tight leading-tight">
-                SERVING 8 LOCATIONS ACROSS <span className="text-red-500">SC & NC</span>
-              </h3>
-              
-              <p className="text-slate-300 text-sm sm:text-base font-medium max-w-lg leading-relaxed">
-                Walk up, scan, pay via Cash App, Venmo, Zelle, Apple Pay or Cash, and get your lockbox code instantly!
-              </p>
-              
-              <div className="pt-2 flex flex-wrap items-center gap-3">
-                <button 
-                  onClick={() => scrollToSection('inventory')}
-                  className="bg-red-600 hover:bg-red-500 text-white font-black text-xs sm:text-sm px-6 py-3 rounded-xl shadow-lg transition uppercase tracking-wider"
-                >
-                  BROWSE TIRE INVENTORY
-                </button>
-                <a 
-                  href="tel:8643955393"
-                  className="bg-slate-900 hover:bg-slate-800 text-amber-400 font-extrabold text-xs sm:text-sm px-5 py-3 rounded-xl border border-slate-700 transition flex items-center gap-2"
-                >
-                  <PhoneCall className="w-4 h-4 text-amber-400" /> CALL 864-395-5393
-                </a>
-              </div>
-            </div>
-
-            {/* Banner Right Image Column */}
-            <div className="lg:col-span-5 relative h-64 sm:h-80 lg:h-full min-h-[300px] overflow-hidden bg-slate-900">
-              <img 
-                src="/container_hero_raw.jpg" 
-                alt="Tony's Tirebox Container" 
-                className="w-full h-full object-cover group-hover:scale-105 transition duration-700" 
-              />
-              <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-slate-950 via-slate-950/20 to-transparent pointer-events-none"></div>
-            </div>
-
-          </div>
-        </div>
-      </section>
 
 
 
