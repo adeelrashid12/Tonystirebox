@@ -35,6 +35,36 @@ export default function Home() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('Cash App');
   const [lastOrderDetails, setLastOrderDetails] = useState<{ id: string; lockbox: string; phone: string; total: number; paymentMethod: string; senderRef: string } | null>(null);
 
+  // Hero typing animation state
+  const heroPhrases = [
+    "READY WHEN YOU ARE.",
+    "SELF-SERVE 7 DAYS A WEEK.",
+    "QUALITY AT LOW PRICES.",
+    "FAST & CONTACTLESS."
+  ];
+  const [heroTextIndex, setHeroTextIndex] = useState(0);
+  const [heroSubIndex, setHeroSubIndex] = useState(0);
+  const [heroIsDeleting, setHeroIsDeleting] = useState(false);
+
+  useEffect(() => {
+    if (heroSubIndex === heroPhrases[heroTextIndex].length + 1 && !heroIsDeleting) {
+      const timeout = setTimeout(() => setHeroIsDeleting(true), 2200);
+      return () => clearTimeout(timeout);
+    }
+
+    if (heroSubIndex === 0 && heroIsDeleting) {
+      setHeroIsDeleting(false);
+      setHeroTextIndex((prev) => (prev + 1) % heroPhrases.length);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setHeroSubIndex((prev) => prev + (heroIsDeleting ? -1 : 1));
+    }, heroIsDeleting ? 40 : 75);
+
+    return () => clearTimeout(timeout);
+  }, [heroSubIndex, heroIsDeleting, heroTextIndex]);
+
   // Tire Specs Modal State
   const [selectedTireModal, setSelectedTireModal] = useState<TireItem | null>(null);
   const [selectedModalLoc, setSelectedModalLoc] = useState<string>('greer');
@@ -308,9 +338,12 @@ export default function Home() {
                 QUALITY USED TIRES • SELF-SERVE • LOW PRICES
               </div>
 
-              <h2 className="text-4xl sm:text-6xl font-black text-white leading-none uppercase tracking-tight">
+              <h2 className="text-4xl sm:text-6xl font-black text-white leading-tight uppercase tracking-tight min-h-[2.2em] sm:min-h-[2.1em]">
                 USED TIRES.<br />
-                <span className="text-red-500">READY WHEN YOU ARE.</span>
+                <span className="text-red-500">
+                  {heroPhrases[heroTextIndex].substring(0, heroSubIndex)}
+                </span>
+                <span className="inline-block w-1.5 sm:w-2 h-7 sm:h-11 bg-red-500 ml-1.5 translate-y-0.5 sm:translate-y-1 align-baseline animate-pulse" />
               </h2>
 
               <p className="text-slate-300 text-base sm:text-lg font-medium max-w-xl leading-relaxed">
