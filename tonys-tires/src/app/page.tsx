@@ -329,6 +329,17 @@ export default function Home() {
         {/* 2. Hero Section - Refactored to Match Banner Final Screenshot */}
         <section className="relative z-10 min-h-[540px] lg:min-h-[580px] flex items-center bg-slate-950 overflow-hidden">
 
+          {/* AI Cinematic Dark Tire Texture Background */}
+          <div className="absolute inset-0 z-0 pointer-events-none select-none">
+            <img 
+              src="/hero_tire_bg.jpg" 
+              alt="Tire Texture Background" 
+              className="w-full h-full object-cover object-center opacity-30 mix-blend-luminosity filter contrast-125 saturate-150" 
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/85 to-slate-950/60" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/70" />
+          </div>
+
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Left Content Column */}
@@ -397,14 +408,14 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Popular Size Pills */}
-                  <div className="mt-3.5 pt-3 border-t border-slate-800/80 flex flex-wrap items-center gap-1.5 text-xs">
-                    <span className="text-slate-400 font-bold text-[10px] uppercase mr-1">Popular sizes:</span>
+                  {/* Popular Size Pills (Single Line Fit) */}
+                  <div className="mt-3.5 pt-3 border-t border-slate-800/80 flex flex-nowrap items-center gap-1.5 text-xs overflow-x-auto scrollbar-none">
+                    <span className="text-slate-400 font-bold text-[10px] uppercase mr-1 shrink-0">Popular sizes:</span>
                     {['225/65R17', '235/60R18', '265/70R17', '275/65R18', '245/45R19', '195/65R15'].map(size => (
                       <button
                         key={size}
                         onClick={() => setSearchQuery(size)}
-                        className="bg-slate-950/80 hover:bg-red-600 hover:text-white text-slate-300 px-2.5 py-1 rounded-lg text-[11px] font-extrabold border border-slate-800 hover:border-red-500 transition"
+                        className="bg-slate-950/80 hover:bg-red-600 hover:text-white text-slate-300 px-2 py-0.5 rounded-lg text-[10px] sm:text-[11px] font-extrabold border border-slate-800 hover:border-red-500 transition shrink-0 whitespace-nowrap"
                       >
                         {size}
                       </button>
