@@ -955,7 +955,6 @@ export default function Home() {
                             { name: 'Venmo', color: 'bg-sky-500 text-white', label: 'Venmo' },
                             { name: 'Zelle', color: 'bg-purple-600 text-white', label: 'Zelle' },
                             { name: 'Apple Pay', color: 'bg-slate-950 text-white', label: 'Apple Pay' },
-                            { name: 'Cash (Container Box)', color: 'bg-amber-500 text-slate-950', label: 'Cash at Box' },
                           ].map(pm => {
                             const isSelected = selectedPaymentMethod === pm.name;
                             return (
@@ -1049,9 +1048,6 @@ export default function Home() {
                   )}
                   {lastOrderDetails?.paymentMethod === 'Apple Pay' && (
                     <p>Send <strong>${lastOrderDetails?.total}</strong> via Apple Pay to <strong>864-395-5393</strong>.</p>
-                  )}
-                  {lastOrderDetails?.paymentMethod === 'Cash (Container Box)' && (
-                    <p>Deposit <strong>${lastOrderDetails?.total}</strong> cash directly into the secured drop box inside the container.</p>
                   )}
                   <p className="text-[11px] text-slate-600 italic">Once Tony sees your payment, he will verify and text your lockbox code!</p>
                 </div>

@@ -115,7 +115,7 @@ export default function AdminPage() {
   const [newBrand, setNewBrand] = useState<string>('Quality Used Tire');
   const [newRimSize, setNewRimSize] = useState<number>(16);
   const [newPrice, setNewPrice] = useState<number>(45);
-  const [newCondition, setNewCondition] = useState<'Good (70%+ tread)' | 'Like New (90%+ tread)'>('Good (70%+ tread)');
+  const [newCondition, setNewCondition] = useState<string>('7/32');
   const [newInitialStock, setNewInitialStock] = useState<number>(10);
   const [newTargetLocation, setNewTargetLocation] = useState<string>('greer');
   const [newImagesInput, setNewImagesInput] = useState<string>('');
@@ -125,7 +125,7 @@ export default function AdminPage() {
   const [editTireSize, setEditTireSize] = useState<string>('');
   const [editTireBrand, setEditTireBrand] = useState<string>('');
   const [editTireRimSize, setEditTireRimSize] = useState<number>(16);
-  const [editTireCondition, setEditTireCondition] = useState<'Good (70%+ tread)' | 'Like New (90%+ tread)'>('Good (70%+ tread)');
+  const [editTireCondition, setEditTireCondition] = useState<string>('7/32');
   const [editTirePrice, setEditTirePrice] = useState<number>(45);
   const [editTireHubStock, setEditTireHubStock] = useState<Record<string, number>>({});
   const [editTireImagesInput, setEditTireImagesInput] = useState<string>('');
@@ -910,6 +910,18 @@ export default function AdminPage() {
                     />
                   </div>
                   <div>
+                    <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Tread Depth (in 32nds):</label>
+                    <select
+                      value={newCondition}
+                      onChange={(e) => setNewCondition(e.target.value)}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-emerald-400 font-bold focus:outline-none focus:border-emerald-500"
+                    >
+                      {['2/32', '3/32', '4/32', '5/32', '6/32', '7/32', '8/32', '9/32', '10/32', '11/32', '12/32'].map(val => (
+                        <option key={val} value={val}>{val}{val === '12/32' ? ' (New)' : ''}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
                     <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Initial Stock Quantity:</label>
                     <input 
                       type="number" 
@@ -1192,14 +1204,15 @@ export default function AdminPage() {
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Tread Condition:</label>
+                        <label className="text-[10px] text-slate-400 font-bold block mb-1 uppercase">Tread Depth (in 32nds):</label>
                         <select
                           value={editTireCondition}
-                          onChange={(e) => setEditTireCondition(e.target.value as any)}
+                          onChange={(e) => setEditTireCondition(e.target.value)}
                           className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-emerald-400 font-bold"
                         >
-                          <option value="Good (70%+ tread)">Good (70%+ tread)</option>
-                          <option value="Like New (90%+ tread)">Like New (90%+ tread)</option>
+                          {['2/32', '3/32', '4/32', '5/32', '6/32', '7/32', '8/32', '9/32', '10/32', '11/32', '12/32'].map(val => (
+                            <option key={val} value={val}>{val}{val === '12/32' ? ' (New)' : ''}</option>
+                          ))}
                         </select>
                       </div>
                       <div>
@@ -1465,7 +1478,6 @@ export default function AdminPage() {
                       <option value="Venmo">Venmo</option>
                       <option value="Zelle">Zelle</option>
                       <option value="Apple Pay">Apple Pay</option>
-                      <option value="Cash at Box">Cash at Box</option>
                     </select>
                   </div>
                   <div>
@@ -1729,7 +1741,6 @@ export default function AdminPage() {
                           <option value="Venmo">Venmo</option>
                           <option value="Zelle">Zelle</option>
                           <option value="Apple Pay">Apple Pay</option>
-                          <option value="Cash at Box">Cash at Box</option>
                         </select>
                       </div>
                     </div>

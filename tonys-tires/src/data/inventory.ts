@@ -15,7 +15,7 @@ export interface TireItem {
   model: string;
   size: string;
   rimSize: number;
-  condition: 'Good (70%+ tread)' | 'Like New (90%+ tread)';
+  condition: string;
   price: number;
   image: string;
   images?: string[];
@@ -40,7 +40,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Touring Radial",
     "size": "175/65R14",
     "rimSize": 14,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image31.jpeg",
     "stock": {
@@ -53,7 +53,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "All-Season Radial",
     "size": "175/65R15",
     "rimSize": 15,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image38.jpeg",
     "stock": {
@@ -66,7 +66,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Defender T+H",
     "size": "185/55R15",
     "rimSize": 15,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 45,
     "image": "/tires/fountain/image73.jpeg",
     "stock": {
@@ -79,7 +79,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Ecopia EP422",
     "size": "195/55R15",
     "rimSize": 15,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image24.jpeg",
     "stock": {
@@ -92,7 +92,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "ProContact TX",
     "size": "195/60R15",
     "rimSize": 15,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image10.jpeg",
     "stock": {
@@ -105,7 +105,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Assurance MaxLife",
     "size": "195/65R15",
     "rimSize": 15,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 45,
     "image": "/tires/image19.jpeg",
     "stock": {
@@ -118,7 +118,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "P4 Four Seasons",
     "size": "205/65R15",
     "rimSize": 15,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image27.jpeg",
     "stock": {
@@ -131,7 +131,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Energy Saver A/S",
     "size": "205/55R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image51.jpeg",
     "stock": {
@@ -144,7 +144,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Kinergy GT",
     "size": "205/60R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image35.jpeg",
     "stock": {
@@ -157,7 +157,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Avid Ascend LX",
     "size": "205/65R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image74.jpeg",
     "stock": {
@@ -170,7 +170,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Extensa A/S II",
     "size": "215/60R16",
     "rimSize": 16,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 50,
     "image": "/tires/image70.jpeg",
     "stock": {
@@ -183,7 +183,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "TrueContact Tour",
     "size": "215/65R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image29.jpeg",
     "stock": {
@@ -196,7 +196,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Turanza QuietTrack",
     "size": "225/55R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image38.jpeg",
     "stock": {
@@ -209,7 +209,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Eagle Sport A/S",
     "size": "225/50R16",
     "rimSize": 16,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 300,
     "image": "/tires/image3.jpeg",
     "stock": {
@@ -222,7 +222,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Cinturato P7",
     "size": "205/45R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image49.jpeg",
     "stock": {
@@ -235,7 +235,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Primacy MXM4",
     "size": "215/55R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image5.jpeg",
     "stock": {
@@ -248,7 +248,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Ventus V2 Concept2",
     "size": "225/50R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image76.jpeg",
     "stock": {
@@ -261,7 +261,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "g-Force COMP-2 A/S",
     "size": "225/55R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image5.jpeg",
     "stock": {
@@ -274,7 +274,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "PureContact LS",
     "size": "235/45R17",
     "rimSize": 17,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 50,
     "image": "/tires/fountain/image34.jpeg",
     "stock": {
@@ -287,7 +287,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Wrangler SR-A",
     "size": "245/65R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image6 (1).jpeg",
     "stock": {
@@ -300,7 +300,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Open Country A/T III",
     "size": "35x12.50R17",
     "rimSize": 17,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 75,
     "image": "/tires/fountain/image76.jpeg",
     "stock": {
@@ -313,7 +313,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Ridge Grappler",
     "size": "37x12.50R17",
     "rimSize": 17,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 75,
     "image": "/tires/image41.jpeg",
     "stock": {
@@ -326,7 +326,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Pilot Sport AS4",
     "size": "215/55R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image36.jpeg",
     "stock": {
@@ -339,7 +339,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Dueler H/L Alenza",
     "size": "225/60R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 40,
     "image": "/tires/fountain/image74.jpeg",
     "stock": {
@@ -352,7 +352,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "CrossContact LX25",
     "size": "235/55R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image54.jpeg",
     "stock": {
@@ -365,7 +365,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Assurance WeatherReady",
     "size": "235/60R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image21.jpeg",
     "stock": {
@@ -378,7 +378,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "P Zero All Season",
     "size": "255/35R18",
     "rimSize": 18,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 65,
     "image": "/tires/image9.jpeg",
     "stock": {
@@ -391,7 +391,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "All-Terrain T/A KO2",
     "size": "275/65R18",
     "rimSize": 18,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 50,
     "image": "/tires/fountain/image26.jpeg",
     "stock": {
@@ -404,7 +404,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Pilot Sport 4S",
     "size": "235/45R19",
     "rimSize": 19,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 55,
     "image": "/tires/fountain/image20.jpeg",
     "stock": {
@@ -417,7 +417,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Ventus S1 Noble2",
     "size": "255/35R19",
     "rimSize": 19,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/fountain/image2.jpeg",
     "stock": {
@@ -430,7 +430,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "ExtremeContact DWS06",
     "size": "275/35R19",
     "rimSize": 19,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 75,
     "image": "/tires/fountain/image74.jpeg",
     "stock": {
@@ -443,7 +443,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "P Zero Sport",
     "size": "245/40R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image21.jpeg",
     "stock": {
@@ -456,7 +456,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Eagle F1 Asymmetric",
     "size": "255/40R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image34.jpeg",
     "stock": {
@@ -469,7 +469,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Dueler H/L 400",
     "size": "275/55R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/fountain/image36.jpeg",
     "stock": {
@@ -482,7 +482,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Brand New Performance Set",
     "size": "305/35R24",
     "rimSize": 24,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 650,
     "image": "/tires/fountain/image69.jpeg",
     "stock": {
@@ -495,7 +495,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Defender T+H",
     "size": "175/80R13",
     "rimSize": 13,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 40,
     "image": "/tires/fountain/image4.jpeg",
     "stock": {
@@ -508,7 +508,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Assurance All-Season",
     "size": "185/70R13",
     "rimSize": 13,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 35,
     "image": "/tires/image38.jpeg",
     "stock": {
@@ -521,7 +521,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Ecopia EP422 Plus",
     "size": "185/65R14",
     "rimSize": 14,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image25.jpeg",
     "stock": {
@@ -534,7 +534,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "ProContact TX",
     "size": "175/65R15",
     "rimSize": 15,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 40,
     "image": "/tires/fountain/image22.jpeg",
     "stock": {
@@ -547,7 +547,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Radial Trail HD (Trailer)",
     "size": "205/75R14 ST",
     "rimSize": 14,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 40,
     "image": "/tires/fountain/image12.jpeg",
     "stock": {
@@ -560,7 +560,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Cinturato P7",
     "size": "185/60R15",
     "rimSize": 15,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 40,
     "image": "/tires/fountain/image29.jpeg",
     "stock": {
@@ -573,7 +573,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Kinergy ST",
     "size": "185/65R15",
     "rimSize": 15,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 40,
     "image": "/tires/fountain/image12.jpeg",
     "stock": {
@@ -586,7 +586,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Proxes R88R (Pair)",
     "size": "195/50R15",
     "rimSize": 15,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 100,
     "image": "/tires/fountain/image22.jpeg",
     "stock": {
@@ -599,7 +599,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Avid Ascend GT",
     "size": "195/55R15",
     "rimSize": 15,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 40,
     "image": "/tires/image3.jpeg",
     "stock": {
@@ -612,7 +612,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Energy Saver A/S",
     "size": "195/60R15",
     "rimSize": 15,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 40,
     "image": "/tires/image41.jpeg",
     "stock": {
@@ -625,7 +625,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Assurance MaxLife",
     "size": "195/65R15",
     "rimSize": 15,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image15.jpeg",
     "stock": {
@@ -638,7 +638,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "TrueContact Tour",
     "size": "205/55R15",
     "rimSize": 15,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image34.jpeg",
     "stock": {
@@ -651,7 +651,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Turanza QuietTrack",
     "size": "205/65R15",
     "rimSize": 15,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 45,
     "image": "/tires/fountain/image32.jpeg",
     "stock": {
@@ -664,7 +664,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Endurance Trailer Set",
     "size": "205/75R15 ST",
     "rimSize": 15,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 200,
     "image": "/tires/fountain/image73.jpeg",
     "stock": {
@@ -677,7 +677,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Radial T/A",
     "size": "215/75R15",
     "rimSize": 15,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 55,
     "image": "/tires/image6 (1).jpeg",
     "stock": {
@@ -690,7 +690,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Enasave EC300",
     "size": "185/55R16",
     "rimSize": 16,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 45,
     "image": "/tires/image17.jpeg",
     "stock": {
@@ -703,7 +703,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Defender2",
     "size": "205/55R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image11.jpeg",
     "stock": {
@@ -716,7 +716,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Eagle Sport A/S",
     "size": "205/60R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image37.jpeg",
     "stock": {
@@ -729,7 +729,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "PureContact LS",
     "size": "215/60R16",
     "rimSize": 16,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 50,
     "image": "/tires/fountain/image36.jpeg",
     "stock": {
@@ -742,7 +742,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Agilis CrossClimate Heavy Stack",
     "size": "225/75R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 450,
     "image": "/tires/image33.jpeg",
     "stock": {
@@ -755,7 +755,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Transforce HT2",
     "size": "235/80R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 150,
     "image": "/tires/image9.jpeg",
     "stock": {
@@ -768,7 +768,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "P Zero All Season Plus",
     "size": "215/45R17",
     "rimSize": 17,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 50,
     "image": "/tires/image76.jpeg",
     "stock": {
@@ -781,7 +781,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Turanza EL440",
     "size": "205/55R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image37.jpeg",
     "stock": {
@@ -794,7 +794,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Ventus V12 evo2 (Pair)",
     "size": "215/50R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 100,
     "image": "/tires/image73.jpeg",
     "stock": {
@@ -807,7 +807,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Primacy Tour A/S",
     "size": "215/55R17",
     "rimSize": 17,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 50,
     "image": "/tires/fountain/image69.jpeg",
     "stock": {
@@ -820,7 +820,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "ExtremeContact DWS06",
     "size": "225/50R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image22.jpeg",
     "stock": {
@@ -833,7 +833,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Assurance WeatherReady",
     "size": "225/55R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image34.jpeg",
     "stock": {
@@ -846,7 +846,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Geolandar A/T G015",
     "size": "225/65R17",
     "rimSize": 17,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 45,
     "image": "/tires/fountain/image51.jpeg",
     "stock": {
@@ -859,7 +859,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "g-Force COMP-2 A/S PLUS",
     "size": "245/45R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/fountain/image75.jpeg",
     "stock": {
@@ -872,7 +872,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Wildpeak A/T3W Singles",
     "size": "285/70R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 75,
     "image": "/tires/fountain/image22.jpeg",
     "stock": {
@@ -885,7 +885,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Open Country M/T Set of 5",
     "size": "35x12.50R17",
     "rimSize": 17,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 650,
     "image": "/tires/image9.jpeg",
     "stock": {
@@ -898,7 +898,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "CrossClimate2",
     "size": "215/55R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 55,
     "image": "/tires/image6.jpeg",
     "stock": {
@@ -911,7 +911,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Dueler H/L Alenza Plus Pair",
     "size": "225/55R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 100,
     "image": "/tires/fountain/image5.jpeg",
     "stock": {
@@ -924,7 +924,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Assurance ComfortDrive Set",
     "size": "225/60R18",
     "rimSize": 18,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 200,
     "image": "/tires/image27.jpeg",
     "stock": {
@@ -937,7 +937,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Cinturato WeatherActive",
     "size": "235/40R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image32.jpeg",
     "stock": {
@@ -950,7 +950,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "CrossContact LX25",
     "size": "235/55R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image6.jpeg",
     "stock": {
@@ -963,7 +963,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Dynapro HP2",
     "size": "235/60R18",
     "rimSize": 18,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 40,
     "image": "/tires/fountain/image1.jpeg",
     "stock": {
@@ -976,7 +976,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Pilot Sport All Season 4",
     "size": "245/50R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/fountain/image73.jpeg",
     "stock": {
@@ -989,7 +989,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Open Country Q/T",
     "size": "245/60R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image28.jpeg",
     "stock": {
@@ -1002,7 +1002,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Advan Sport A/S+ Pair",
     "size": "255/40R18",
     "rimSize": 18,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 100,
     "image": "/tires/image73.jpeg",
     "stock": {
@@ -1015,7 +1015,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Dueler A/T Revo 3",
     "size": "265/60R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 55,
     "image": "/tires/fountain/image28.jpeg",
     "stock": {
@@ -1028,7 +1028,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Dueler H/T 685 Set",
     "size": "255/70R18",
     "rimSize": 18,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 200,
     "image": "/tires/image51.jpeg",
     "stock": {
@@ -1041,7 +1041,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Wrangler Fortitude HT",
     "size": "265/70R18",
     "rimSize": 18,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 40,
     "image": "/tires/image33.jpeg",
     "stock": {
@@ -1054,7 +1054,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "All-Terrain T/A KO2",
     "size": "275/70R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 65,
     "image": "/tires/image7.jpeg",
     "stock": {
@@ -1067,7 +1067,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Celsius CUV",
     "size": "225/55R19",
     "rimSize": 19,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image21.jpeg",
     "stock": {
@@ -1080,7 +1080,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Latitude Tour HP Set",
     "size": "235/55R19",
     "rimSize": 19,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 45,
     "image": "/tires/image32.jpeg",
     "stock": {
@@ -1093,7 +1093,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Scorpion Verde All Season",
     "size": "245/50R19",
     "rimSize": 19,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image27.jpeg",
     "stock": {
@@ -1106,7 +1106,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "4x4 Contact",
     "size": "265/50R19",
     "rimSize": 19,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image5.jpeg",
     "stock": {
@@ -1119,7 +1119,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Pilot Sport 4S Set",
     "size": "245/40R20",
     "rimSize": 20,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 350,
     "image": "/tires/image51.jpeg",
     "stock": {
@@ -1132,7 +1132,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Eagle Touring Set of 5",
     "size": "245/50R20",
     "rimSize": 20,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 375,
     "image": "/tires/fountain/image12.jpeg",
     "stock": {
@@ -1145,7 +1145,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Alenza AS Ultra",
     "size": "255/45R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/fountain/image6.jpeg",
     "stock": {
@@ -1158,7 +1158,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Scorpion Zero All Season Pair",
     "size": "255/55R20",
     "rimSize": 20,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 150,
     "image": "/tires/fountain/image26.jpeg",
     "stock": {
@@ -1171,7 +1171,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Defender LTX M/S",
     "size": "275/55R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/fountain/image34.jpeg",
     "stock": {
@@ -1184,7 +1184,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Dynapro AT2 Set",
     "size": "275/60R20",
     "rimSize": 20,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 450,
     "image": "/tires/fountain/image15.jpeg",
     "stock": {
@@ -1197,7 +1197,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Wrangler Ultraterrain A/T Set",
     "size": "275/65R20",
     "rimSize": 20,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 400,
     "image": "/tires/image34.jpeg",
     "stock": {
@@ -1210,7 +1210,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Ridge Grappler Pair",
     "size": "35x12.50R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 250,
     "image": "/tires/image37.jpeg",
     "stock": {
@@ -1223,7 +1223,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "P Zero PZ4 Luxury Set",
     "size": "275/35R21",
     "rimSize": 21,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 450,
     "image": "/tires/image20.jpeg",
     "stock": {
@@ -1236,7 +1236,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "CrossContact RX Pair",
     "size": "275/40R21",
     "rimSize": 21,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 225,
     "image": "/tires/image8.jpeg",
     "stock": {
@@ -1249,7 +1249,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Primacy MXM4 Pair",
     "size": "275/45R21",
     "rimSize": 21,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 250,
     "image": "/tires/fountain/image28.jpeg",
     "stock": {
@@ -1262,7 +1262,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "P Zero Performance Pair",
     "size": "315/35R21",
     "rimSize": 21,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 450,
     "image": "/tires/image70.jpeg",
     "stock": {
@@ -1275,7 +1275,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Alenza Sport A/S Set",
     "size": "275/50R22",
     "rimSize": 22,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 300,
     "image": "/tires/image73.jpeg",
     "stock": {
@@ -1288,7 +1288,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Eagle Touring 3+1 Set",
     "size": "285/45R22",
     "rimSize": 22,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 300,
     "image": "/tires/image38.jpeg",
     "stock": {
@@ -1301,7 +1301,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "SportContact 6 Set",
     "size": "295/40R22",
     "rimSize": 22,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 450,
     "image": "/tires/fountain/image1.jpeg",
     "stock": {
@@ -1314,7 +1314,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "LX-Twenty Performance Set",
     "size": "305/35R24",
     "rimSize": 24,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 575,
     "image": "/tires/image76.jpeg",
     "stock": {
@@ -1327,7 +1327,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Touring Radial",
     "size": "175/65R14",
     "rimSize": 14,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image36.jpeg",
     "stock": {
@@ -1340,7 +1340,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Assurance All-Season",
     "size": "185/65R15",
     "rimSize": 15,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image29.jpeg",
     "stock": {
@@ -1353,7 +1353,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Ecopia EP422",
     "size": "195/55R15",
     "rimSize": 15,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 45,
     "image": "/tires/image17.jpeg",
     "stock": {
@@ -1366,7 +1366,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "ProContact TX",
     "size": "195/60R15",
     "rimSize": 15,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image29.jpeg",
     "stock": {
@@ -1379,7 +1379,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Assurance MaxLife",
     "size": "195/65R15",
     "rimSize": 15,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image28.jpeg",
     "stock": {
@@ -1392,7 +1392,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Assurance (Clearance Single)",
     "size": "195/65R15",
     "rimSize": 15,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 35,
     "image": "/tires/image21.jpeg",
     "stock": {
@@ -1405,7 +1405,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "P4 Four Seasons",
     "size": "205/65R15",
     "rimSize": 15,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image31.jpeg",
     "stock": {
@@ -1418,7 +1418,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Energy Saver A/S",
     "size": "205/50R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image36.jpeg",
     "stock": {
@@ -1431,7 +1431,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "TrueContact Tour",
     "size": "205/55R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image55.jpeg",
     "stock": {
@@ -1444,7 +1444,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Kinergy GT",
     "size": "205/60R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image73.jpeg",
     "stock": {
@@ -1457,7 +1457,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Avid Ascend LX",
     "size": "205/65R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image35.jpeg",
     "stock": {
@@ -1470,7 +1470,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Turanza QuietTrack (Single)",
     "size": "215/55R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 35,
     "image": "/tires/fountain/image11.jpeg",
     "stock": {
@@ -1483,7 +1483,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Extensa A/S II",
     "size": "215/60R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image12.jpeg",
     "stock": {
@@ -1496,7 +1496,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Defender2",
     "size": "215/65R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image2.jpeg",
     "stock": {
@@ -1509,7 +1509,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Wrangler ST",
     "size": "235/65R16",
     "rimSize": 16,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 50,
     "image": "/tires/fountain/image16.jpeg",
     "stock": {
@@ -1522,7 +1522,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Cinturato P7",
     "size": "205/45R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image27.jpeg",
     "stock": {
@@ -1535,7 +1535,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Primacy MXM4 (Single)",
     "size": "215/55R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 35,
     "image": "/tires/image1 (1).jpeg",
     "stock": {
@@ -1548,7 +1548,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Ventus V2 Concept2",
     "size": "225/45R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image17.jpeg",
     "stock": {
@@ -1561,7 +1561,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "g-Force COMP-2 A/S",
     "size": "225/55R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 35,
     "image": "/tires/fountain/image4.jpeg",
     "stock": {
@@ -1574,7 +1574,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Geolandar A/T (Set of 4 + 1)",
     "size": "225/60R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 100,
     "image": "/tires/fountain/image69.jpeg",
     "stock": {
@@ -1587,7 +1587,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Assurance Pair",
     "size": "225/65R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 35,
     "image": "/tires/fountain/image21.jpeg",
     "stock": {
@@ -1600,7 +1600,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Transforce HT Heavy Duty",
     "size": "235/80R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image27.jpeg",
     "stock": {
@@ -1613,7 +1613,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Wrangler SR-A Pair",
     "size": "245/65R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 35,
     "image": "/tires/image76.jpeg",
     "stock": {
@@ -1626,7 +1626,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "All-Terrain KO2 (3 Sets)",
     "size": "265/70R17",
     "rimSize": 17,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 250,
     "image": "/tires/image25.jpeg",
     "stock": {
@@ -1639,7 +1639,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Wildpeak A/T3W Set",
     "size": "285/70R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 175,
     "image": "/tires/fountain/image55.jpeg",
     "stock": {
@@ -1652,7 +1652,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Ridge Grappler Set",
     "size": "295/70R17",
     "rimSize": 17,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 375,
     "image": "/tires/fountain/image25.jpeg",
     "stock": {
@@ -1665,7 +1665,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Open Country M/T Pair",
     "size": "35x12.50R17",
     "rimSize": 17,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 150,
     "image": "/tires/fountain/image9.jpeg",
     "stock": {
@@ -1678,7 +1678,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Trailer Duty Set",
     "size": "215/75R17.5",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 75,
     "image": "/tires/image10.jpeg",
     "stock": {
@@ -1691,7 +1691,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Primacy Tour A/S Set",
     "size": "225/60R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 180,
     "image": "/tires/image6.jpeg",
     "stock": {
@@ -1704,7 +1704,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "CrossContact LX25",
     "size": "235/60R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image1.jpeg",
     "stock": {
@@ -1717,7 +1717,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Dueler H/T 685 (2 Sets & Pair)",
     "size": "255/70R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 200,
     "image": "/tires/fountain/image13.jpeg",
     "stock": {
@@ -1730,7 +1730,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Eagle Touring Set",
     "size": "255/60R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 180,
     "image": "/tires/image37.jpeg",
     "stock": {
@@ -1743,7 +1743,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Defender LTX M/S (2 Sets)",
     "size": "265/60R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 240,
     "image": "/tires/image20.jpeg",
     "stock": {
@@ -1756,7 +1756,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Wrangler All-Terrain Set",
     "size": "275/65R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 175,
     "image": "/tires/image70.jpeg",
     "stock": {
@@ -1769,7 +1769,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Terra Grappler Set",
     "size": "295/70R18",
     "rimSize": 18,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 200,
     "image": "/tires/image1.jpeg",
     "stock": {
@@ -1782,7 +1782,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Open Country A/T III Set",
     "size": "33x12.50R18",
     "rimSize": 18,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 250,
     "image": "/tires/image29.jpeg",
     "stock": {
@@ -1795,7 +1795,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Celsius CUV (2 Pairs)",
     "size": "225/55R19",
     "rimSize": 19,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image36.jpeg",
     "stock": {
@@ -1808,7 +1808,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Pilot Sport 4S (3+1)",
     "size": "235/40R19",
     "rimSize": 19,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 50,
     "image": "/tires/image35.jpeg",
     "stock": {
@@ -1821,7 +1821,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "CrossContact LX",
     "size": "235/55R19",
     "rimSize": 19,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 35,
     "image": "/tires/fountain/image21.jpeg",
     "stock": {
@@ -1834,7 +1834,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "P Zero Performance Pair",
     "size": "255/35R19",
     "rimSize": 19,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 320,
     "image": "/tires/image48.jpeg",
     "stock": {
@@ -1847,7 +1847,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Ventus S1 Noble2 Pair",
     "size": "255/40R19",
     "rimSize": 19,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 120,
     "image": "/tires/image4.jpeg",
     "stock": {
@@ -1860,7 +1860,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Pilot Super Sport",
     "size": "275/40R19",
     "rimSize": 19,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 75,
     "image": "/tires/image28.jpeg",
     "stock": {
@@ -1873,7 +1873,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "ExtremeContact DWS06 Pair",
     "size": "285/30R19",
     "rimSize": 19,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 320,
     "image": "/tires/fountain/image36.jpeg",
     "stock": {
@@ -1886,7 +1886,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "P Zero All Season",
     "size": "245/40R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 60,
     "image": "/tires/image11.jpeg",
     "stock": {
@@ -1899,7 +1899,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Eagle F1 Asymmetric (Set & Singles)",
     "size": "245/45R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 60,
     "image": "/tires/image55.jpeg",
     "stock": {
@@ -1912,7 +1912,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Eagle Touring Set",
     "size": "245/50R20",
     "rimSize": 20,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 250,
     "image": "/tires/image73.jpeg",
     "stock": {
@@ -1925,7 +1925,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Dueler H/L Alenza Set",
     "size": "245/60R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 200,
     "image": "/tires/fountain/image20.jpeg",
     "stock": {
@@ -1938,7 +1938,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Pilot Sport EV",
     "size": "255/40R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 60,
     "image": "/tires/image25.jpeg",
     "stock": {
@@ -1951,7 +1951,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "CrossContact Set",
     "size": "255/50R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 220,
     "image": "/tires/fountain/image28.jpeg",
     "stock": {
@@ -1964,7 +1964,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Alenza Sport (3 Sets)",
     "size": "265/50R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 250,
     "image": "/tires/fountain/image69.jpeg",
     "stock": {
@@ -1977,7 +1977,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "P Zero PZ4 Pair",
     "size": "275/40R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 100,
     "image": "/tires/image16.jpeg",
     "stock": {
@@ -1990,7 +1990,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Wrangler SR-A (4 Sets & Pair)",
     "size": "275/55R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 250,
     "image": "/tires/fountain/image37.jpeg",
     "stock": {
@@ -2003,7 +2003,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Dynapro AT2 Pair",
     "size": "275/60R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 120,
     "image": "/tires/image16.jpeg",
     "stock": {
@@ -2016,7 +2016,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Wrangler Ultraterrain Set of 5",
     "size": "275/65R20",
     "rimSize": 20,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 175,
     "image": "/tires/image34.jpeg",
     "stock": {
@@ -2029,7 +2029,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Ridge Grappler Set",
     "size": "295/55R20",
     "rimSize": 20,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 350,
     "image": "/tires/fountain/image35.jpeg",
     "stock": {
@@ -2042,7 +2042,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Pilot Sport Supercar Pair",
     "size": "345/25R21",
     "rimSize": 21,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 350,
     "image": "/tires/fountain/image22.jpeg",
     "stock": {
@@ -2055,7 +2055,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Alenza Sport A/S Set",
     "size": "275/50R22",
     "rimSize": 22,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 250,
     "image": "/tires/image35.jpeg",
     "stock": {
@@ -2068,7 +2068,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Eagle Touring Set",
     "size": "285/45R22",
     "rimSize": 22,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 250,
     "image": "/tires/fountain/image76.jpeg",
     "stock": {
@@ -2081,7 +2081,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "SportContact 6 Pair",
     "size": "285/40R22",
     "rimSize": 22,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 600,
     "image": "/tires/fountain/image51.jpeg",
     "stock": {
@@ -2094,7 +2094,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "P Zero Performance Pair",
     "size": "325/35R22",
     "rimSize": 22,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 600,
     "image": "/tires/image16.jpeg",
     "stock": {
@@ -2107,7 +2107,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "Terra Grappler Single",
     "size": "325/50R22",
     "rimSize": 22,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/fountain/image17.jpeg",
     "stock": {
@@ -2120,7 +2120,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "LX-Twenty Performance Set",
     "size": "305/35R24",
     "rimSize": 24,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 599,
     "image": "/tires/image28.jpeg",
     "stock": {
@@ -2133,7 +2133,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "185/65R15",
     "size": "185/65R15",
     "rimSize": 15,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 40,
     "image": "/tires/image24.jpeg",
     "stock": {
@@ -2146,7 +2146,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "195/60R15",
     "size": "195/60R15",
     "rimSize": 15,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 40,
     "image": "/tires/image76.jpeg",
     "stock": {
@@ -2159,7 +2159,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "195/65R15",
     "size": "195/65R15",
     "rimSize": 15,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 40,
     "image": "/tires/image1.jpeg",
     "stock": {
@@ -2172,7 +2172,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "205/65R15",
     "size": "205/65R15",
     "rimSize": 15,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image37.jpeg",
     "stock": {
@@ -2185,7 +2185,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "205/55R16",
     "size": "205/55R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image74.jpeg",
     "stock": {
@@ -2198,7 +2198,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "205/60R16",
     "size": "205/60R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image16.jpeg",
     "stock": {
@@ -2211,7 +2211,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "205/65R16",
     "size": "205/65R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image15.jpeg",
     "stock": {
@@ -2224,7 +2224,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "215/55R16",
     "size": "215/55R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image75.jpeg",
     "stock": {
@@ -2237,7 +2237,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "215/60R16",
     "size": "215/60R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image17.jpeg",
     "stock": {
@@ -2250,7 +2250,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "215/65R16",
     "size": "215/65R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image41.jpeg",
     "stock": {
@@ -2263,7 +2263,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "225/75R16",
     "size": "225/75R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image20.jpeg",
     "stock": {
@@ -2276,7 +2276,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "235/70R16",
     "size": "235/70R16",
     "rimSize": 16,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image7.jpeg",
     "stock": {
@@ -2289,7 +2289,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "205/45R17",
     "size": "205/45R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image25.jpeg",
     "stock": {
@@ -2302,7 +2302,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "205/55R17 Set",
     "size": "205/55R17",
     "rimSize": 17,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 200,
     "image": "/tires/fountain/image55.jpeg",
     "stock": {
@@ -2315,7 +2315,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "215/45R17",
     "size": "215/45R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image36.jpeg",
     "stock": {
@@ -2328,7 +2328,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "215/50R17",
     "size": "215/50R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image71.jpeg",
     "stock": {
@@ -2341,7 +2341,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "215/55R17",
     "size": "215/55R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image7.jpeg",
     "stock": {
@@ -2354,7 +2354,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "215/65R17 Pair",
     "size": "215/65R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image4.jpeg",
     "stock": {
@@ -2367,7 +2367,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "225/45R17",
     "size": "225/45R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image5.jpeg",
     "stock": {
@@ -2380,7 +2380,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "225/65R17",
     "size": "225/65R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image1.jpeg",
     "stock": {
@@ -2393,7 +2393,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "235/65R17",
     "size": "235/65R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 40,
     "image": "/tires/image15.jpeg",
     "stock": {
@@ -2406,7 +2406,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "255/75R17 (2 Sets)",
     "size": "255/75R17",
     "rimSize": 17,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/fountain/image74.jpeg",
     "stock": {
@@ -2419,7 +2419,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "225/40R18",
     "size": "225/40R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image22.jpeg",
     "stock": {
@@ -2432,7 +2432,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "225/45R18 Pair",
     "size": "225/45R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image30.jpeg",
     "stock": {
@@ -2445,7 +2445,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "225/50R18 Set",
     "size": "225/50R18",
     "rimSize": 18,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 200,
     "image": "/tires/image74.jpeg",
     "stock": {
@@ -2458,7 +2458,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "225/55R18 Set",
     "size": "225/55R18",
     "rimSize": 18,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 200,
     "image": "/tires/fountain/image71.jpeg",
     "stock": {
@@ -2471,7 +2471,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "235/40R18",
     "size": "235/40R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image20.jpeg",
     "stock": {
@@ -2484,7 +2484,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "235/45R18 Pair",
     "size": "235/45R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image34.jpeg",
     "stock": {
@@ -2497,7 +2497,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "235/50R18",
     "size": "235/50R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/fountain/image31.jpeg",
     "stock": {
@@ -2510,7 +2510,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "235/60R18 Set + Single",
     "size": "235/60R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 40,
     "image": "/tires/fountain/image75.jpeg",
     "stock": {
@@ -2523,7 +2523,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "235/65R18 Set",
     "size": "235/65R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image22.jpeg",
     "stock": {
@@ -2536,7 +2536,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "245/35R18 Set",
     "size": "245/35R18",
     "rimSize": 18,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 60,
     "image": "/tires/fountain/image3.jpeg",
     "stock": {
@@ -2549,7 +2549,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "245/45R18",
     "size": "245/45R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image48.jpeg",
     "stock": {
@@ -2562,7 +2562,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "255/60R18 Pair",
     "size": "255/60R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 40,
     "image": "/tires/fountain/image9.jpeg",
     "stock": {
@@ -2575,7 +2575,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "265/60R18 Pair",
     "size": "265/60R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image48.jpeg",
     "stock": {
@@ -2588,7 +2588,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "275/65R18",
     "size": "275/65R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image2.jpeg",
     "stock": {
@@ -2601,7 +2601,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "275/70R18",
     "size": "275/70R18",
     "rimSize": 18,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 125,
     "image": "/tires/fountain/image32.jpeg",
     "stock": {
@@ -2614,7 +2614,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "225/55R19 Set",
     "size": "225/55R19",
     "rimSize": 19,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image5.jpeg",
     "stock": {
@@ -2627,7 +2627,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "235/55R19",
     "size": "235/55R19",
     "rimSize": 19,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image74.jpeg",
     "stock": {
@@ -2640,7 +2640,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "235/60R19 Set",
     "size": "235/60R19",
     "rimSize": 19,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 450,
     "image": "/tires/image41.jpeg",
     "stock": {
@@ -2653,7 +2653,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "245/45R19",
     "size": "245/45R19",
     "rimSize": 19,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 55,
     "image": "/tires/image10.jpeg",
     "stock": {
@@ -2666,7 +2666,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "245/50R19 Set",
     "size": "245/50R19",
     "rimSize": 19,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 450,
     "image": "/tires/image2.jpeg",
     "stock": {
@@ -2679,7 +2679,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "255/45R19",
     "size": "255/45R19",
     "rimSize": 19,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/fountain/image35.jpeg",
     "stock": {
@@ -2692,7 +2692,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "235/55R20 Set",
     "size": "235/55R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image1 (1).jpeg",
     "stock": {
@@ -2705,7 +2705,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "245/45R20",
     "size": "245/45R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image1 (1).jpeg",
     "stock": {
@@ -2718,7 +2718,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "245/50R20",
     "size": "245/50R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image8.jpeg",
     "stock": {
@@ -2731,7 +2731,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "255/45R20",
     "size": "255/45R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image23.jpeg",
     "stock": {
@@ -2744,7 +2744,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "255/60R20 Set",
     "size": "255/60R20",
     "rimSize": 20,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 200,
     "image": "/tires/fountain/image16.jpeg",
     "stock": {
@@ -2757,7 +2757,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "265/50R20",
     "size": "265/50R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 40,
     "image": "/tires/fountain/image9.jpeg",
     "stock": {
@@ -2770,7 +2770,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "265/60R20",
     "size": "265/60R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image30.jpeg",
     "stock": {
@@ -2783,7 +2783,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "275/55R20",
     "size": "275/55R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 45,
     "image": "/tires/image11.jpeg",
     "stock": {
@@ -2796,7 +2796,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "275/60R20",
     "size": "275/60R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/fountain/image23.jpeg",
     "stock": {
@@ -2809,7 +2809,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "275/65R20 Set",
     "size": "275/65R20",
     "rimSize": 20,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 250,
     "image": "/tires/image1.jpeg",
     "stock": {
@@ -2822,7 +2822,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "285/60R20 Pair",
     "size": "285/60R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 65,
     "image": "/tires/fountain/image18.jpeg",
     "stock": {
@@ -2835,7 +2835,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "285/65R20 Set",
     "size": "285/65R20",
     "rimSize": 20,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 250,
     "image": "/tires/fountain/image18.jpeg",
     "stock": {
@@ -2848,7 +2848,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "295/55R20 Set",
     "size": "295/55R20",
     "rimSize": 20,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 450,
     "image": "/tires/image6 (1).jpeg",
     "stock": {
@@ -2861,7 +2861,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "35x12.50R20 Single",
     "size": "35x12.50R20",
     "rimSize": 20,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/fountain/image21.jpeg",
     "stock": {
@@ -2874,7 +2874,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "275/45R21 Set",
     "size": "275/45R21",
     "rimSize": 21,
-    "condition": "Like New (90%+ tread)",
+    "condition": "10/32",
     "price": 450,
     "image": "/tires/image6.jpeg",
     "stock": {
@@ -2887,7 +2887,7 @@ export const INITIAL_TIRES: TireItem[] = [
     "model": "285/45R22",
     "size": "285/45R22",
     "rimSize": 22,
-    "condition": "Good (70%+ tread)",
+    "condition": "7/32",
     "price": 50,
     "image": "/tires/image10.jpeg",
     "stock": {
