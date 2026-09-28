@@ -172,16 +172,30 @@ export default function AdminPage() {
   // Auto-load master inventory & orders from server API on mount
   useEffect(() => {
     const loadServerData = async () => {
+      let hasLocal = false;
       try {
-        const invRes = await fetch('/api/admin/inventory');
-        if (invRes.ok) {
-          const invData = await invRes.json();
-          if (invData.success && Array.isArray(invData.inventory)) {
-            setInventory(invData.inventory);
+        const savedInv = localStorage.getItem('tony_admin_inventory');
+        if (savedInv) {
+          const parsed = JSON.parse(savedInv);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setInventory(parsed);
+            hasLocal = true;
           }
         }
-      } catch (e) {
-        console.error('Failed to load server inventory:', e);
+      } catch (e2) {}
+
+      if (!hasLocal) {
+        try {
+          const invRes = await fetch('/api/admin/inventory');
+          if (invRes.ok) {
+            const invData = await invRes.json();
+            if (invData.success && Array.isArray(invData.inventory)) {
+              setInventory(invData.inventory);
+            }
+          }
+        } catch (e) {
+          console.error('Failed to load server inventory:', e);
+        }
       }
 
       try {

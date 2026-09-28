@@ -74,26 +74,30 @@ export default function Home() {
   useEffect(() => {
     const fetchInventory = async () => {
       let currentInv = INITIAL_TIRES;
+      let hasLocal = false;
       try {
-        const res = await fetch('/api/admin/inventory');
-        if (res.ok) {
-          const data = await res.json();
-          if (data.success && Array.isArray(data.inventory) && data.inventory.length > 0) {
-            currentInv = data.inventory;
-            setInventory(data.inventory);
+        const savedInv = localStorage.getItem('tony_admin_inventory');
+        if (savedInv) {
+          const parsed = JSON.parse(savedInv);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            currentInv = parsed;
+            setInventory(parsed);
+            hasLocal = true;
           }
         }
-      } catch (e) {
+      } catch (e2) {}
+
+      if (!hasLocal) {
         try {
-          const savedInv = localStorage.getItem('tony_admin_inventory');
-          if (savedInv) {
-            const parsed = JSON.parse(savedInv);
-            if (Array.isArray(parsed) && parsed.length > 0) {
-              currentInv = parsed;
-              setInventory(parsed);
+          const res = await fetch('/api/admin/inventory');
+          if (res.ok) {
+            const data = await res.json();
+            if (data.success && Array.isArray(data.inventory) && data.inventory.length > 0) {
+              currentInv = data.inventory;
+              setInventory(data.inventory);
             }
           }
-        } catch (e2) {}
+        } catch (e) {}
       }
 
       // Check if URL specifies a tire ID (e.g. /tires/t-1789886897789)
