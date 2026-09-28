@@ -237,7 +237,7 @@ export default function AdminPage() {
   const saveOrders = async (newOrders: Order[]) => {
     setOrders(newOrders);
     try {
-      localStorage.setItem('tony_admin_inventory', JSON.stringify(newOrders));
+      localStorage.setItem('tony_admin_orders', JSON.stringify(newOrders));
     } catch (e) {}
 
     try {
@@ -315,30 +315,67 @@ export default function AdminPage() {
     setTimeout(() => setSuccessMsg(''), 3000);
   };
 
-  // File Upload Handlers for PC/Phone Images - Saves directly to server /uploads/ folder
-  const uploadImageToServer = async (file: File): Promise<string | null> => {
+  // Canvas image compression before saving (Compresses 5-10MB phone photos down to ~60-90KB each!)
+  const compressImageFile = (file: File, maxWidth = 1000, maxHeight = 1000, quality = 0.75): Promise<string> => {
     return new Promise((resolve) => {
       const reader = new FileReader();
-      reader.onload = async (event) => {
-        const base64Image = event.target?.result as string;
-        if (!base64Image) return resolve(null);
-        try {
-          const res = await fetch('/api/admin/upload', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ base64Image, fileName: file.name })
-          });
-          const data = await res.json();
-          if (data.success && data.url) {
-            return resolve(data.url);
+      reader.onload = (e) => {
+        const img = new window.Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+          } else {
+            if (height > maxHeight) {
+              width = Math.round((width * maxHeight) / height);
+              height = maxHeight;
+            }
           }
-        } catch (err) {
-          console.error('Upload error:', err);
-        }
-        resolve(base64Image);
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          } else {
+            resolve(e.target?.result as string);
+          }
+        };
+        img.onerror = () => resolve(e.target?.result as string);
+        img.src = e.target?.result as string;
       };
       reader.readAsDataURL(file);
     });
+  };
+
+  const uploadImageToServer = async (file: File): Promise<string | null> => {
+    try {
+      const compressedBase64 = await compressImageFile(file);
+      try {
+        const res = await fetch('/api/admin/upload', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ base64Image: compressedBase64, fileName: file.name })
+        });
+        const data = await res.json();
+        if (data.success && data.url) {
+          return data.url;
+        }
+      } catch (err) {
+        console.error('Upload API error, fallback to compressed base64:', err);
+      }
+      return compressedBase64;
+    } catch (e) {
+      console.error('Image compression error:', e);
+      return null;
+    }
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
