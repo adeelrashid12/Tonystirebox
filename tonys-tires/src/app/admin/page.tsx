@@ -95,6 +95,120 @@ const INITIAL_ORDERS: Order[] = [
   }
 ];
 
+function VisualGalleryManager({
+  images,
+  onChange,
+  onUpload
+}: {
+  images: string[];
+  onChange: (newImages: string[]) => void;
+  onUpload: (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
+}) {
+  const [isUploading, setIsUploading] = useState(false);
+  const [showUrlPaste, setShowUrlPaste] = useState(false);
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsUploading(true);
+    try {
+      await onUpload(e);
+    } catch (err) {
+      console.error(err);
+    }
+    setIsUploading(false);
+  };
+
+  const removeImage = (index: number) => {
+    const updated = images.filter((_, i) => i !== index);
+    onChange(updated);
+  };
+
+  return (
+    <div className="space-y-3">
+      {/* Visual Thumbnail Grid */}
+      <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+        {images.map((imgUrl, idx) => (
+          <div key={idx} className="relative group rounded-xl overflow-hidden border-2 border-slate-700 bg-slate-950 aspect-square shadow-lg">
+            <img 
+              src={imgUrl} 
+              alt={`Photo ${idx + 1}`} 
+              className="w-full h-full object-cover" 
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = '/real_tire_photo.jpg';
+              }}
+            />
+            
+            {/* Main Badge for 1st image */}
+            {idx === 0 ? (
+              <span className="absolute top-1 left-1 bg-red-600 text-white font-black text-[9px] px-1.5 py-0.5 rounded shadow tracking-wider uppercase">
+                MAIN
+              </span>
+            ) : (
+              <span className="absolute top-1 left-1 bg-slate-950/80 text-slate-300 font-bold text-[9px] px-1.5 py-0.5 rounded border border-slate-700">
+                #{idx + 1}
+              </span>
+            )}
+
+            {/* Remove X Button */}
+            <button
+              type="button"
+              onClick={() => removeImage(idx)}
+              className="absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white rounded-full p-1 shadow-md transition transform hover:scale-110 flex items-center justify-center"
+              title="Remove photo"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        ))}
+
+        {/* Add Photo Card */}
+        <label className={`relative rounded-xl border-2 border-dashed border-red-500/60 hover:border-red-500 bg-slate-950/60 hover:bg-red-950/30 aspect-square flex flex-col items-center justify-center p-2 text-center cursor-pointer transition shadow ${isUploading ? 'opacity-50 pointer-events-none' : ''}`}>
+          {isUploading ? (
+            <div className="flex flex-col items-center gap-1.5">
+              <span className="w-5 h-5 border-2 border-red-500 border-t-transparent rounded-full animate-spin"></span>
+              <span className="text-[10px] text-red-400 font-bold">Uploading...</span>
+            </div>
+          ) : (
+            <>
+              <div className="w-8 h-8 rounded-full bg-red-600/20 text-red-500 flex items-center justify-center mb-1">
+                <Upload className="w-4 h-4" />
+              </div>
+              <span className="text-[11px] text-white font-black uppercase tracking-wider">+ Add Photos</span>
+              <span className="text-[9px] text-slate-400 font-semibold mt-0.5">PC or Phone</span>
+            </>
+          )}
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleFileChange}
+            className="hidden"
+          />
+        </label>
+      </div>
+
+      {/* Advanced URL paste toggle */}
+      <div className="pt-1">
+        <button
+          type="button"
+          onClick={() => setShowUrlPaste(!showUrlPaste)}
+          className="text-[10px] text-slate-400 hover:text-slate-200 font-semibold underline underline-offset-2"
+        >
+          {showUrlPaste ? 'Hide Direct URL Textbox' : '🔗 Paste Direct Image URLs (Advanced)'}
+        </button>
+        {showUrlPaste && (
+          <textarea
+            rows={3}
+            value={images.join('\n')}
+            onChange={(e) => onChange(e.target.value.split('\n').map(s => s.trim()).filter(Boolean))}
+            className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs font-mono text-white mt-2 placeholder:text-slate-500 focus:outline-none focus:border-red-500"
+            placeholder="Paste image URLs (1 per line)..."
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -1031,26 +1145,11 @@ export default function AdminPage() {
                 </div>
 
                 <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <label className="text-[10px] text-slate-400 font-bold block uppercase">Product Photos (Upload from PC or paste image URLs):</label>
-                    <label className="cursor-pointer bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-lg flex items-center gap-1.5 transition shadow">
-                      <Upload className="w-3.5 h-3.5" /> Upload Photos from PC
-                      <input 
-                        type="file" 
-                        accept="image/*" 
-                        multiple 
-                        onChange={handleFileUpload} 
-                        className="hidden" 
-                      />
-                    </label>
-                  </div>
-
-                  <textarea
-                    rows={3}
-                    placeholder="Upload files above OR paste image URLs here (1 per line)..."
-                    value={newImagesInput}
-                    onChange={(e) => setNewImagesInput(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white font-mono placeholder:text-slate-500"
+                  <label className="text-xs font-bold text-slate-300 block mb-2 uppercase">Product Photos Gallery:</label>
+                  <VisualGalleryManager
+                    images={newImagesInput.split('\n').map(s => s.trim()).filter(Boolean)}
+                    onChange={(newImgs) => setNewImagesInput(newImgs.join('\n'))}
+                    onUpload={handleFileUpload}
                   />
                 </div>
 
@@ -1352,21 +1451,12 @@ export default function AdminPage() {
                       </div>
                     </div>
 
-                    {/* Image Upload/URLs */}
                     <div>
-                      <div className="flex items-center justify-between mb-1.5">
-                        <label className="text-[10px] text-slate-400 font-bold block uppercase">Tire Photo URLs / PC Upload:</label>
-                        <label className="cursor-pointer bg-red-600 hover:bg-red-500 text-white text-[11px] font-bold px-3 py-1 rounded-lg flex items-center gap-1 transition">
-                          <Upload className="w-3.5 h-3.5" /> Upload from PC
-                          <input type="file" accept="image/*" multiple onChange={handleEditTireFileUpload} className="hidden" />
-                        </label>
-                      </div>
-                      <textarea
-                        rows={3}
-                        value={editTireImagesInput}
-                        onChange={(e) => setEditTireImagesInput(e.target.value)}
-                        className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs font-mono text-white placeholder:text-slate-500"
-                        placeholder="Image URLs (1 per line)..."
+                      <label className="text-xs font-bold text-slate-300 block mb-2 uppercase">Product Photos Gallery:</label>
+                      <VisualGalleryManager
+                        images={editTireImagesInput.split('\n').map(s => s.trim()).filter(Boolean)}
+                        onChange={(newImgs) => setEditTireImagesInput(newImgs.join('\n'))}
+                        onUpload={handleEditTireFileUpload}
                       />
                     </div>
 
@@ -1414,28 +1504,15 @@ export default function AdminPage() {
                   <h3 className="text-lg font-black uppercase text-amber-400 mb-1 flex items-center gap-2">
                     📷 Edit Product Image Gallery
                   </h3>
-                  <p className="text-xs text-slate-400 mb-4">Upload photos directly from PC or enter URLs (1 per line).</p>
+                  <p className="text-xs text-slate-400 mb-4">Manage photo thumbnails below or upload new photos from your phone/PC.</p>
 
-                  <div className="mb-3 flex justify-end">
-                    <label className="cursor-pointer bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition shadow">
-                      <Upload className="w-4 h-4" /> Upload Photos from PC
-                      <input 
-                        type="file" 
-                        accept="image/*" 
-                        multiple 
-                        onChange={handleEditModalFileUpload} 
-                        className="hidden" 
-                      />
-                    </label>
+                  <div className="mb-4">
+                    <VisualGalleryManager
+                      images={editImagesInput.split('\n').map(s => s.trim()).filter(Boolean)}
+                      onChange={(newImgs) => setEditImagesInput(newImgs.join('\n'))}
+                      onUpload={handleEditModalFileUpload}
+                    />
                   </div>
-
-                  <textarea
-                    rows={6}
-                    value={editImagesInput}
-                    onChange={(e) => setEditImagesInput(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs font-mono text-white mb-4 focus:outline-none focus:border-red-500 placeholder:text-slate-500"
-                    placeholder="Upload from PC or paste image URLs..."
-                  />
 
                   <div className="flex justify-end gap-3">
                     <button
