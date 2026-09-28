@@ -167,40 +167,74 @@ export default function AdminPage() {
     if (savedAuth === 'true') {
       setIsAuthenticated(true);
     }
-    const savedInv = localStorage.getItem('tony_admin_inventory');
-    if (savedInv) {
-      try {
-        const parsed = JSON.parse(savedInv);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setInventory(parsed);
-        }
-      } catch (e) {}
-    }
-    const savedOrders = localStorage.getItem('tony_admin_orders');
-    if (savedOrders) {
-      try {
-        const parsed = JSON.parse(savedOrders);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setOrders(parsed);
-        }
-      } catch (e) {}
-    }
-    setIsLoaded(true);
   }, []);
 
-  // Save changes to localStorage
-  const saveInventory = (newInv: TireItem[]) => {
+  // Auto-load master inventory & orders from server API on mount
+  useEffect(() => {
+    const loadServerData = async () => {
+      try {
+        const invRes = await fetch('/api/admin/inventory');
+        if (invRes.ok) {
+          const invData = await invRes.json();
+          if (invData.success && Array.isArray(invData.inventory)) {
+            setInventory(invData.inventory);
+          }
+        }
+      } catch (e) {
+        console.error('Failed to load server inventory:', e);
+      }
+
+      try {
+        const ordRes = await fetch('/api/admin/orders');
+        if (ordRes.ok) {
+          const ordData = await ordRes.json();
+          if (ordData.success && Array.isArray(ordData.orders)) {
+            setOrders(ordData.orders);
+          }
+        }
+      } catch (e) {
+        console.error('Failed to load server orders:', e);
+      }
+
+      setIsLoaded(true);
+    };
+
+    loadServerData();
+  }, []);
+
+  // Save inventory changes to server API & localStorage fallback
+  const saveInventory = async (newInv: TireItem[]) => {
     setInventory(newInv);
     try {
       localStorage.setItem('tony_admin_inventory', JSON.stringify(newInv));
     } catch (e) {}
+
+    try {
+      await fetch('/api/admin/inventory', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ inventory: newInv })
+      });
+    } catch (e) {
+      console.error('API save failed:', e);
+    }
   };
 
-  const saveOrders = (newOrders: Order[]) => {
+  const saveOrders = async (newOrders: Order[]) => {
     setOrders(newOrders);
     try {
-      localStorage.setItem('tony_admin_orders', JSON.stringify(newOrders));
+      localStorage.setItem('tony_admin_inventory', JSON.stringify(newOrders));
     } catch (e) {}
+
+    try {
+      await fetch('/api/admin/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orders: newOrders })
+      });
+    } catch (e) {
+      console.error('API order save failed:', e);
+    }
   };
 
   const handleLogin = (e: React.FormEvent) => {
@@ -267,53 +301,66 @@ export default function AdminPage() {
     setTimeout(() => setSuccessMsg(''), 3000);
   };
 
-  // File Upload Handlers for PC Images
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-
-    Array.from(files).forEach((file) => {
+  // File Upload Handlers for PC/Phone Images - Saves directly to server /uploads/ folder
+  const uploadImageToServer = async (file: File): Promise<string | null> => {
+    return new Promise((resolve) => {
       const reader = new FileReader();
-      reader.onload = (event) => {
-        const base64Url = event.target?.result as string;
-        if (base64Url) {
-          setNewImagesInput(prev => prev ? `${prev}\n${base64Url}` : base64Url);
+      reader.onload = async (event) => {
+        const base64Image = event.target?.result as string;
+        if (!base64Image) return resolve(null);
+        try {
+          const res = await fetch('/api/admin/upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ base64Image, fileName: file.name })
+          });
+          const data = await res.json();
+          if (data.success && data.url) {
+            return resolve(data.url);
+          }
+        } catch (err) {
+          console.error('Upload error:', err);
         }
+        resolve(base64Image);
       };
       reader.readAsDataURL(file);
     });
   };
 
-  const handleEditModalFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
-    Array.from(files).forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const base64Url = event.target?.result as string;
-        if (base64Url) {
-          setEditImagesInput(prev => prev ? `${prev}\n${base64Url}` : base64Url);
-        }
-      };
-      reader.readAsDataURL(file);
-    });
+    for (const file of Array.from(files)) {
+      const url = await uploadImageToServer(file);
+      if (url) {
+        setNewImagesInput(prev => prev ? `${prev}\n${url}` : url);
+      }
+    }
   };
 
-  const handleEditTireFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEditModalFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
-    Array.from(files).forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const base64Url = event.target?.result as string;
-        if (base64Url) {
-          setEditTireImagesInput(prev => prev ? `${prev}\n${base64Url}` : base64Url);
-        }
-      };
-      reader.readAsDataURL(file);
-    });
+    for (const file of Array.from(files)) {
+      const url = await uploadImageToServer(file);
+      if (url) {
+        setEditImagesInput(prev => prev ? `${prev}\n${url}` : url);
+      }
+    }
+  };
+
+  const handleEditTireFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    for (const file of Array.from(files)) {
+      const url = await uploadImageToServer(file);
+      if (url) {
+        setEditTireImagesInput(prev => prev ? `${prev}\n${url}` : url);
+      }
+    }
   };
 
   // Open Edit Tire Modal

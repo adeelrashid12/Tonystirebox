@@ -72,13 +72,28 @@ export default function Home() {
 
   // Auto-detect visitor location by IP on client side & Sync Admin Inventory
   useEffect(() => {
-    try {
-      const savedInv = localStorage.getItem('tony_admin_inventory');
-      if (savedInv) {
-        const parsed = JSON.parse(savedInv);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setInventory(parsed);
+    const fetchInventory = async () => {
+      let currentInv = INITIAL_TIRES;
+      try {
+        const res = await fetch('/api/admin/inventory');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && Array.isArray(data.inventory) && data.inventory.length > 0) {
+            currentInv = data.inventory;
+            setInventory(data.inventory);
+          }
         }
+      } catch (e) {
+        try {
+          const savedInv = localStorage.getItem('tony_admin_inventory');
+          if (savedInv) {
+            const parsed = JSON.parse(savedInv);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              currentInv = parsed;
+              setInventory(parsed);
+            }
+          }
+        } catch (e2) {}
       }
 
       // Check if URL specifies a tire ID (e.g. /tires/t-1789886897789)
@@ -87,8 +102,7 @@ export default function Home() {
         const match = path.match(/\/tires\/([^\/]+)/);
         if (match && match[1]) {
           const tireId = match[1];
-          const allInv: TireItem[] = savedInv ? JSON.parse(savedInv) : INITIAL_TIRES;
-          const found = allInv.find(t => t.id === tireId);
+          const found = currentInv.find(t => t.id === tireId);
           if (found) {
             setSelectedTireModal(found);
             const firstLoc = Object.keys(found.stock).find(locId => (found.stock[locId] || 0) > 0) || 'greer';
@@ -97,38 +111,40 @@ export default function Home() {
         }
       }
 
-      const savedLoc = localStorage.getItem('tony_selected_location');
-      if (savedLoc) {
-        setSelectedLocation(savedLoc);
-        return;
-      }
-    } catch (e) {}
-
-    fetch('https://ipapi.co/json/')
-      .then(res => res.json())
-      .then(data => {
-        if (!data || !data.city) return;
-        const city = String(data.city).toLowerCase();
-        setUserDetectedCity(data.city);
-
-        let matchedHub: string | null = null;
-        if (city.includes('greer')) matchedHub = 'greer';
-        else if (city.includes('greenville')) matchedHub = 'greenville';
-        else if (city.includes('aiken')) matchedHub = 'aiken';
-        else if (city.includes('fountain') || city.includes('simpsonville') || city.includes('mauldin')) matchedHub = 'fountain-inn';
-        else if (city.includes('little river') || city.includes('myrtle')) matchedHub = 'little-river';
-        else if (city.includes('longs')) matchedHub = 'longs';
-        else if (city.includes('columbia') || city.includes('lexington')) matchedHub = 'columbia';
-        else if (city.includes('hickory')) matchedHub = 'hickory';
-
-        if (matchedHub) {
-          setSelectedLocation(matchedHub);
-          setIsGeoDetected(true);
+      try {
+        const savedLoc = localStorage.getItem('tony_selected_location');
+        if (savedLoc) {
+          setSelectedLocation(savedLoc);
+          return;
         }
-      })
-      .catch(() => {
-        // Fallback silently
-      });
+      } catch (e) {}
+
+      fetch('https://ipapi.co/json/')
+        .then(res => res.json())
+        .then(data => {
+          if (!data || !data.city) return;
+          const city = String(data.city).toLowerCase();
+          setUserDetectedCity(data.city);
+
+          let matchedHub: string | null = null;
+          if (city.includes('greer')) matchedHub = 'greer';
+          else if (city.includes('greenville')) matchedHub = 'greenville';
+          else if (city.includes('taylors')) matchedHub = 'taylors';
+          else if (city.includes('fountain') || city.includes('inn')) matchedHub = 'fountain-inn';
+          else if (city.includes('river') || city.includes('myrtle')) matchedHub = 'little-river';
+          else if (city.includes('aiken')) matchedHub = 'aiken';
+          else if (city.includes('anderson')) matchedHub = 'anderson';
+          else if (city.includes('spartanburg')) matchedHub = 'spartanburg';
+
+          if (matchedHub) {
+            setSelectedLocation(matchedHub);
+            setIsGeoDetected(true);
+          }
+        })
+        .catch(() => {});
+    };
+
+    fetchInventory();
   }, []);
 
   const changeLocation = (locId: string) => {
