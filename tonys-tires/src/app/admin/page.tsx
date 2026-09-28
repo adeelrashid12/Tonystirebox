@@ -1078,6 +1078,11 @@ export default function AdminPage() {
                             <span className="text-[10px] text-emerald-400 font-extrabold bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800">
                               {tire.condition}
                             </span>
+                            {stockQty === 0 && selectedLocation !== 'all' && (
+                              <span className="text-[10px] text-red-400 font-extrabold bg-red-950/80 px-2 py-0.5 rounded border border-red-800">
+                                0 Stock in {currentLocationData?.name} (Hidden on Website)
+                              </span>
+                            )}
                           </div>
 
                           <div className="flex flex-wrap items-center gap-3 mt-1 text-xs">
