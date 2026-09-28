@@ -182,7 +182,10 @@ export default function Home() {
   });
 
   const addToCart = (tire: TireItem, locId?: string) => {
-    const targetLoc = locId || (selectedLocation === 'all' ? 'greer' : selectedLocation);
+    const availableLoc = (selectedLocation !== 'all' && (tire.stock[selectedLocation] || 0) > 0)
+      ? selectedLocation
+      : (Object.keys(tire.stock).find(l => (tire.stock[l] || 0) > 0) || 'greer');
+    const targetLoc = locId || availableLoc;
     const available = tire.stock[targetLoc] || 0;
     if (available <= 0) return;
 
