@@ -16,6 +16,19 @@ import {
   ChevronRight
 } from 'lucide-react';
 
+const DEFAULT_EMPTY_TIRE: TireItem = {
+  id: 'none',
+  brand: 'Quality Used Tire',
+  model: 'Standard Radial',
+  size: 'Select Tire Size',
+  rimSize: 16,
+  condition: '7/32',
+  price: 45,
+  image: '/real_tire_photo.jpg',
+  images: ['/real_tire_photo.jpg'],
+  stock: { greer: 0 }
+};
+
 export default function TireDetailClient({ tireId }: { tireId: string }) {
   const [targetId, setTargetId] = useState<string>(tireId);
 
@@ -30,7 +43,7 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
   }, []);
 
   const [tire, setTire] = useState<TireItem>(() => {
-    return INITIAL_TIRES.find(t => t.id === tireId) || INITIAL_TIRES[0];
+    return INITIAL_TIRES.find(t => t.id === tireId) || INITIAL_TIRES[0] || DEFAULT_EMPTY_TIRE;
   });
 
   useEffect(() => {
@@ -63,19 +76,21 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
   }, [targetId]);
 
   useEffect(() => {
-    const imgs = (tire.images && tire.images.length > 0 ? tire.images : [tire.image]).filter(Boolean);
+    const currentTire = tire || DEFAULT_EMPTY_TIRE;
+    const imgs = (currentTire.images && currentTire.images.length > 0 ? currentTire.images : [currentTire.image]).filter(Boolean);
     if (imgs[0]) {
       setSelectedImage(imgs[0]);
     }
-    const firstStockLoc = Object.keys(tire.stock).find(locId => (tire.stock[locId] || 0) > 0) || 'columbia';
+    const firstStockLoc = Object.keys(currentTire.stock || {}).find(locId => (currentTire.stock[locId] || 0) > 0) || 'greer';
     setSelectedLoc(firstStockLoc);
   }, [tire]);
 
-  const validImages = (tire.images && tire.images.length > 0 ? tire.images : [tire.image]).filter(Boolean);
+  const activeTire = tire || DEFAULT_EMPTY_TIRE;
+  const validImages = (activeTire.images && activeTire.images.length > 0 ? activeTire.images : [activeTire.image]).filter(Boolean);
 
   // Auto-select the first location that actually has stock available for this tire
-  const defaultLoc = Object.keys(tire.stock).find(locId => (tire.stock[locId] || 0) > 0) || 'columbia';
-  const [selectedImage, setSelectedImage] = useState<string>(validImages[0] || tire.image || '');
+  const defaultLoc = Object.keys(activeTire.stock || {}).find(locId => (activeTire.stock[locId] || 0) > 0) || 'greer';
+  const [selectedImage, setSelectedImage] = useState<string>(validImages[0] || activeTire.image || '/real_tire_photo.jpg');
   const [selectedLoc, setSelectedLoc] = useState<string>(defaultLoc);
   const [quantity, setQuantity] = useState<number>(1);
   const [activeTab, setActiveTab] = useState<'specs' | 'locations' | 'pickup'>('specs');

@@ -16,7 +16,8 @@ import {
   PhoneCall,
   Play,
   CreditCard,
-  ChevronRight
+  ChevronRight,
+  Boxes
 } from 'lucide-react';
 
 export default function Home() {
@@ -778,80 +779,92 @@ export default function Home() {
         )}
 
         {/* Inventory Cards Grid (Limit 8 on Homepage) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredTires.slice(0, 8).map(tire => {
-            // Get available count for active location or sum across all
-            const activeStockCount = selectedLocation === 'all' 
-              ? Object.values(tire.stock).reduce((a, b) => a + b, 0)
-              : (tire.stock[selectedLocation] || 0);
+        {filteredTires.length === 0 ? (
+          <div className="bg-white rounded-3xl border border-slate-200 p-8 text-center max-w-xl mx-auto shadow-md space-y-3">
+            <div className="w-14 h-14 bg-red-50 text-red-600 rounded-2xl flex items-center justify-center mx-auto shadow-inner">
+              <Boxes className="w-7 h-7" />
+            </div>
+            <h4 className="text-xl font-black text-slate-950 uppercase tracking-tight">Updating Stock Inventory</h4>
+            <p className="text-xs text-slate-600 font-semibold max-w-md mx-auto leading-relaxed">
+              New tire shipments are currently being added to this container location. Text our team at <a href="sms:8643955393" className="text-red-600 font-bold underline font-mono">864-395-5393</a> for immediate stock & size availability!
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {filteredTires.slice(0, 8).map(tire => {
+              // Get available count for active location or sum across all
+              const activeStockCount = selectedLocation === 'all' 
+                ? Object.values(tire.stock).reduce((a, b) => a + b, 0)
+                : (tire.stock[selectedLocation] || 0);
 
-            // Get names of locations that have stock for this tire
-            const activeLocationNames = Object.entries(tire.stock)
-              .filter(([_, count]) => count > 0)
-              .map(([locId]) => LOCATIONS.find(l => l.id === locId)?.name)
-              .filter(Boolean);
+              // Get names of locations that have stock for this tire
+              const activeLocationNames = Object.entries(tire.stock)
+                .filter(([_, count]) => count > 0)
+                .map(([locId]) => LOCATIONS.find(l => l.id === locId)?.name)
+                .filter(Boolean);
 
-            const displayLocationText = selectedLocation === 'all' 
-              ? (activeLocationNames.slice(0, 2).join(' / ') + (activeLocationNames.length > 2 ? ` +${activeLocationNames.length - 2} more` : ''))
-              : LOCATIONS.find(l => l.id === selectedLocation)?.name;
+              const displayLocationText = selectedLocation === 'all' 
+                ? (activeLocationNames.slice(0, 2).join(' / ') + (activeLocationNames.length > 2 ? ` +${activeLocationNames.length - 2} more` : ''))
+                : LOCATIONS.find(l => l.id === selectedLocation)?.name;
 
-            return (
-              <div key={tire.id} className="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden flex flex-col justify-between hover:shadow-xl transition group">
-                <div>
-                  <Link href={`/tires/${tire.id}`} className="block">
-                    <div className="bg-slate-50 p-4 flex items-center justify-center border-b border-slate-100 relative h-48 overflow-hidden">
-                      <img 
-                        src={tire.image} 
-                        alt={tire.size} 
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = '/real_tire_photo.jpg';
-                        }}
-                        className="h-full w-full object-cover rounded-xl shadow-inner group-hover:scale-105 transition duration-300" 
-                      />
-                      <span className="absolute top-3 right-3 bg-red-600 text-white font-black text-[10px] px-2.5 py-1 rounded-md uppercase tracking-wider shadow">
-                        {tire.rimSize}" Rim
-                      </span>
-                    </div>
-
-                    <div className="p-5">
-                      <h4 className="text-xl font-black text-slate-950 group-hover:text-red-600 transition">{tire.size}</h4>
-                      <p className="text-xs text-slate-500 font-semibold mt-0.5">Quality Used Tire ({tire.rimSize}" Rim)</p>
-                      <p className="text-[11px] text-emerald-600 font-bold mt-1">{tire.condition}</p>
-
-                      <div className="mt-3 text-lg font-black text-red-600">
-                        ${tire.price} <span className="text-xs text-slate-500 font-normal">each</span>
+              return (
+                <div key={tire.id} className="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden flex flex-col justify-between hover:shadow-xl transition group">
+                  <div>
+                    <Link href={`/tires/${tire.id}`} className="block">
+                      <div className="bg-slate-50 p-4 flex items-center justify-center border-b border-slate-100 relative h-48 overflow-hidden">
+                        <img 
+                          src={tire.image} 
+                          alt={tire.size} 
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = '/real_tire_photo.jpg';
+                          }}
+                          className="h-full w-full object-cover rounded-xl shadow-inner group-hover:scale-105 transition duration-300" 
+                        />
+                        <span className="absolute top-3 right-3 bg-red-600 text-white font-black text-[10px] px-2.5 py-1 rounded-md uppercase tracking-wider shadow">
+                          {tire.rimSize}" Rim
+                        </span>
                       </div>
 
-                      <div className="mt-3 pt-3 border-t border-slate-100 text-xs font-semibold text-slate-600 space-y-1">
-                        <div className="flex items-center gap-1">
-                          <MapPin className="w-3.5 h-3.5 text-red-500 shrink-0" /> <span className="truncate">{displayLocationText}</span>
+                      <div className="p-5">
+                        <h4 className="text-xl font-black text-slate-950 group-hover:text-red-600 transition">{tire.size}</h4>
+                        <p className="text-xs text-slate-500 font-semibold mt-0.5">Quality Used Tire ({tire.rimSize}" Rim)</p>
+                        <p className="text-[11px] text-emerald-600 font-bold mt-1">{tire.condition}</p>
+
+                        <div className="mt-3 text-lg font-black text-red-600">
+                          ${tire.price} <span className="text-xs text-slate-500 font-normal">each</span>
                         </div>
-                        <div className="text-[11px] text-emerald-600 font-bold">
-                          {activeStockCount} available total
+
+                        <div className="mt-3 pt-3 border-t border-slate-100 text-xs font-semibold text-slate-600 space-y-1">
+                          <div className="flex items-center gap-1">
+                            <MapPin className="w-3.5 h-3.5 text-red-500 shrink-0" /> <span className="truncate">{displayLocationText}</span>
+                          </div>
+                          <div className="text-[11px] text-emerald-600 font-bold">
+                            {activeStockCount} available total
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                </div>
+                    </Link>
+                  </div>
 
-                <div className="p-5 pt-0 grid grid-cols-2 gap-2">
-                  <Link 
-                    href={`/tires/${tire.id}`}
-                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black text-[11px] py-2.5 rounded-xl uppercase shadow transition text-center flex items-center justify-center"
-                  >
-                    View Specs
-                  </Link>
-                  <button 
-                    onClick={() => addToCart(tire)}
-                    className="w-full bg-red-600 hover:bg-red-700 text-white font-black text-[11px] py-2.5 rounded-xl uppercase shadow transition cursor-pointer"
-                  >
-                    Reserve Now
-                  </button>
+                  <div className="p-5 pt-0 grid grid-cols-2 gap-2">
+                    <Link 
+                      href={`/tires/${tire.id}`}
+                      className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black text-[11px] py-2.5 rounded-xl uppercase shadow transition text-center flex items-center justify-center"
+                    >
+                      View Specs
+                    </Link>
+                    <button 
+                      onClick={() => addToCart(tire)}
+                      className="w-full bg-red-600 hover:bg-red-700 text-white font-black text-[11px] py-2.5 rounded-xl uppercase shadow transition cursor-pointer"
+                    >
+                      Reserve Now
+                    </button>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
 
         {/* View All Inventory Call To Action Bar */}
         <div className="mt-10 text-center">
