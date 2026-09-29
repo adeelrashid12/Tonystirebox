@@ -218,7 +218,7 @@ export default function AdminPage() {
   
   const [selectedLocation, setSelectedLocation] = useState<string>('all');
   const [selectedRimFilter, setSelectedRimFilter] = useState<number | 'all'>('all');
-  const [showZeroStock, setShowZeroStock] = useState<boolean>(false);
+  const [showZeroStock, setShowZeroStock] = useState<boolean>(true);
   const [inventory, setInventory] = useState<TireItem[]>(INITIAL_TIRES);
   const [orders, setOrders] = useState<Order[]>(INITIAL_ORDERS);
   const [searchFilter, setSearchFilter] = useState<string>('');
@@ -1248,11 +1248,15 @@ export default function AdminPage() {
                             <span className="text-[10px] text-emerald-400 font-extrabold bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800">
                               {tire.condition}
                             </span>
-                            {stockQty === 0 && selectedLocation !== 'all' && (
-                              <span className="text-[10px] text-red-400 font-extrabold bg-red-950/80 px-2 py-0.5 rounded border border-red-800">
-                                0 Stock in {currentLocationData?.name} (Hidden on Website)
+                            {totalStockAllHubs <= 0 ? (
+                              <span className="text-[10px] text-red-400 font-black bg-red-950/90 px-2 py-0.5 rounded border border-red-800 uppercase tracking-wider animate-pulse">
+                                ⚠️ 0 Stock (Hidden on Website)
                               </span>
-                            )}
+                            ) : stockQty === 0 && selectedLocation !== 'all' ? (
+                              <span className="text-[10px] text-amber-400 font-bold bg-amber-950/80 px-2 py-0.5 rounded border border-amber-800/80">
+                                0 Stock in {currentLocationData?.name} (Hidden for {currentLocationData?.name})
+                              </span>
+                            ) : null}
                           </div>
 
                           <div className="flex flex-wrap items-center gap-3 mt-1 text-xs">

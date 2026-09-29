@@ -181,8 +181,11 @@ export default function Home() {
       (normalizedSearch.length > 0 && normalizedTireSize.includes(normalizedSearch)) ||
       tire.brand.toLowerCase().includes(rawSearch);
     
-    // Check if location has stock if specific location selected
-    const hasLocationStock = selectedLocation === 'all' || (tire.stock[selectedLocation] || 0) > 0;
+    // Check if tire has stock available for selected location or overall
+    const totalTireStock = Object.values(tire.stock || {}).reduce((a, b) => a + b, 0);
+    const hasLocationStock = selectedLocation === 'all' 
+      ? totalTireStock > 0 
+      : (tire.stock[selectedLocation] || 0) > 0;
     
     return matchesRim && matchesSearch && hasLocationStock;
   });
