@@ -34,14 +34,32 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
   });
 
   useEffect(() => {
-    try {
-      const savedInv = localStorage.getItem('tony_admin_inventory');
-      const invList: TireItem[] = savedInv ? JSON.parse(savedInv) : INITIAL_TIRES;
-      const found = invList.find(t => t.id === targetId);
+    const loadTireData = async () => {
+      let invList = INITIAL_TIRES;
+      try {
+        const res = await fetch('/api/inventory.php');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && Array.isArray(data.inventory) && data.inventory.length > 0) {
+            invList = data.inventory;
+          }
+        }
+      } catch (e) {
+        try {
+          const savedInv = localStorage.getItem('tony_admin_inventory');
+          if (savedInv) invList = JSON.parse(savedInv);
+        } catch (e2) {}
+      }
+
+      const cleanTarget = targetId.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const found = invList.find(t => t.id === targetId) || 
+                    invList.find(t => t.size.toLowerCase().replace(/[^a-z0-9]/g, '') === cleanTarget);
       if (found) {
         setTire(found);
       }
-    } catch (e) {}
+    };
+
+    loadTireData();
   }, [targetId]);
 
   useEffect(() => {

@@ -286,42 +286,46 @@ export default function AdminPage() {
   // Auto-load master inventory & orders from server API on mount
   useEffect(() => {
     const loadServerData = async () => {
-      let hasLocal = false;
       try {
-        const savedInv = localStorage.getItem('tony_admin_inventory');
-        if (savedInv) {
-          const parsed = JSON.parse(savedInv);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            setInventory(parsed);
-            hasLocal = true;
+        const invRes = await fetch('/api/inventory.php');
+        if (invRes.ok) {
+          const invData = await invRes.json();
+          if (invData.success && Array.isArray(invData.inventory) && invData.inventory.length > 0) {
+            setInventory(invData.inventory);
+            try {
+              localStorage.setItem('tony_admin_inventory', JSON.stringify(invData.inventory));
+            } catch (e) {}
+          } else {
+            const savedInv = localStorage.getItem('tony_admin_inventory');
+            if (savedInv) setInventory(JSON.parse(savedInv));
           }
         }
-      } catch (e2) {}
-
-      if (!hasLocal) {
+      } catch (e) {
         try {
-          const invRes = await fetch('/api/admin/inventory');
-          if (invRes.ok) {
-            const invData = await invRes.json();
-            if (invData.success && Array.isArray(invData.inventory)) {
-              setInventory(invData.inventory);
-            }
-          }
-        } catch (e) {
-          console.error('Failed to load server inventory:', e);
-        }
+          const savedInv = localStorage.getItem('tony_admin_inventory');
+          if (savedInv) setInventory(JSON.parse(savedInv));
+        } catch (e2) {}
       }
 
       try {
-        const ordRes = await fetch('/api/admin/orders');
+        const ordRes = await fetch('/api/orders.php');
         if (ordRes.ok) {
           const ordData = await ordRes.json();
           if (ordData.success && Array.isArray(ordData.orders)) {
             setOrders(ordData.orders);
+            try {
+              localStorage.setItem('tony_admin_orders', JSON.stringify(ordData.orders));
+            } catch (e) {}
+          } else {
+            const savedOrd = localStorage.getItem('tony_admin_orders');
+            if (savedOrd) setOrders(JSON.parse(savedOrd));
           }
         }
       } catch (e) {
-        console.error('Failed to load server orders:', e);
+        try {
+          const savedOrd = localStorage.getItem('tony_admin_orders');
+          if (savedOrd) setOrders(JSON.parse(savedOrd));
+        } catch (e2) {}
       }
 
       setIsLoaded(true);
@@ -330,7 +334,7 @@ export default function AdminPage() {
     loadServerData();
   }, []);
 
-  // Save inventory changes to server API & localStorage fallback
+  // Save inventory changes to live server API & localStorage fallback
   const saveInventory = async (newInv: TireItem[]) => {
     setInventory(newInv);
     try {
@@ -338,7 +342,7 @@ export default function AdminPage() {
     } catch (e) {}
 
     try {
-      await fetch('/api/admin/inventory', {
+      await fetch('/api/inventory.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ inventory: newInv })
@@ -355,7 +359,7 @@ export default function AdminPage() {
     } catch (e) {}
 
     try {
-      await fetch('/api/admin/orders', {
+      await fetch('/api/orders.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ orders: newOrders })
