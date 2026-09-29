@@ -983,7 +983,7 @@ export default function AdminPage() {
                 </button>
 
                 {LOCATIONS.map(loc => {
-                  const locStockCount = inventory.reduce((total, tire) => total + (tire.stock[loc.id] || 0), 0);
+                  const locSizesCount = inventory.filter(t => (t.stock[loc.id] || 0) > 0).length;
                   const isSelected = selectedLocation === loc.id;
                   return (
                     <button
@@ -997,7 +997,7 @@ export default function AdminPage() {
                     >
                       <span>{loc.name}</span>
                       <span className={`px-2 py-0.5 rounded text-[10px] font-black ${isSelected ? 'bg-red-800 text-white' : 'bg-slate-800 text-slate-300'}`}>
-                        {locStockCount}
+                        {locSizesCount}
                       </span>
                     </button>
                   );
