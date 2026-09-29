@@ -104,12 +104,18 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
     const updatedTire = { ...tire, stock: updatedStock };
     setTire(updatedTire);
 
-    // Save updated inventory to localStorage for Admin
+    // Save updated inventory to localStorage AND live server API
     try {
       const savedInvRaw = localStorage.getItem('tony_admin_inventory');
       const allInv: TireItem[] = savedInvRaw ? JSON.parse(savedInvRaw) : INITIAL_TIRES;
       const updatedInvList = allInv.map(t => t.id === tire.id ? updatedTire : t);
       localStorage.setItem('tony_admin_inventory', JSON.stringify(updatedInvList));
+
+      fetch('/api/inventory.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ inventory: updatedInvList })
+      }).catch(() => {});
     } catch (e) {}
 
     const orderId = `ORD-${Math.floor(1000 + Math.random() * 9000)}`;
@@ -135,7 +141,14 @@ export default function TireDetailClient({ tireId }: { tireId: string }) {
     try {
       const existingOrdersRaw = localStorage.getItem('tony_admin_orders');
       const existingOrders = existingOrdersRaw ? JSON.parse(existingOrdersRaw) : [];
-      localStorage.setItem('tony_admin_orders', JSON.stringify([newOrder, ...existingOrders]));
+      const updatedOrders = [newOrder, ...existingOrders];
+      localStorage.setItem('tony_admin_orders', JSON.stringify(updatedOrders));
+
+      fetch('/api/orders.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orders: updatedOrders })
+      }).catch(() => {});
     } catch (e) {}
 
     setLastOrderDetails({

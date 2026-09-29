@@ -227,9 +227,17 @@ export default function Home() {
 
     setInventory(updatedInventory);
 
-    // Save updated inventory to localStorage
+    // Save updated inventory to localStorage AND live server API
     try {
       localStorage.setItem('tony_admin_inventory', JSON.stringify(updatedInventory));
+    } catch (e) {}
+
+    try {
+      fetch('/api/inventory.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ inventory: updatedInventory })
+      }).catch(() => {});
     } catch (e) {}
 
     const orderId = `ORD-${Math.floor(1000 + Math.random() * 9000)}`;
@@ -257,7 +265,14 @@ export default function Home() {
     try {
       const existingOrdersRaw = localStorage.getItem('tony_admin_orders');
       const existingOrders = existingOrdersRaw ? JSON.parse(existingOrdersRaw) : [];
-      localStorage.setItem('tony_admin_orders', JSON.stringify([newOrder, ...existingOrders]));
+      const updatedOrders = [newOrder, ...existingOrders];
+      localStorage.setItem('tony_admin_orders', JSON.stringify(updatedOrders));
+
+      fetch('/api/orders.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orders: updatedOrders })
+      }).catch(() => {});
     } catch (e) {}
 
     setLastOrderDetails({
