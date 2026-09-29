@@ -79,7 +79,7 @@ export default function Home() {
         const res = await fetch('/api/inventory.php');
         if (res.ok) {
           const data = await res.json();
-          if (data.success && Array.isArray(data.inventory) && data.inventory.length > 0) {
+          if (data.success && Array.isArray(data.inventory)) {
             currentInv = data.inventory;
             setInventory(data.inventory);
             try {
@@ -95,7 +95,7 @@ export default function Home() {
         const savedInv = localStorage.getItem('tony_admin_inventory');
         if (savedInv) {
           const parsed = JSON.parse(savedInv);
-          if (Array.isArray(parsed) && parsed.length > 0) {
+          if (Array.isArray(parsed)) {
             currentInv = parsed;
             setInventory(parsed);
           }

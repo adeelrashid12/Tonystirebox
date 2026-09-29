@@ -290,14 +290,11 @@ export default function AdminPage() {
         const invRes = await fetch('/api/inventory.php');
         if (invRes.ok) {
           const invData = await invRes.json();
-          if (invData.success && Array.isArray(invData.inventory) && invData.inventory.length > 0) {
+          if (invData.success && Array.isArray(invData.inventory)) {
             setInventory(invData.inventory);
             try {
               localStorage.setItem('tony_admin_inventory', JSON.stringify(invData.inventory));
             } catch (e) {}
-          } else {
-            const savedInv = localStorage.getItem('tony_admin_inventory');
-            if (savedInv) setInventory(JSON.parse(savedInv));
           }
         }
       } catch (e) {
@@ -709,6 +706,18 @@ export default function AdminPage() {
     }
   };
 
+  // Wipe All Inventory Database & Clear Cache
+  const handleWipeInventory = () => {
+    if (window.confirm("⚠️ ARE YOU SURE YOU WANT TO WIPE ALL INVENTORY LISTINGS?\n\nThis will clear all listings from the live website and Admin panel so you can start 100% fresh!")) {
+      saveInventory([]);
+      try {
+        localStorage.removeItem('tony_admin_inventory');
+      } catch (e) {}
+      setSuccessMsg('Inventory database wiped clean! You can now start adding fresh listings from scratch.');
+      setTimeout(() => setSuccessMsg(''), 5000);
+    }
+  };
+
   // Create Manual Phone Order
   const handleCreateManualOrder = (e: React.FormEvent) => {
     e.preventDefault();
@@ -961,6 +970,13 @@ export default function AdminPage() {
                   <MapPin className="w-4 h-4 text-red-500" /> Filter Inventory by Container Location:
                 </h3>
                 <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleWipeInventory}
+                    title="Wipe all inventory listings to start 100% fresh"
+                    className="text-[10px] text-red-400 hover:text-white bg-red-950/80 hover:bg-red-900 border border-red-800/80 px-2.5 py-1 rounded-lg flex items-center gap-1 font-bold transition shadow"
+                  >
+                    <Trash2 className="w-3 h-3" /> Wipe All Inventory
+                  </button>
                   <button
                     onClick={handleResetInventory}
                     title="Reset inventory to system defaults"
