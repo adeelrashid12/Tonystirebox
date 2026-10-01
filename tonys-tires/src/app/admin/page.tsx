@@ -29,6 +29,8 @@ import {
   Edit,
   RotateCcw,
   RefreshCw,
+  Package,
+  Mail,
   Tag,
   ShieldCheck
 } from 'lucide-react';
@@ -215,13 +217,15 @@ export default function AdminPage() {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [passwordInput, setPasswordInput] = useState<string>('');
   const [loginError, setLoginError] = useState<string>('');
-  const [activeTab, setActiveTab] = useState<'inventory' | 'orders'>('inventory');
+  const [activeTab, setActiveTab] = useState<'inventory' | 'orders' | 'wholesale'>('inventory');
   
   const [selectedLocation, setSelectedLocation] = useState<string>('all');
   const [selectedRimFilter, setSelectedRimFilter] = useState<number | 'all'>('all');
   const [showZeroStock, setShowZeroStock] = useState<boolean>(true);
   const [inventory, setInventory] = useState<TireItem[]>(INITIAL_TIRES);
   const [orders, setOrders] = useState<Order[]>(INITIAL_ORDERS);
+  const [wholesaleOrders, setWholesaleOrders] = useState<any[]>([]);
+  const [supplierEmailSetting, setSupplierEmailSetting] = useState<string>('');
   const [searchFilter, setSearchFilter] = useState<string>('');
   const [orderStatusFilter, setOrderStatusFilter] = useState<'all' | OrderStatus>('all');
 
@@ -336,6 +340,17 @@ export default function AdminPage() {
           if (savedOrd) setOrders(JSON.parse(savedOrd));
         } catch (e2) {}
       }
+
+      try {
+        const wsRes = await fetch('/api/wholesale_order.php');
+        if (wsRes.ok) {
+          const wsData = await wsRes.json();
+          if (wsData.success) {
+            if (Array.isArray(wsData.orders)) setWholesaleOrders(wsData.orders);
+            if (wsData.config && wsData.config.supplierEmail) setSupplierEmailSetting(wsData.config.supplierEmail);
+          }
+        }
+      } catch (e) {}
 
       setIsLoaded(true);
     };
@@ -666,6 +681,24 @@ export default function AdminPage() {
     }
   };
 
+  // Save Supplier Email Setting
+  const handleSaveSupplierEmail = async () => {
+    try {
+      const res = await fetch('/api/wholesale_order.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'update_config', supplierEmail: supplierEmailSetting })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSuccessMsg('Supplier email updated successfully for double-blind order routing!');
+        setTimeout(() => setSuccessMsg(''), 4000);
+      }
+    } catch (e) {
+      alert('Failed to update supplier email');
+    }
+  };
+
   // Add New Tire Item
   const handleAddNewTire = (e: React.FormEvent) => {
     e.preventDefault();
@@ -924,6 +957,17 @@ export default function AdminPage() {
                 {pendingOrdersCount > 0 && (
                   <span className="bg-amber-500 text-slate-950 text-[10px] px-2 py-0.5 rounded-full font-black ml-1 shadow">
                     {pendingOrdersCount}
+                  </span>
+                )}
+              </button>
+              <button
+                onClick={() => setActiveTab('wholesale')}
+                className={`px-4 py-2 rounded-lg flex items-center gap-1.5 transition ${activeTab === 'wholesale' ? 'bg-red-600 text-white shadow' : 'text-slate-400 hover:text-white'}`}
+              >
+                <Package className="w-4 h-4" /> Wholesale Wishlists
+                {wholesaleOrders.length > 0 && (
+                  <span className="bg-amber-500 text-slate-950 font-black text-[10px] px-2 py-0.5 rounded-full ml-1 shadow">
+                    {wholesaleOrders.length}
                   </span>
                 )}
               </button>
@@ -2073,6 +2117,134 @@ export default function AdminPage() {
                 </div>
               </div>
             )}
+          </div>
+        )}
+
+        {/* ==================== TAB 3: WHOLESALE WISHLISTS ==================== */}
+        {activeTab === 'wholesale' && (
+          <div className="space-y-6">
+            
+            {/* Supplier Email Setting Card */}
+            <div className="bg-slate-950 border border-slate-800 p-5 rounded-2xl shadow-xl space-y-3">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <div>
+                  <h3 className="text-sm font-black uppercase text-white flex items-center gap-2 tracking-wider">
+                    <Mail className="w-4 h-4 text-red-500" /> Supplier Email Settings (Double-Blind Privacy System)
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-1">
+                    When buyers submit wholesale wishlists, an anonymized size & quantity list (without buyer contact info) is automatically emailed to this supplier address.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <input
+                  type="email"
+                  placeholder="Enter Supplier Email (e.g. supplier@wholesaletires.com)"
+                  value={supplierEmailSetting}
+                  onChange={(e) => setSupplierEmailSetting(e.target.value)}
+                  className="w-full sm:w-96 bg-slate-900 border border-slate-700 text-white px-4 py-2.5 rounded-xl text-xs font-mono font-semibold focus:outline-none focus:border-red-500"
+                />
+                <button
+                  type="button"
+                  onClick={handleSaveSupplierEmail}
+                  className="bg-red-600 hover:bg-red-500 text-white text-xs font-black px-5 py-2.5 rounded-xl shadow-lg transition uppercase tracking-wider shrink-0"
+                >
+                  Save Supplier Email
+                </button>
+              </div>
+            </div>
+
+            {/* Wholesale Wishlists List */}
+            <div className="bg-slate-950 border border-slate-800 p-5 rounded-2xl shadow-xl space-y-4">
+              <div className="flex items-center justify-between flex-wrap gap-2 border-b border-slate-800 pb-3">
+                <h3 className="text-sm font-black uppercase text-white flex items-center gap-2">
+                  <Package className="w-4 h-4 text-red-500" /> Wholesale Wishlist Submissions ({wholesaleOrders.length})
+                </h3>
+              </div>
+
+              {wholesaleOrders.length === 0 ? (
+                <div className="text-center py-12 text-slate-500 text-xs font-semibold">
+                  <Package className="w-8 h-8 mx-auto mb-2 opacity-50 text-slate-600" />
+                  No wholesale wishlist orders submitted yet.
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {wholesaleOrders.map((wo: any) => (
+                    <div key={wo.id} className="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-4 shadow-lg">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="bg-red-950 text-red-400 font-mono font-black text-sm px-2.5 py-0.5 rounded border border-red-800">
+                              {wo.id}
+                            </span>
+                            <span className="text-white font-black text-base uppercase">
+                              {wo.buyerName} {wo.companyName ? `(${wo.companyName})` : ''}
+                            </span>
+                          </div>
+                          <span className="text-[11px] text-slate-400 font-medium block mt-1">
+                            Submitted: {wo.createdAt}
+                          </span>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <span className="bg-emerald-950 text-emerald-400 border border-emerald-800 text-xs font-mono font-black px-3 py-1 rounded-xl">
+                            {wo.totalTires || 0} Total Tires Requested
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Buyer Contact Details Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-950 p-3 rounded-xl border border-slate-800 text-xs">
+                        <div>
+                          <span className="text-slate-400 text-[10px] uppercase font-bold block">Phone Number:</span>
+                          <a href={`tel:${wo.phone}`} className="text-red-400 font-mono font-black hover:underline">
+                            📱 {wo.phone || 'N/A'}
+                          </a>
+                        </div>
+                        <div>
+                          <span className="text-slate-400 text-[10px] uppercase font-bold block">Email Address:</span>
+                          <a href={`mailto:${wo.email}`} className="text-white font-mono font-semibold hover:underline">
+                            ✉️ {wo.email || 'N/A'}
+                          </a>
+                        </div>
+                        <div>
+                          <span className="text-slate-400 text-[10px] uppercase font-bold block">Shipping / Zip Code:</span>
+                          <span className="text-slate-300 font-semibold">{wo.address || 'Not specified'}</span>
+                        </div>
+                        {wo.notes && (
+                          <div className="sm:col-span-3 border-t border-slate-800/80 pt-2">
+                            <span className="text-slate-400 text-[10px] uppercase font-bold block">Notes:</span>
+                            <span className="text-slate-300 italic">{wo.notes}</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Requested Sizes Table */}
+                      <div className="space-y-2">
+                        <span className="text-[11px] font-extrabold uppercase text-slate-400 block">
+                          Requested Tire Sizes Breakdown:
+                        </span>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                          {(wo.selectedSizes || []).map((sz: any, idx: number) => (
+                            <div key={idx} className="bg-slate-950 border border-slate-800 p-2.5 rounded-xl flex items-center justify-between text-xs">
+                              <div>
+                                <span className="font-mono font-black text-white block">{sz.size}</span>
+                                <span className="text-[10px] text-slate-400">{sz.rimGroup}</span>
+                              </div>
+                              <span className="bg-red-600 text-white font-mono font-black px-2.5 py-0.5 rounded-lg">
+                                {sz.qty} tires
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
           </div>
         )}
 

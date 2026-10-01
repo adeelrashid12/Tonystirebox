@@ -28,7 +28,11 @@ with zipfile.ZipFile(ZIP_PATH, 'w', zipfile.ZIP_DEFLATED) as zipf:
                 continue
             file_path = os.path.join(root, file)
             arcname = os.path.relpath(file_path, OUT_DIR)
-            zipf.write(file_path, arcname)
+            try:
+                if os.path.exists(file_path):
+                    zipf.write(file_path, arcname)
+            except Exception as e:
+                print(f'   -> Skipping file {file}: {e}')
 
 print('[2/3] Uploading and extracting ZIP to hosting...')
 for target in TARGET_PATHS:

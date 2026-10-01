@@ -17,6 +17,7 @@ import {
   Play,
   CreditCard,
   ChevronRight,
+  Package,
   Boxes
 } from 'lucide-react';
 
@@ -338,6 +339,9 @@ export default function Home() {
               <button onClick={() => scrollToSection('locations')} className="hover:text-red-400 transition">Locations</button>
               <button onClick={() => scrollToSection('how-it-works')} className="hover:text-red-400 transition">How It Works</button>
               <button onClick={() => scrollToSection('inventory')} className="hover:text-red-400 transition">Inventory</button>
+              <Link href="/wholesale" className="bg-red-950/80 hover:bg-red-900 border border-red-800/80 text-red-400 font-extrabold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow">
+                <Package className="w-3.5 h-3.5 text-red-500" /> Wholesale
+              </Link>
             </nav>
 
             {/* Right Text / Call Button & Cart */}
