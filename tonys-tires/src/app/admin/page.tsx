@@ -284,42 +284,36 @@ export default function AdminPage() {
     }
   }, []);
 
-  // Auto-load master inventory & orders from server API on mount with Auto-Sync
+  // Auto-load master inventory & orders from server API on mount
   useEffect(() => {
     const loadServerData = async () => {
-      // 1. Check if this device browser has stored inventory from admin sessions
-      let localHasData = false;
       try {
-        const savedInv = localStorage.getItem('tony_admin_inventory');
-        if (savedInv) {
-          const parsed = JSON.parse(savedInv);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            localHasData = true;
-            setInventory(parsed);
-            // Automatically sync device storage to live server database
-            fetch('/api/inventory.php', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ inventory: parsed })
-            }).catch(() => {});
+        const invRes = await fetch('/api/inventory.php');
+        if (invRes.ok) {
+          const invData = await invRes.json();
+          if (invData.success && Array.isArray(invData.inventory) && invData.inventory.length > 0) {
+            setInventory(invData.inventory);
+            try {
+              localStorage.setItem('tony_admin_inventory', JSON.stringify(invData.inventory));
+            } catch (e) {}
+          } else {
+            // Only if server inventory is empty, fallback to device local storage
+            try {
+              const savedInv = localStorage.getItem('tony_admin_inventory');
+              if (savedInv) {
+                const parsed = JSON.parse(savedInv);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                  setInventory(parsed);
+                }
+              }
+            } catch (e2) {}
           }
         }
-      } catch (e) {}
-
-      // 2. If no local data, fetch from server API
-      if (!localHasData) {
+      } catch (e) {
         try {
-          const invRes = await fetch('/api/inventory.php');
-          if (invRes.ok) {
-            const invData = await invRes.json();
-            if (invData.success && Array.isArray(invData.inventory) && invData.inventory.length > 0) {
-              setInventory(invData.inventory);
-              try {
-                localStorage.setItem('tony_admin_inventory', JSON.stringify(invData.inventory));
-              } catch (e) {}
-            }
-          }
-        } catch (e) {}
+          const savedInv = localStorage.getItem('tony_admin_inventory');
+          if (savedInv) setInventory(JSON.parse(savedInv));
+        } catch (e2) {}
       }
 
       try {
