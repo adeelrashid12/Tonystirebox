@@ -404,7 +404,7 @@ export default function Home() {
               </div>
 
               <p className="text-slate-300 text-base sm:text-lg font-medium max-w-xl leading-relaxed">
-                Self-serve lockbox access available 7 days a week. Search by size or browse location inventory.
+                Self-serve access available 7 days a week. Search by size or browse location inventory.
               </p>
 
               {/* Find Tires Quick Search Bar (Sleek Dark Glassmorphic Harami Style) */}
