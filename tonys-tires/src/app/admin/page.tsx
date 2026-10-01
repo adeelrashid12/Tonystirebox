@@ -290,11 +290,26 @@ export default function AdminPage() {
         const invRes = await fetch('/api/inventory.php');
         if (invRes.ok) {
           const invData = await invRes.json();
-          if (invData.success && Array.isArray(invData.inventory)) {
+          if (invData.success && Array.isArray(invData.inventory) && invData.inventory.length > 0) {
             setInventory(invData.inventory);
             try {
               localStorage.setItem('tony_admin_inventory', JSON.stringify(invData.inventory));
             } catch (e) {}
+          } else {
+            try {
+              const savedInv = localStorage.getItem('tony_admin_inventory');
+              if (savedInv) {
+                const parsed = JSON.parse(savedInv);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                  setInventory(parsed);
+                  fetch('/api/inventory.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ inventory: parsed })
+                  }).catch(() => {});
+                }
+              }
+            } catch (e2) {}
           }
         }
       } catch (e) {

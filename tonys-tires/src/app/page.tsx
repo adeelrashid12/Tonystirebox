@@ -79,7 +79,7 @@ export default function Home() {
         const res = await fetch('/api/inventory.php');
         if (res.ok) {
           const data = await res.json();
-          if (data.success && Array.isArray(data.inventory)) {
+          if (data.success && Array.isArray(data.inventory) && data.inventory.length > 0) {
             currentInv = data.inventory;
             setInventory(data.inventory);
             try {

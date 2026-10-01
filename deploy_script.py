@@ -17,10 +17,15 @@ TARGET_PATHS = [
     '/domains/tonystirebox.com/public_html'
 ]
 
-print('[1/3] Zipping compiled static build...')
+EXCLUDED_DATA_FILES = {'inventory_store.json', 'orders_store.json'}
+
+print('[1/3] Zipping compiled static build (excluding server data files)...')
 with zipfile.ZipFile(ZIP_PATH, 'w', zipfile.ZIP_DEFLATED) as zipf:
     for root, dirs, files in os.walk(OUT_DIR):
         for file in files:
+            if file in EXCLUDED_DATA_FILES:
+                print(f'   -> Excluding live server data file: {file}')
+                continue
             file_path = os.path.join(root, file)
             arcname = os.path.relpath(file_path, OUT_DIR)
             zipf.write(file_path, arcname)
