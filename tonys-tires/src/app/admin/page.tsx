@@ -28,6 +28,7 @@ import {
   UserCheck,
   Edit,
   RotateCcw,
+  RefreshCw,
   Tag,
   ShieldCheck
 } from 'lucide-react';
@@ -650,6 +651,25 @@ export default function AdminPage() {
     }
   };
 
+  // Sync / Restore Inventory saved in client's device localStorage
+  const handleSyncDeviceStorage = () => {
+    try {
+      const saved = localStorage.getItem('tony_admin_inventory');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          saveInventory(parsed);
+          setSuccessMsg(`Successfully restored & synced ${parsed.length} listings from your device storage to the live site!`);
+          setTimeout(() => setSuccessMsg(''), 5000);
+          return;
+        }
+      }
+      alert('No saved inventory listings found in this device\'s browser storage.');
+    } catch (e) {
+      alert('Error reading device storage.');
+    }
+  };
+
   // Add New Tire Item
   const handleAddNewTire = (e: React.FormEvent) => {
     e.preventDefault();
@@ -991,6 +1011,13 @@ export default function AdminPage() {
                     className="text-[10px] text-red-400 hover:text-white bg-red-950/80 hover:bg-red-900 border border-red-800/80 px-2.5 py-1 rounded-lg flex items-center gap-1 font-bold transition shadow"
                   >
                     <Trash2 className="w-3 h-3" /> Wipe All Inventory
+                  </button>
+                  <button
+                    onClick={handleSyncDeviceStorage}
+                    title="Restore & sync listings stored in this browser/device to live site"
+                    className="text-[10px] text-emerald-400 hover:text-white bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-800/80 px-2.5 py-1 rounded-lg flex items-center gap-1 font-bold transition shadow"
+                  >
+                    <RefreshCw className="w-3 h-3" /> Restore Device Storage
                   </button>
                   <button
                     onClick={handleResetInventory}
