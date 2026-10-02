@@ -319,25 +319,25 @@ export default function Home() {
           style={{ backgroundImage: "radial-gradient(#ef4444 0.75px, transparent 0.75px)", backgroundSize: "24px 24px" }}
         ></div>
 
-        {/* 1. Header Navigation Bar (Transparent Overlay) */}
-        <header className="relative z-50 text-white border-b border-slate-800/40 bg-slate-950/40 backdrop-blur-sm">
-          <div className="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3.5 flex items-center justify-between gap-2">
+        {/* 1. Header Navigation Bar (Transparent Overlay with Generous Mobile Heights) */}
+        <header className="sticky top-0 z-50 text-white border-b border-slate-800/80 bg-slate-950/95 backdrop-blur-md">
+          <div className="max-w-7xl mx-auto px-2.5 sm:px-4 py-3 sm:py-4 flex items-center justify-between gap-1.5 sm:gap-3 min-h-[64px]">
             
             {/* Mascot Avatar Logo */}
-            <div className="flex items-center gap-2 sm:gap-3 cursor-pointer shrink-0" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-              <div className="relative w-9 h-9 sm:w-11 sm:h-11 rounded-full overflow-hidden border-2 border-red-600 bg-slate-900 flex items-center justify-center shadow-lg shadow-red-950/60 shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-3 cursor-pointer shrink-0" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              <div className="relative w-8 h-8 sm:w-11 sm:h-11 rounded-full overflow-hidden border-2 border-red-600 bg-slate-900 flex items-center justify-center shadow-lg shadow-red-950/60 shrink-0">
                 <Image src="/tony_mascot_clean.png" alt="Tony Mascot Logo" width={44} height={44} className="object-cover scale-110" />
               </div>
               <div>
-                <h1 className="text-base sm:text-2xl font-black italic tracking-wider uppercase leading-none text-white whitespace-nowrap">
+                <h1 className="text-sm sm:text-2xl font-black italic tracking-wider uppercase leading-tight text-white whitespace-nowrap">
                   TONY'S <span className="text-red-500">TIRE BOX</span>
                 </h1>
                 <p className="hidden md:block text-[9px] text-slate-400 font-semibold tracking-widest uppercase">QUALITY USED TIRES • SELF-SERVE CONTAINERS</p>
               </div>
             </div>
 
-            {/* Center Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-7 text-xs font-bold text-slate-300">
+            {/* Center Navigation Links (Desktop) */}
+            <nav className="hidden lg:flex items-center gap-6 text-xs font-bold text-slate-300">
               <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-red-500 hover:text-white transition">Home</button>
               <button onClick={() => scrollToSection('locations')} className="hover:text-red-400 transition">Locations</button>
               <button onClick={() => scrollToSection('how-it-works')} className="hover:text-red-400 transition">How It Works</button>
@@ -348,35 +348,32 @@ export default function Home() {
             </nav>
 
             {/* Right Text / Call Button, Wholesale (Mobile) & Cart */}
-            <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+            <div className="flex items-center gap-1 sm:gap-2.5 shrink-0">
               
               {/* Mobile Wholesale Shortcut Button */}
               <Link 
                 href="/wholesale" 
-                className="lg:hidden bg-red-950/90 border border-red-600/80 text-red-400 hover:text-white px-2.5 py-1.5 rounded-lg text-xs font-black tracking-wider uppercase flex items-center gap-1 shadow"
+                className="lg:hidden bg-red-950/90 border border-red-600/80 text-red-400 hover:text-white px-2 py-1 rounded-md text-[10px] font-black tracking-wider uppercase flex items-center gap-0.5 shadow shrink-0"
               >
-                <Package className="w-3.5 h-3.5 text-red-500" /> Wholesale
+                <Package className="w-3 h-3 text-red-500" /> Wholesale
               </Link>
 
               <a 
                 href="sms:8643955393"
-                className="bg-red-600 hover:bg-red-700 text-white font-bold px-2 sm:px-3.5 py-1.5 rounded-lg sm:rounded-xl flex items-center gap-1 sm:gap-2 text-xs shadow-lg shadow-red-950/50 transition shrink-0"
+                className="bg-red-600 hover:bg-red-700 text-white font-bold px-2 sm:px-3 py-1 rounded-md sm:rounded-xl flex items-center gap-1 text-[10px] sm:text-xs shadow-lg shadow-red-950/50 transition shrink-0"
               >
-                <PhoneCall className="w-3.5 h-3.5 text-yellow-300 shrink-0" />
-                <div className="text-left leading-tight hidden xs:block">
-                  <span className="text-[8px] sm:text-[9px] block text-red-200 uppercase font-semibold">Text "TIRES"</span>
-                  <span className="font-mono font-black text-xs">864-395-5393</span>
-                </div>
+                <PhoneCall className="w-3 h-3 text-yellow-300 shrink-0" />
+                <span className="font-mono font-black">864-395-5393</span>
               </a>
 
               {/* Cart Icon */}
               <button 
                 onClick={() => setIsCheckoutOpen(true)}
-                className="relative bg-slate-900/80 border border-slate-700 hover:border-red-500 p-2 rounded-lg sm:rounded-xl text-white transition shrink-0"
+                className="relative bg-slate-900 border border-slate-700 hover:border-red-500 p-1.5 rounded-md sm:rounded-xl text-white transition shrink-0"
               >
-                <ShoppingCart className="w-4 h-4 text-slate-200" />
+                <ShoppingCart className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-200" />
                 {cart.length > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full font-black flex items-center justify-center shadow">
+                  <span className="absolute -top-1.5 -right-1.5 bg-red-600 text-white text-[9px] w-3.5 h-3.5 rounded-full font-black flex items-center justify-center shadow">
                     {cart.reduce((s, i) => s + i.qty, 0)}
                   </span>
                 )}
@@ -385,10 +382,10 @@ export default function Home() {
               {/* Hamburger Mobile Menu Toggle Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden bg-slate-900 border border-slate-700 p-2 rounded-lg text-white transition"
+                className="lg:hidden bg-slate-900 border border-slate-700 p-1.5 rounded-md text-white transition shrink-0"
                 aria-label="Toggle Mobile Menu"
               >
-                {isMobileMenuOpen ? <X className="w-4 h-4 text-red-500" /> : <Menu className="w-4 h-4 text-slate-200" />}
+                {isMobileMenuOpen ? <X className="w-3.5 h-3.5 text-red-500" /> : <Menu className="w-3.5 h-3.5 text-slate-200" />}
               </button>
             </div>
           </div>
