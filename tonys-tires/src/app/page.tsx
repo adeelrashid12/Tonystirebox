@@ -18,7 +18,9 @@ import {
   CreditCard,
   ChevronRight,
   Package,
-  Boxes
+  Boxes,
+  Menu,
+  X
 } from 'lucide-react';
 
 export default function Home() {
@@ -36,6 +38,7 @@ export default function Home() {
   const [paymentSenderRef, setPaymentSenderRef] = useState<string>('');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('Cash App');
   const [lastOrderDetails, setLastOrderDetails] = useState<{ id: string; lockbox: string; phone: string; total: number; paymentMethod: string; senderRef: string } | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
   // Hero typing animation state
   const heroPhrases = [
@@ -344,33 +347,91 @@ export default function Home() {
               </Link>
             </nav>
 
-            {/* Right Text / Call Button & Cart */}
-            <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+            {/* Right Text / Call Button, Wholesale (Mobile) & Cart */}
+            <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+              
+              {/* Mobile Wholesale Shortcut Button */}
+              <Link 
+                href="/wholesale" 
+                className="lg:hidden bg-red-950/90 border border-red-600/80 text-red-400 hover:text-white px-2.5 py-1.5 rounded-lg text-xs font-black tracking-wider uppercase flex items-center gap-1 shadow"
+              >
+                <Package className="w-3.5 h-3.5 text-red-500" /> Wholesale
+              </Link>
+
               <a 
                 href="sms:8643955393"
-                className="bg-red-600 hover:bg-red-700 text-white font-bold px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm shadow-lg shadow-red-950/50 transition shrink-0"
+                className="bg-red-600 hover:bg-red-700 text-white font-bold px-2 sm:px-3.5 py-1.5 rounded-lg sm:rounded-xl flex items-center gap-1 sm:gap-2 text-xs shadow-lg shadow-red-950/50 transition shrink-0"
               >
-                <PhoneCall className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-yellow-300 shrink-0" />
-                <div className="text-left leading-tight">
+                <PhoneCall className="w-3.5 h-3.5 text-yellow-300 shrink-0" />
+                <div className="text-left leading-tight hidden xs:block">
                   <span className="text-[8px] sm:text-[9px] block text-red-200 uppercase font-semibold">Text "TIRES"</span>
-                  <span className="font-mono font-black text-xs sm:text-sm">864-395-5393</span>
+                  <span className="font-mono font-black text-xs">864-395-5393</span>
                 </div>
               </a>
 
               {/* Cart Icon */}
               <button 
                 onClick={() => setIsCheckoutOpen(true)}
-                className="relative bg-slate-900/80 border border-slate-700 hover:border-red-500 p-2 sm:p-2.5 rounded-lg sm:rounded-xl text-white transition shrink-0"
+                className="relative bg-slate-900/80 border border-slate-700 hover:border-red-500 p-2 rounded-lg sm:rounded-xl text-white transition shrink-0"
               >
-                <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 text-slate-200" />
+                <ShoppingCart className="w-4 h-4 text-slate-200" />
                 {cart.length > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 bg-red-600 text-white text-[10px] w-4 h-4 sm:w-5 sm:h-5 rounded-full font-black flex items-center justify-center shadow">
+                  <span className="absolute -top-1.5 -right-1.5 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full font-black flex items-center justify-center shadow">
                     {cart.reduce((s, i) => s + i.qty, 0)}
                   </span>
                 )}
               </button>
+
+              {/* Hamburger Mobile Menu Toggle Button */}
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="lg:hidden bg-slate-900 border border-slate-700 p-2 rounded-lg text-white transition"
+                aria-label="Toggle Mobile Menu"
+              >
+                {isMobileMenuOpen ? <X className="w-4 h-4 text-red-500" /> : <Menu className="w-4 h-4 text-slate-200" />}
+              </button>
             </div>
           </div>
+
+          {/* Mobile Navigation Dropdown Drawer */}
+          {isMobileMenuOpen && (
+            <div className="lg:hidden border-t border-slate-800 bg-slate-950/95 backdrop-blur-xl px-4 py-4 space-y-3 animate-fade-in-down">
+              <div className="flex flex-col space-y-2 text-sm font-bold text-slate-300">
+                <button 
+                  onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); setIsMobileMenuOpen(false); }} 
+                  className="text-left py-2 px-3 rounded-lg hover:bg-slate-900 text-red-500 font-extrabold flex items-center gap-2"
+                >
+                  Home
+                </button>
+                <button 
+                  onClick={() => { scrollToSection('locations'); setIsMobileMenuOpen(false); }} 
+                  className="text-left py-2 px-3 rounded-lg hover:bg-slate-900 flex items-center gap-2"
+                >
+                  <MapPin className="w-4 h-4 text-red-500" /> Locations
+                </button>
+                <button 
+                  onClick={() => { scrollToSection('how-it-works'); setIsMobileMenuOpen(false); }} 
+                  className="text-left py-2 px-3 rounded-lg hover:bg-slate-900 flex items-center gap-2"
+                >
+                  <Zap className="w-4 h-4 text-amber-400" /> How It Works
+                </button>
+                <button 
+                  onClick={() => { scrollToSection('inventory'); setIsMobileMenuOpen(false); }} 
+                  className="text-left py-2 px-3 rounded-lg hover:bg-slate-900 flex items-center gap-2"
+                >
+                  <Boxes className="w-4 h-4 text-emerald-400" /> Inventory Catalog
+                </button>
+                <Link 
+                  href="/wholesale" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="bg-gradient-to-r from-red-600 to-red-700 text-white font-black py-2.5 px-3 rounded-xl flex items-center justify-between shadow-lg uppercase tracking-wider text-xs"
+                >
+                  <span className="flex items-center gap-2"><Package className="w-4 h-4" /> Wholesale Tire Order Form</span>
+                  <ChevronRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          )}
         </header>
 
         {/* 2. Hero Section - Refactored to Match Banner Final Screenshot */}
